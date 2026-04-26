@@ -1,0 +1,70 @@
+.dropzoneContainer {
+  border: 2px dashed #cccccc;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  padding: 1.5rem 1.2rem; /* reduced side padding on mobile */
+  text-align: center;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition:
+    border 0.3s ease,
+    background-color 0.3s ease;
+  width: 100%;
+  max-width: 200px; /* prevents it from getting too wide */
+  margin: 0 auto; /* center if needed */
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0 0 0.3rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2c2a2a;
+  text-align: center;
+}
+
+.dropzoneContainer:hover {
+  border-color: rgb(58, 65, 135);
+  background-color: #f0f7ff;
+}
+
+.icon {
+  font-size: 1.4rem; /* scales with root font size */
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.uploadButton {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(58, 65, 135);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  width: auto;
+  transition: background-color 0.2s;
+}
+
+.uploadButton:hover {
+  background-color: #1976d2;
+}
+
+/* 📱 Small screen adjustments */
+@media (max-width: 480px) {
+  .dropzoneContainer {
+    padding: 1.5rem 1rem; /* tighter padding on phones */
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .uploadButton {
+    width: 100%; /* full width button for easier tapping */
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
+}

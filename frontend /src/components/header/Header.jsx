@@ -1,23 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 import Button from "../../utilities/Button";
 import styles from "./Header.module.css";
 
+/* 
+Header component which uses Link from react-router-dom to achieve navigation.
+uses user and logout to determine whether a user is logged in or not
+if user is logged in, report incident button and link works else it doesnt plus log in button changes to 
+log out button and the viceversa is also true 
+
+also implemented mobile header view and pc view
+*/
+
 function Header() {
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
-  function handleLoginButton() {
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  function handleLogin() {
     navigate("/login");
     closeMenu();
   }
 
-  function handleReportButton() {
+  function handleReport() {
     navigate("/report");
     closeMenu();
   }
+
+  const showButton = !user ? (
+    <Button name="Log in" classStyle="not-covered" onClick={handleLogin} />
+  ) : (
+    <Button name="Log out" classStyle="not-covered" onClick={handleLogout} />
+  );
 
   return (
     <>
@@ -34,15 +56,11 @@ function Header() {
         </nav>
 
         <div className={styles.headerButtons}>
-          <Button
-            name="Log in"
-            classStyle="not-covered"
-            onClick={handleLoginButton}
-          />
+          {showButton}
           <Button
             name="Report now"
             classStyle="covered"
-            onClick={handleReportButton}
+            onClick={handleReport}
           />
         </div>
 
@@ -69,15 +87,11 @@ function Header() {
             View map
           </Link>
           <div className={styles.mobileButtons}>
-            <Button
-              name="Log in"
-              classStyle="not-covered"
-              onClick={handleLoginButton}
-            />
+            {showButton}
             <Button
               name="Report now"
               classStyle="covered"
-              onClick={handleReportButton}
+              onClick={handleReport}
             />
           </div>
         </div>

@@ -1,12 +1,47 @@
+import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/favicon.svg";
 import Button from "../../utilities/Button";
-import createUser from "./signup";
 
 function SignUp() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (form.password !== form.confirmPassword) {
+      return setError("Passwords do not match");
+    }
+
+    setLoading(true);
+    try {
+      await register(form.email, form.password, form.name);
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <main className={styles.signupContainer}>
-      <form className="signupform">
+      <form className="signupform" onSubmit={handleSubmit}>
         <h2>
           <img src={logo} alt="SafetyTrack " /> SafetyTrack
         </h2>
@@ -16,22 +51,49 @@ function SignUp() {
           neighborhood safer
         </p>
         <p>Full Name</p>
-        <input type="text" className={styles.fullName} required autoFocus />
+        <input
+          type="text"
+          className={styles.fullName}
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          required
+          autoFocus
+        />
         <br />
         <input
-          type="email"
           className={styles.emailDetail}
+          name="email"
+          type="email"
           placeholder="Email Address"
+          value={form.email}
+          onChange={handleChange}
           required
         />
         <div className={styles.passContainer}>
           <div className={styles.passDiv}>
             <p>Create Password</p>
-            <input type="password" className="first-pass" required />
+            <input
+              className="first-pass"
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className={styles.passDiv}>
             <p>Confirm Password</p>
-            <input type="password" className="confirm-pass" required />
+            <input
+              className="confirm-pass"
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
         <p>
@@ -44,9 +106,15 @@ function SignUp() {
           Privacy Policy.
         </div>
         <div className={styles.buttonDiv}>
-          <Button name="Sign Up" classStyle={styles.signupButton} />
+          <Button
+            name={loading ? "Signing Up..." : "Sign Up"}
+            classStyle={styles.signupButton}
+            type="submit"
+            disabled={loading}
+          />
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <p>
-            Already have an account? <a href="">Log In</a>
+            Already have an account? <Link to="/login">Log In</Link>
           </p>
         </div>
       </form>

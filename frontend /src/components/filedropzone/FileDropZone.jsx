@@ -2,6 +2,8 @@ import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import styles from "./FileDropZone.module.css";
 
+// component responsible for file uploading which used module react-dropzone
+
 function FileDropZone() {
   const onDrop = useCallback((acceptedFiles) => {
     alert(`File uploaded: ${acceptedFiles[0].name}`);

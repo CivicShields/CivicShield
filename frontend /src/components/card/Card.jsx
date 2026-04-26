@@ -1,5 +1,7 @@
 import styles from "./Card.module.css";
 
+//component for resuable cards
+
 function Card(props) {
   return (
     <div className={styles.featureCard}>

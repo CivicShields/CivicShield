@@ -1,0 +1,5 @@
+# This file assigns ownership of specific folders to your teams.
+# Any changes in these folders will automatically request reviews from the team.
+
+/frontend/   @CivicShields/frontend-team
+/backend/    @CivicShields/backend-developers

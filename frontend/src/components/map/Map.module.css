@@ -1,0 +1,114 @@
+/* MapPage.module.css */
+.pageWrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #f8fafc;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+.sidebar {
+  width: 320px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 1001;
+  box-shadow: 10px 0 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.filterHeader {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  outline: none;
+}
+
+.selectInput:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.mainArea {
+  flex: 1;
+  position: relative;
+}
+
+.searchOverlay {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 100%;
+  max-width: 576px;
+  padding: 0 16px;
+}
+
+.searchInputWrapper {
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px 12px 48px;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.mapContainer {
+  height: 100%;
+  width: 100%;
+}
+
+/* Marker Styles - These usually need :global because Leaflet inserts them outside React's scope */
+:global(.custom-marker-pin) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid white;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+:global(.animate-pulse) {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

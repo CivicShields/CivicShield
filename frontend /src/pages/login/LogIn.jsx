@@ -1,11 +1,38 @@
+import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import logo from "/favicon.svg";
 import Button from "../../utilities/Button";
 
 function LogIn() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      await login(form.email, form.password);
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className={styles.loginContainer}>
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         <h2>
           <img src={logo} alt="" /> SafetyTrack
         </h2>
@@ -13,20 +40,39 @@ function LogIn() {
         <p className={styles.p1}>Log in to access your reporter dashboard.</p>
         <p>Email Address</p>
         <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
           type="email"
           className={styles.emailAddress}
           required
           autoFocus
         />
         <p>Password</p>
-        <input type="password" className={styles.pass} required />
+        <input
+          type="password"
+          className={styles.pass}
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
         <div className={styles.forgotPass}>
           <a href="">Forgot Password?</a>
         </div>
-        <Button name="Log In" classStyle={styles.loginButton} />
+        <Button
+          name={loading ? "Logging in..." : "Login"}
+          classStyle={styles.loginButton}
+          type="submit"
+          disabled={loading}
+        />
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className={styles.donthaveAC}>
           <p>
-            Don't have an account? <a href="">Sign Up.</a>
+            Don't have an account? <Link to="/register">Sign Up.</Link>
           </p>
         </div>
       </form>

@@ -35,5 +35,5 @@
 
 ```bash
 git clone https://github.com/yourusername/civicshield.git
-cd crimeconnect
+cd CivicShield
 ```

@@ -1,20 +1,12 @@
 # .github/CODEOWNERS
 
-# Global Admins (Can approve anything)
-*                                       @CivicShields/owners
-
 # Frontend Team
 /frontend/                              @CivicShields/frontend-team
 
 # Backend Microservices - Individual Owners
 /backend/auth-service/                  @Phirisoilx6
 /backend/incident-service/              @innocent1982
-/backend/media-service/                 @CivicShields/backend-team
-/backend/notification-department-service/ @CivicShields/backend-team
 
 # Backend General (For shared files or changes in the /backend root)
 /backend/                               @CivicShields/backend-team
 
-# Infrastructure
-/docker-compose.yml                     @CivicShields/owners
-/.github/workflows/                     @CivicShields/owners

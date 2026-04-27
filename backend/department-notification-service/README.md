@@ -1,0 +1,1 @@
+Department and notifications microservice folder

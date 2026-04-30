@@ -4,15 +4,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import Button from "../../utilities/Button";
 import styles from "./Header.module.css";
 
-/* 
-Header component which uses Link from react-router-dom to achieve navigation.
-uses user and logout to determine whether a user is logged in or not
-if user is logged in, report incident button and link works else it doesnt plus log in button changes to 
-log out button and the viceversa is also true 
-
-also implemented mobile header view and pc view
-*/
-
 function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -35,11 +26,17 @@ function Header() {
     closeMenu();
   }
 
-  const showButton = !user ? (
+  // Buttons / elements that depend on auth state
+  const loginButton = (
     <Button name="Log in" classStyle="not-covered" onClick={handleLogin} />
-  ) : (
-    <Button name="Log out" classStyle="not-covered" onClick={handleLogout} />
   );
+
+  const userIconElement = (style, text) =>
+    user ? (
+      <Link to="/settings" className={style} onClick={closeMenu}>
+        {text}
+      </Link>
+    ) : null;
 
   return (
     <>
@@ -56,12 +53,17 @@ function Header() {
         </nav>
 
         <div className={styles.headerButtons}>
-          {showButton}
+          {!user && loginButton}
           <Button
             name="Report now"
             classStyle="covered"
             onClick={handleReport}
           />
+          {user &&
+            userIconElement(
+              styles.userIcon,
+              user.email ? user.email[0].toUpperCase() : "U",
+            )}
         </div>
 
         <button className={styles.menuToggle} onClick={toggleMenu}>
@@ -87,12 +89,13 @@ function Header() {
             View map
           </Link>
           <div className={styles.mobileButtons}>
-            {showButton}
+            {!user && loginButton}
             <Button
               name="Report now"
               classStyle="covered"
               onClick={handleReport}
             />
+            {user && userIconElement(styles.navLinks, "Settings")}
           </div>
         </div>
       </div>

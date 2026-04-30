@@ -178,7 +178,7 @@
   text-decoration: underline;
 }
 
-/* 📱 Phone / small screen adjustments */
+/* small screen adjustments */
 @media (max-width: 480px) {
   .signupContainer form {
     padding: 1.25rem 1.25rem;

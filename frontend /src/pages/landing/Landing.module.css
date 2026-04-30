@@ -1,11 +1,8 @@
-/* ===================== */
 /* Landing Page */
-/* ===================== */
 .landing {
-  padding-top: 65px; /* offset for fixed header */
+  padding-top: 65px;
 }
 
-/* ----- Hero Section ----- */
 .upperSection {
   background-image: url("incidentback.jpeg");
   background-size: cover;
@@ -16,7 +13,7 @@
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  min-height: 75vh; /* changed from height to min-height for flexibility */
+  min-height: 75vh;
   padding: 2rem 1.5rem;
   box-sizing: border-box;
   gap: 2rem; /* fallback for space-evenly */
@@ -55,7 +52,7 @@
   width: 100%;
 }
 
-/* Buttons (generic styles – kept as before but with some adjustments) */
+/* Buttons  */
 .within1,
 .within2 {
   flex: 1 1 auto; /* allow buttons to shrink */
@@ -83,9 +80,7 @@
   color: white;
 }
 
-/* ===================== */
 /* Middle Section (Cards) */
-/* ===================== */
 .middleSection {
   padding: 3rem 1.5rem 10%;
   display: flex;
@@ -112,9 +107,7 @@
   flex-wrap: wrap; /* allows cards to wrap on smaller screens */
 }
 
-/* ===================== */
 /* Tablet / Small Laptop (≤768px) */
-/* ===================== */
 @media (max-width: 768px) {
   .upperSection {
     flex-direction: column; /* stack text and any image */
@@ -142,9 +135,7 @@
   }
 }
 
-/* ===================== */
 /* Phone (≤480px) */
-/* ===================== */
 @media (max-width: 480px) {
   .landing {
     padding-top: 60px; /* if header is shorter on mobile */

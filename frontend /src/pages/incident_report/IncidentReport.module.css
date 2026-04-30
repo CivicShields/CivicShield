@@ -158,7 +158,7 @@
   margin-bottom: 1rem;
 }
 
-/* 📱 Mobile adjustments */
+/* Mobile adjustments */
 @media (max-width: 600px) {
   .iContainer {
     padding: 0 0.75rem 1.5rem;

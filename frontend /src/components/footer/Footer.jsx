@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
 import logo from "/favicon.svg";
 
-//footer component which uses Link from react-router-dom to achieve navigation.
-
 function Footer() {
   return (
     <footer>
@@ -29,6 +27,7 @@ function Footer() {
           <p>Resources</p>
           <Link to="/help">Help & Support</Link>
           <Link to="/contact">Contact Us</Link>
+          <a href="#top">Back to top</a>
         </div>
       </div>
 

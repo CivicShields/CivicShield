@@ -4,7 +4,7 @@ const fakeUserDB = {
     id: "123",
     email: "test@test.com",
     name: "Test User",
-    password: "password123", // obviously never do this in reality
+    password: "password123",
   },
 };
 
@@ -20,6 +20,38 @@ export function loginRequest(email, password) {
         resolve({ user: safeUser });
       }
     }, 800); // simulate network delay
+  });
+}
+
+export function changePasswordRequest(email, oldPassword, newPassword) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const user = fakeUserDB[email];
+
+      if (!user) {
+        reject({ message: "User not found" });
+      } else if (user.password !== oldPassword) {
+        reject({ message: "Current password is incorrect" });
+      } else {
+        // Update password
+        user.password = newPassword;
+        resolve({ message: "Password changed successfully" });
+      }
+    }, 600);
+  });
+}
+
+export function getCurrentUserRequest(email) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const user = fakeUserDB[email];
+      if (!user) {
+        reject({ message: "User not found" });
+      } else {
+        const { password: _, ...safeUser } = user;
+        resolve({ user: safeUser });
+      }
+    }, 400);
   });
 }
 

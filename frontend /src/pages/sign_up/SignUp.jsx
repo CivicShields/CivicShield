@@ -32,7 +32,7 @@ function SignUp() {
     setLoading(true);
     try {
       await register(form.email, form.password, form.name);
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Registration failed");
     } finally {

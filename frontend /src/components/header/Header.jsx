@@ -47,7 +47,7 @@ function Header() {
         </div>
 
         <nav className={styles.navLinks}>
-          <Link to="/">Dashboard</Link>
+          <Link to="/dashboard">Dashboard</Link>
           <Link to="/report">Report incident</Link>
           <Link to="/map">View map</Link>
         </nav>
@@ -79,7 +79,7 @@ function Header() {
           className={styles.mobileMenuContent}
           onClick={(e) => e.stopPropagation()}
         >
-          <Link to="/" onClick={closeMenu}>
+          <Link to="/dashboard" onClick={closeMenu}>
             Dashboard
           </Link>
           <Link to="/report" onClick={closeMenu}>

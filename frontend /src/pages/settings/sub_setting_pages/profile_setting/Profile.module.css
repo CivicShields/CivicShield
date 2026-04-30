@@ -84,7 +84,7 @@
 }
 
 /* Sign out button */
-.signout {
+/*.signout {
   width: 100%;
   height: 3rem;
   font-size: 1.1rem;
@@ -100,7 +100,7 @@
 
 .signout:hover {
   background-color: rgba(18, 23, 91, 1);
-}
+}*/
 
 /* Phone adjustments */
 
@@ -121,8 +121,8 @@
     height: 3rem; /* easier to read/tap */
   }
 
-  .signout {
+  /*.signout {
     height: 3.2rem;
     font-size: 1.2rem;
-  }
+  }*/
 }

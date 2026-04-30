@@ -4,13 +4,7 @@ import Button from "../../../../utilities/Button";
 import styles from "./Profile.module.css";
 
 function Profile() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  const { user } = useAuth();
 
   return (
     <section className={styles.sectionB}>
@@ -26,11 +20,6 @@ function Profile() {
         <input type="text" placeholder={user.email} readOnly />
         <label>Phone number</label>
         <input type="text" readOnly />
-        <Button
-          classStyle={styles.signout}
-          name="Sign Out"
-          onClick={handleLogout}
-        />
       </div>
     </section>
   );

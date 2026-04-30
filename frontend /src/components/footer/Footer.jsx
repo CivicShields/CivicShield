@@ -18,10 +18,10 @@ function Footer() {
         <div className={styles.names}>
           <p>Platform</p>
 
-          <Link to="/">Home</Link>
+          <Link to="/">Landing</Link>
           <Link to="/services">Services</Link>
           <Link to="/map">Live map</Link>
-          <Link to="/reportDashboard">Reporter's dashboard</Link>
+          <Link to="/dashboard">Reporter's dashboard</Link>
         </div>
         <div className={styles.names}>
           <p>Resources</p>

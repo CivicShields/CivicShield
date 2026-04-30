@@ -7,14 +7,27 @@ import SignUp from "./pages/sign_up/SignUp";
 import Footer from "./components/footer/Footer";
 import IncidentMap from "./IncidentMap";
 import Settings from "./pages/settings/Settings";
+import UserDashboard from "./pages/dashboards/user_dashboard/UserDashboard";
+import NotificationPage from "./pages/settings/sub_setting_pages/notification_setting/NotificationPage";
+import Profile from "./pages/settings/sub_setting_pages/profile_setting/Profile";
+import MyReport from "./pages/settings/sub_setting_pages/my_reports/MyReport";
 
 function App() {
   return (
     <>
+      {/* <UserDashboard /> */}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/report"
           element={

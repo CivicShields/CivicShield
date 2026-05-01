@@ -5,16 +5,11 @@ import Button from "../../utilities/Button";
 import styles from "./Header.module.css";
 
 function Header() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
 
   function handleLogin() {
     navigate("/login");
@@ -33,7 +28,7 @@ function Header() {
 
   const userIconElement = (style, text) =>
     user ? (
-      <Link to="/settings" className={style} onClick={closeMenu}>
+      <Link to="/settings/profile" className={style} onClick={closeMenu}>
         {text}
       </Link>
     ) : null;

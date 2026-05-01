@@ -50,9 +50,10 @@
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
+  text-decoration: none;
   transition:
-    background 0.2s,
-    color 0.2s;
+    background 0.1s,
+    color 0.1s;
 }
 
 .menuBtn:hover {
@@ -60,12 +61,26 @@
 }
 
 /* Active menu item */
-.menuBtn.active {
-  background: rgba(18, 23, 91, 0.87);
+.active {
+  background: rgba(18, 23, 91, 0.87) !important;
   color: white;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.1s,
+    color 0.1s;
 }
 
-.menuBtn.active:hover {
+.active:hover {
   background: rgba(18, 23, 91, 0.95);
 }
 
@@ -116,7 +131,7 @@
     gap: 0.4rem;
   }
 
-  .menuBtn.active {
+  .active {
     background: rgba(18, 23, 91, 0.87);
   }
 

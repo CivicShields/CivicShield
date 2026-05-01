@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/favicon.svg";
 import Button from "../../utilities/Button";
@@ -8,6 +8,7 @@ import Button from "../../utilities/Button";
 function SignUp() {
   const { register } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -21,6 +22,8 @@ function SignUp() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const from = location.state?.from?.pathname || "/dashboard";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -32,7 +35,7 @@ function SignUp() {
     setLoading(true);
     try {
       await register(form.email, form.password, form.name);
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Registration failed");
     } finally {

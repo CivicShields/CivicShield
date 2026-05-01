@@ -11,15 +11,20 @@ import UserDashboard from "./pages/dashboards/user_dashboard/UserDashboard";
 import NotificationPage from "./pages/settings/sub_setting_pages/notification_setting/NotificationPage";
 import Profile from "./pages/settings/sub_setting_pages/profile_setting/Profile";
 import MyReport from "./pages/settings/sub_setting_pages/my_reports/MyReport";
+import NotFound from "./pages/not_found/NotFound";
+import SecurityPage from "./pages/settings/sub_setting_pages/security_setting/SecurityPage";
+import Policy from "./pages/policy/Policy";
 
 function App() {
   return (
     <>
-      {/* <UserDashboard /> */}
       <Routes>
+        <Route index element={<Landing />} />
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
+        <Route path="/error" element={<NotFound />} />
+        <Route path="/policy" element={<Policy />} />
         <Route
           path="/dashboard"
           element={
@@ -45,14 +50,20 @@ function App() {
           }
         />
         <Route
-          path="/settings"
+          path="/settings/*"
           element={
             <ProtectedRoute>
               <Settings />
             </ProtectedRoute>
           }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        >
+          <Route index element={<Profile />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="notifications" element={<NotificationPage />} />
+          <Route path="security" element={<SecurityPage />} />
+          <Route path="myreports" element={<MyReport />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </>
   );

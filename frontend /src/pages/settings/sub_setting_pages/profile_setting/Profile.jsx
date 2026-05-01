@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import Button from "../../../../utilities/Button";
 import styles from "./Profile.module.css";
@@ -19,7 +18,7 @@ function Profile() {
         <label> Email Address</label>
         <input type="text" placeholder={user.email} readOnly />
         <label>Phone number</label>
-        <input type="text" readOnly />
+        <input type="text" placeholder={user.phone} readOnly />
       </div>
     </section>
   );

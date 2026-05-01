@@ -1,40 +1,30 @@
-// services/authService.js
-const fakeUserDB = {
-  "test@test.com": {
-    id: "123",
-    email: "test@test.com",
-    name: "Test User",
-    password: "password123",
-  },
-};
+import users from "../mock_data/user.json" with { type: "json" };
 
 export function loginRequest(email, password) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user = fakeUserDB[email];
+      const user = users.find((u) => u.email === email);
       if (!user || user.password !== password) {
         reject({ message: "Invalid email or password" });
       } else {
-        // Return user without password
         const { password: _, ...safeUser } = user;
         resolve({ user: safeUser });
       }
-    }, 800); // simulate network delay
+    }, 800);
   });
 }
 
 export function changePasswordRequest(email, oldPassword, newPassword) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user = fakeUserDB[email];
+      const user = users.find((u) => u.email === email);
 
       if (!user) {
         reject({ message: "User not found" });
       } else if (user.password !== oldPassword) {
         reject({ message: "Current password is incorrect" });
       } else {
-        // Update password
-        user.password = newPassword;
+        user.password = newPassword; // mutates the imported array's object
         resolve({ message: "Password changed successfully" });
       }
     }, 600);
@@ -44,9 +34,10 @@ export function changePasswordRequest(email, oldPassword, newPassword) {
 export function getCurrentUserRequest(email) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user = fakeUserDB[email];
+      const user = users.find((u) => u.email === email);
+
       if (!user) {
-        reject({ message: "User not found" });
+        reject({ message: "Users not found" });
       } else {
         const { password: _, ...safeUser } = user;
         resolve({ user: safeUser });
@@ -55,17 +46,34 @@ export function getCurrentUserRequest(email) {
   });
 }
 
-export function registerRequest(email, password, name) {
+export function registerRequest(email, password, name, number = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (fakeUserDB[email]) {
+      if (users.some((u) => u.email === email)) {
         reject({ message: "User already exists" });
       } else {
-        const newUser = { id: Date.now().toString(), email, name, password };
-        fakeUserDB[email] = newUser;
+        const newUser = {
+          id: Date.now().toString(),
+          email,
+          name,
+          password,
+          number,
+        };
+        users.push(newUser); // mutates the array
         const { password: _, ...safeUser } = newUser;
         resolve({ user: safeUser });
       }
     }, 800);
   });
 }
+
+// export function getDepartmentNamesRequest() {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       const departments = users
+//         .map((u) => u.department)
+//         .filter((dep, i, arr) => dep && arr.indexOf(dep) === i); // unique, truthy
+//       resolve({ departments });
+//     }, 300);
+//   });
+// }

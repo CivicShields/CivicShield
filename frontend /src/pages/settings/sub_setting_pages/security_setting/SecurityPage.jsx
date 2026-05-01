@@ -7,7 +7,7 @@ import ShowPassInput from "../../../../utilities/ShowPasswordInput";
 
 function SecurityPage() {
   const redAsterik = <span style={{ color: "red" }}>*</span>;
-  const { changePassword, isAuthenticated } = useAuth();
+  const { changePassword } = useAuth();
   const [form, setForm] = useState({
     oldPassword: "",
     newPassword: "",
@@ -20,10 +20,6 @@ function SecurityPage() {
     number: false,
     special: false,
   });
-
-  //   if (!isAuthenticated) {
-  //     return <p>Please log in first.</p>;
-  //   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

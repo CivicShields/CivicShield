@@ -1,6 +1,5 @@
 import Button from "../../utilities/Button";
 import styles from "./IncidentReport.module.css";
-import { useDropzone } from "react-dropzone";
 import { time, date } from "../../utilities/Date_utilities";
 import React, { useState } from "react";
 import Header from "../../components/header/Header";

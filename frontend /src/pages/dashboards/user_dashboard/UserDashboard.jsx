@@ -100,7 +100,7 @@ function UserDashboard() {
                   <span>Submit incident</span>
                 </p>
               </Link>
-              <Link to="/" className={styles.cont}>
+              <Link to="/settings/myreports" className={styles.cont}>
                 {" "}
                 <FileText size={35} />
                 <p>
@@ -111,7 +111,7 @@ function UserDashboard() {
               </Link>
             </div>
             <div className={styles.under}>
-              <Link to="/" className={styles.cont}>
+              <Link to="/settings/notifications" className={styles.cont}>
                 <Bell size={35} color="orange" />
                 <p>
                   Notifications
@@ -119,7 +119,7 @@ function UserDashboard() {
                   <span>2 unread</span>
                 </p>
               </Link>
-              <Link to="" className={styles.cont}>
+              <Link to="/settings/profile" className={styles.cont}>
                 {" "}
                 <User2Icon size={35} color="blue" />
                 <p>
@@ -138,10 +138,3 @@ function UserDashboard() {
 }
 
 export default UserDashboard;
-
-const mockData = {
-  total: 7,
-  pending: 2,
-  inprogress: 1,
-  resolved: 4,
-};

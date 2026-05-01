@@ -1,0 +1,129 @@
+[
+  {
+    "id": 201,
+    "name": "Police Department",
+    "email": "police@example.com",
+    "reports": [
+      {
+        "report_id": 301,
+        "category": "Burglary",
+        "severity": "High",
+        "location": {
+          "lat": -13.97,
+          "lng": 33.768,
+          "address": "Market Street, Lilongwe"
+        },
+        "acknowledged": true,
+        "assigned_to": "Officer Chirwa",
+        "timeline": [
+          { "time": "2026-05-01T11:45:00Z", "event": "Report acknowledged" },
+          { "time": "2026-05-01T11:50:00Z", "event": "Unit dispatched" }
+        ]
+      },
+      {
+        "report_id": 302,
+        "category": "Suspicious Activity",
+        "severity": "Medium",
+        "location": {
+          "lat": -13.955,
+          "lng": 33.77,
+          "address": "Central Park, Lilongwe"
+        },
+        "acknowledged": false,
+        "assigned_to": null,
+        "timeline": []
+      }
+    ]
+  },
+  {
+    "id": 202,
+    "name": "Fire Department",
+    "email": "firedept@example.com",
+    "reports": [
+      {
+        "report_id": 303,
+        "category": "Fire",
+        "severity": "Urgent",
+        "location": {
+          "lat": -13.962,
+          "lng": 33.774,
+          "address": "Oak Avenue, Lilongwe"
+        },
+        "acknowledged": true,
+        "assigned_to": "Officer Banda",
+        "timeline": [
+          { "time": "2026-05-01T14:25:00Z", "event": "Report acknowledged" },
+          { "time": "2026-05-01T14:30:00Z", "event": "Unit dispatched" },
+          { "time": "2026-05-01T14:50:00Z", "event": "Fire contained" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 203,
+    "name": "Health Department",
+    "email": "healthdept@example.com",
+    "reports": [
+      {
+        "report_id": 304,
+        "category": "Medical Emergency",
+        "severity": "Urgent",
+        "location": {
+          "lat": -13.96,
+          "lng": 33.765,
+          "address": "Bus Station, Lilongwe"
+        },
+        "acknowledged": true,
+        "assigned_to": "Nurse Phiri",
+        "timeline": [
+          { "time": "2026-05-01T12:55:00Z", "event": "Ambulance dispatched" },
+          { "time": "2026-05-01T13:05:00Z", "event": "Arrived on scene" },
+          { "time": "2026-05-01T13:20:00Z", "event": "Patient stabilized" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 204,
+    "name": "Transport Department",
+    "email": "transport@example.com",
+    "reports": [
+      {
+        "report_id": 305,
+        "category": "Road Hazard",
+        "severity": "Low",
+        "location": {
+          "lat": -13.965,
+          "lng": 33.772,
+          "address": "Independence Drive, Lilongwe"
+        },
+        "acknowledged": true,
+        "assigned_to": "Engineer Tembo",
+        "timeline": [
+          { "time": "2026-05-01T10:45:00Z", "event": "Hazard logged" },
+          { "time": "2026-05-01T11:00:00Z", "event": "Repair crew scheduled" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 205,
+    "name": "City Council",
+    "email": "council@example.com",
+    "reports": [
+      {
+        "report_id": 306,
+        "category": "Public Disturbance",
+        "severity": "Medium",
+        "location": {
+          "lat": -13.968,
+          "lng": 33.769,
+          "address": "Town Hall, Lilongwe"
+        },
+        "acknowledged": false,
+        "assigned_to": null,
+        "timeline": []
+      }
+    ]
+  }
+]

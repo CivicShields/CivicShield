@@ -13,6 +13,7 @@ import Profile from "./pages/settings/sub_setting_pages/profile_setting/Profile"
 import MyReport from "./pages/settings/sub_setting_pages/my_reports/MyReport";
 import NotFound from "./pages/not_found/NotFound";
 import SecurityPage from "./pages/settings/sub_setting_pages/security_setting/SecurityPage";
+import Policy from "./pages/policy/Policy";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/error" element={<NotFound />} />
+        <Route path="/policy" element={<Policy />} />
         <Route
           path="/dashboard"
           element={

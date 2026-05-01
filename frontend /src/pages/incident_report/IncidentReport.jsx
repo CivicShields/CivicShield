@@ -1,6 +1,7 @@
 import Button from "../../utilities/Button";
 import styles from "./IncidentReport.module.css";
 import { time, date } from "../../utilities/Date_utilities";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
@@ -86,7 +87,7 @@ function IncidentReport() {
             </div>
           </div>
           <div className={styles.srButtonDiv}>
-            <a href="">Privacy Policy & Data use</a>
+            <Link to="/policy">Privacy Policy & Data use</Link>
             <Button name="Submit Report &rarr;" classStyle={styles.srButton} />
           </div>
         </form>

@@ -33,9 +33,9 @@ export function AuthProvider({ children }) {
     return freshUser;
   }, [user]);
 
-  const register = useCallback(async (email, password, name) => {
+  const register = useCallback(async (email, password, name, number = "") => {
     const { registerRequest } = await import("../services/AuthService");
-    const { user } = await registerRequest(email, password, name);
+    const { user } = await registerRequest(email, password, name, number);
     setUser(user);
   }, []);
 

@@ -19,9 +19,10 @@ import Modal from "../../components/modal/Modal";
 
 function Settings() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
+    window.history.replaceState({}, document.title);
     logout();
   };
 
@@ -99,7 +100,7 @@ function Settings() {
         <h2>
           Are you sure you want <br /> to log out
         </h2>
-        <p>Log out of Kwanganje Incident Reporter as test@test.com</p>
+        <p>Log out of Kwanganje Incident Reporter as {user.email}</p>
       </Modal>
     </>
   );

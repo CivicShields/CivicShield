@@ -18,7 +18,7 @@ function Profile() {
         <label> Email Address</label>
         <input type="text" placeholder={user.email} readOnly />
         <label>Phone number</label>
-        <input type="text" readOnly />
+        <input type="text" placeholder={user.phone} readOnly />
       </div>
     </section>
   );

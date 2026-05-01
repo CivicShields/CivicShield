@@ -35,9 +35,9 @@ export function getCurrentUserRequest(email) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const user = users.find((u) => u.email === email);
-      console.log(user);
+
       if (!user) {
-        reject({ message: "User not found" });
+        reject({ message: "Users not found" });
       } else {
         const { password: _, ...safeUser } = user;
         resolve({ user: safeUser });
@@ -66,3 +66,14 @@ export function registerRequest(email, password, name, number = "") {
     }, 800);
   });
 }
+
+// export function getDepartmentNamesRequest() {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       const departments = users
+//         .map((u) => u.department)
+//         .filter((dep, i, arr) => dep && arr.indexOf(dep) === i); // unique, truthy
+//       resolve({ departments });
+//     }, 300);
+//   });
+// }

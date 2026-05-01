@@ -114,6 +114,16 @@
   cursor: pointer;
 }
 
+.noreport {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  color: #555;
+  text-align: center;
+  flex-shrink: 0;
+  cursor: default;
+}
 /* Report details – icon + text */
 .reportDetails {
   display: flex;

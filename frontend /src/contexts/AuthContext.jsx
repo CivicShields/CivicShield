@@ -1,6 +1,5 @@
 // contexts/AuthContext.jsx
 import { createContext, useContext, useState, useCallback } from "react";
-import { getCurrentUserRequest } from "../services/AuthService";
 
 const AuthContext = createContext(null);
 
@@ -10,12 +9,6 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (email, password) => {
     const { loginRequest } = await import("../services/AuthService");
     const { user } = await loginRequest(email, password);
-    setUser(user);
-  }, []);
-
-  const changePass = useCallback(async (email, oldpassword, newpassword) => {
-    const { ChangePassRequest } = await import("../services/AuthService");
-    const { user } = await ChangePassRequest(email, oldpassword, newpassword);
     setUser(user);
   }, []);
 
@@ -69,6 +62,7 @@ export function AuthProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

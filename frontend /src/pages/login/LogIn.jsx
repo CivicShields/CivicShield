@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import logo from "/favicon.svg";
 import Button from "../../utilities/Button";
@@ -8,6 +8,7 @@ import Button from "../../utilities/Button";
 function LogIn() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,13 +17,15 @@ function LogIn() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const from = location.state?.from?.pathname || "/dashboard";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
       await login(form.email, form.password);
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");
     } finally {
@@ -72,7 +75,10 @@ function LogIn() {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className={styles.donthaveAC}>
           <p>
-            Don't have an account? <Link to="/register">Sign Up.</Link>
+            Don't have an account?{" "}
+            <Link to="/register" state={{ from: location.state?.from }}>
+              Sign Up.
+            </Link>
           </p>
         </div>
       </form>

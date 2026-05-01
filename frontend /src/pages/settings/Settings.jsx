@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import {
   UserCircle,
@@ -19,12 +18,10 @@ import Modal from "../../components/modal/Modal";
 
 function Settings() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
   };
   const [activeTab, setActiveTab] = useState("profile");
   const menuItems = [

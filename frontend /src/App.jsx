@@ -11,15 +11,16 @@ import UserDashboard from "./pages/dashboards/user_dashboard/UserDashboard";
 import NotificationPage from "./pages/settings/sub_setting_pages/notification_setting/NotificationPage";
 import Profile from "./pages/settings/sub_setting_pages/profile_setting/Profile";
 import MyReport from "./pages/settings/sub_setting_pages/my_reports/MyReport";
+import NotFound from "./pages/not_found/NotFound";
 
 function App() {
   return (
     <>
-      {/* <UserDashboard /> */}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
+        <Route path="/error" element={<NotFound />} />
         <Route
           path="/dashboard"
           element={
@@ -52,7 +53,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </>
   );

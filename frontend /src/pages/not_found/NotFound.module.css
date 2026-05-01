@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ensures full‑height centering */
+  padding: 1rem; /* breathing room on small screens */
+}
+
+.container > div {
+  margin: 2rem 0 4rem 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.container > div > h2 {
+  margin: 10px;
+}
+
+.container > div > p {
+  font-size: 20px;
+  margin-bottom: 7px;
+}
+
+.return {
+  text-decoration: none;
+  border: none;
+  background-color: rgba(18, 23, 91, 0.87);
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .container > div {
+    padding: 1.25rem 1.25rem;
+    margin: 1rem 0 2rem 0;
+  }
+
+  .container div > h2 {
+    font-size: 1.6rem;
+    margin: 1rem 0;
+  }
+
+  .container div > h3 {
+    font-size: 1.6rem;
+  }
+}

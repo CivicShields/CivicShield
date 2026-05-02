@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Button from "../../utilities/Button";
+import Button from "../../components/button/Button";
 import styles from "./NotFound.module.css";
 import { TriangleAlert } from "lucide-react";
 

@@ -1,9 +1,9 @@
 import styles from "./SecurityPage.module.css";
 import { CheckCircle2Icon } from "lucide-react";
-import Button from "../../../../utilities/Button";
+import Button from "../../../../components/button/Button";
 import { useState } from "react";
 import { useAuth } from "../../../../contexts/AuthContext";
-import ShowPassInput from "../../../../utilities/ShowPasswordInput";
+import ShowPassInput from "../../../../components/show_pass/ShowPasswordInput";
 
 function SecurityPage() {
   const redAsterik = <span style={{ color: "red" }}>*</span>;

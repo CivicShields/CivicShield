@@ -5,7 +5,7 @@ import Footer from "../../components/footer/Footer";
 import rocketIcon from "../../assets/rocket.png";
 import verifiedIcon from "../../assets/verified.png";
 import secureIcon from "../../assets/secure.png";
-import Button from "../../utilities/Button";
+import Button from "../../components/button/Button";
 import Card from "../../components/card/Card";
 
 function Landing() {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Button from "../../utilities/Button";
+import Button from "../button/Button";
 import styles from "./Modal.module.css";
 
 function Modal({ isOpen, onClose, action, children }) {

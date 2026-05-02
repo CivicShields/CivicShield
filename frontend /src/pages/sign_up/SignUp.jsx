@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/favicon.svg";
-import Button from "../../utilities/Button";
+import Button from "../../components/button/Button";
 
 function SignUp() {
   const { register } = useAuth();

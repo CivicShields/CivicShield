@@ -1,4 +1,4 @@
-import Button from "../../utilities/Button";
+import Button from "../../components/button/Button";
 import styles from "./IncidentReport.module.css";
 import { time, date } from "../../utilities/Date_utilities";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import FileDropZone from "../../components/filedropzone/FileDropZone";
+import AllDeparts from "../../utilities/GetDeparts.js";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
@@ -14,15 +15,7 @@ function IncidentReport() {
     setDescCount(e.target.value.length);
   }
 
-  const departs = [
-    "Police Department",
-    "Fire Department",
-    "WaterBoard",
-    "ESCOM",
-    "Roads Authority",
-  ];
-
-  const Departments = departs.map((depart, index) => {
+  const Departments = AllDeparts().map((depart, index) => {
     return (
       <option value={depart} key={index}>
         {depart}

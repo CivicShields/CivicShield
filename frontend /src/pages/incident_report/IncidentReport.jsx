@@ -1,19 +1,62 @@
 import Button from "../../components/button/Button";
 import styles from "./IncidentReport.module.css";
 import { time, date } from "../../utilities/Date_utilities";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import FileDropZone from "../../components/filedropzone/FileDropZone";
 import AllDeparts from "../../utilities/GetDeparts.js";
+import { useReport } from "../../contexts/ReportContext.jsx";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
 
   function handleDescCount(e) {
     setDescCount(e.target.value.length);
+    handleChange(e);
   }
+
+  const { addReport } = useReport();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    category: "",
+    department: "",
+    reportedDate: date + ", " + time,
+    incidentTitle: "",
+    location: "",
+    description: "",
+    document: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    setLoading(true);
+    try {
+      await addReport(
+        form.category,
+        form.department,
+        form.reportedDate,
+        form.incidentTitle,
+        form.location,
+        form.description,
+        form.document,
+      );
+      navigate("/settings/myreports");
+    } catch (err) {
+      setError(err.message || "Report registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const Departments = AllDeparts().map((depart, index) => {
     return (
@@ -22,6 +65,8 @@ function IncidentReport() {
       </option>
     );
   });
+
+  const arrow = <span>&rarr;</span>;
 
   return (
     <>
@@ -32,24 +77,43 @@ function IncidentReport() {
           Please provide as much details as possible to help as respond
           effectively
         </p>
-        <form id="incidentForm">
+        <form id="incidentForm" onSubmit={handleSubmit}>
           <h2>Incident Reporting Form</h2>
           <div className={styles.userDetailsContainer}>
             <div className={styles.userDetails}>
               <p>
-                Reporter's Full Name <span style={{ color: "red" }}>*</span>
+                Reports category <span style={{ color: "red" }}>*</span>
               </p>
-              <input type="text" placeholder="Enter name" required />
+              <input
+                type="text"
+                name="category"
+                placeholder="Enter category"
+                value={form.category}
+                onChange={handleChange}
+                required
+                autoFocus
+              />
             </div>
             <div className={styles.userDetails}>
               <p>Department</p>
-              <select name="" id="" required>
+              <select
+                value={form.department}
+                onChange={handleChange}
+                name="department"
+                required
+              >
                 {Departments}
               </select>
             </div>
             <div className={styles.userDetails}>
               <p>Report Date/Time</p>
-              <input type="text" value={date + ", " + time} readOnly />
+              <input
+                type="text"
+                name="reporteddate"
+                value={form.reportedDate}
+                onChange={handleChange}
+                readOnly
+              />
             </div>
           </div>
           <div className={styles.iDetailsContainer}>
@@ -57,7 +121,10 @@ function IncidentReport() {
               <p>Incident title</p>
               <input
                 type="text"
+                name="incidentTitle"
                 placeholder="E.g. Pothole development on mchinji m1 road."
+                value={form.incidentTitle}
+                onChange={handleChange}
                 required
               />
               <div>
@@ -69,20 +136,31 @@ function IncidentReport() {
               <textarea
                 id="description"
                 maxLength="2000"
-                onChange={(e) => handleDescCount(e)}
+                name="description"
+                value={form.description}
+                onChange={handleDescCount}
                 placeholder="Describe exactly what happened, who was involved and the sequence of events. Stick to facts."
               ></textarea>
             </div>
             <div className={styles.iDetails2}>
               <p>Location Details</p>
-              <input type="text" />
+              <input
+                type="text"
+                name="location"
+                value={form.location}
+                onChange={handleChange}
+              />
               <FileDropZone />
             </div>
           </div>
           <div className={styles.srButtonDiv}>
             <Link to="/policy">Privacy Policy & Data use</Link>
-            <Button name="Submit Report &rarr;" classStyle={styles.srButton} />
+            <Button
+              name={loading ? "Submitting report..." : `Submit Report ${arrow}`}
+              classStyle={styles.srButton}
+            />
           </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
       </main>
       <Footer />

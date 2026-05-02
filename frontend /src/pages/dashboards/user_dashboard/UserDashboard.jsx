@@ -11,11 +11,11 @@ function UserDashboard() {
 
   const reports =
     report.length > 0 ? (
-      report.slice(0, 10).map((report) => {
+      report.slice(0, 10).map((report, index) => {
         //set the reports to only show a maximum of ten
         if (report.status === "Pending") {
           return (
-            <div>
+            <div key={index}>
               <div className={styles.reportDetails}>
                 <span className={styles.pending}>&#11044;</span>
                 <p>
@@ -32,7 +32,7 @@ function UserDashboard() {
           );
         } else if (report.status === "Resolved") {
           return (
-            <div>
+            <div key={index}>
               <div className={styles.reportDetails}>
                 <span className={styles.resolved}>&#11044;</span>
                 <p>
@@ -50,7 +50,7 @@ function UserDashboard() {
           );
         } else {
           return (
-            <div>
+            <div key={index}>
               <div className={styles.reportDetails}>
                 <span className={styles.inprogress}>&#11044;</span>
                 <p>

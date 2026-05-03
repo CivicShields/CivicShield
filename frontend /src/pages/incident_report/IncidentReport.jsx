@@ -66,8 +66,6 @@ function IncidentReport() {
     );
   });
 
-  const arrow = <span>&rarr;</span>;
-
   return (
     <>
       <Header />
@@ -156,8 +154,9 @@ function IncidentReport() {
           <div className={styles.srButtonDiv}>
             <Link to="/policy">Privacy Policy & Data use</Link>
             <Button
-              name={loading ? "Submitting report..." : `Submit Report ${arrow}`}
+              name={loading ? "Submitting report..." : "Submit Report →"}
               classStyle={styles.srButton}
+              disabled={loading}
             />
           </div>
           {error && <p style={{ color: "red" }}>{error}</p>}

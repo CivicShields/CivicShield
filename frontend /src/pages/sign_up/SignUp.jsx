@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { CheckCircle2Icon } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/favicon.svg";
@@ -17,6 +18,11 @@ function SignUp() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [check, setCheck] = useState({
+    character: false,
+    number: false,
+    special: false,
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -30,6 +36,19 @@ function SignUp() {
 
     if (form.password !== form.confirmPassword) {
       return setError("Passwords do not match");
+    }
+
+    if (check.character !== true) {
+      return setError("Password doesnt meet should be at least 8 characters");
+    }
+    if (check.special !== true) {
+      return setError(
+        "Password doesnt meet should contain at least one special characters i.e.!@#%$*",
+      );
+    } else if (check.number !== true) {
+      return setError(
+        "Password doesnt meet should be contain at least one number",
+      );
     }
 
     setLoading(true);
@@ -82,7 +101,15 @@ function SignUp() {
               type="password"
               placeholder="Password"
               value={form.password}
-              onChange={handleChange}
+              onChange={(e) => {
+                const val = e.target.value;
+                setCheck({
+                  character: val.length >= 8,
+                  number: /[0-9]/.test(val),
+                  special: /[!@#$%^&*]/.test(val),
+                });
+                setForm({ ...form, password: val });
+              }}
               required
             />
           </div>
@@ -97,6 +124,29 @@ function SignUp() {
               onChange={handleChange}
               required
             />
+          </div>
+        </div>
+        <div className={styles.passcheck}>
+          <div>
+            <CheckCircle2Icon
+              size={24}
+              color={check.character ? "green" : "black"}
+            />{" "}
+            &nbsp; Must be at least 8 characters
+          </div>
+          <div>
+            <CheckCircle2Icon
+              size={24}
+              color={check.number ? "green" : "black"}
+            />{" "}
+            &nbsp; Include a number
+          </div>
+          <div>
+            <CheckCircle2Icon
+              size={24}
+              color={check.special ? "green" : "black"}
+            />
+            &nbsp; Include a Special character
           </div>
         </div>
         <p>

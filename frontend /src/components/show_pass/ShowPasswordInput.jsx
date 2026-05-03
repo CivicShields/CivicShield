@@ -1,7 +1,7 @@
 import { CheckCircle2Icon, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
-function ShowPassInput({ autoFocus = false, required = false, ...props }) {
+function ShowPassInput({ autoFocus = false, ...props }) {
   const [showPassword, setShowPassword] = useState(false);
   if (showPassword === true)
     setTimeout(() => {
@@ -19,7 +19,7 @@ function ShowPassInput({ autoFocus = false, required = false, ...props }) {
         onChange={props.onChange}
         onClick={props.onClick}
         autoFocus={autoFocus}
-        required={required}
+        required
         className={props.className}
       />
       <button

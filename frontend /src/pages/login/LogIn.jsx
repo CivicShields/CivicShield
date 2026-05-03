@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import logo from "/favicon.svg";
 import Button from "../../components/button/Button";
+import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 
 function LogIn() {
   const { login } = useAuth();
@@ -54,15 +55,21 @@ function LogIn() {
           autoFocus
         />
         <p>Password</p>
-        <input
-          type="password"
-          className={styles.pass}
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
+        <div className={styles.passContainer}>
+          <div className={styles.passDiv}>
+            <p>Create Password</p>
+            <ShowPassInput
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={(e) => {
+                const val = e.target.value;
+                setForm({ ...form, password: val });
+              }}
+            />
+          </div>
+        </div>
+
         <div className={styles.forgotPass}>
           <a href="">Forgot Password?</a>
         </div>

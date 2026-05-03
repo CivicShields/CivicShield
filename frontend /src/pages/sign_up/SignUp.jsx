@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/favicon.svg";
 import Button from "../../components/button/Button";
+import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 
 function SignUp() {
   const { register } = useAuth();
@@ -95,10 +96,8 @@ function SignUp() {
         <div className={styles.passContainer}>
           <div className={styles.passDiv}>
             <p>Create Password</p>
-            <input
-              className="first-pass"
+            <ShowPassInput
               name="password"
-              type="password"
               placeholder="Password"
               value={form.password}
               onChange={(e) => {
@@ -110,19 +109,18 @@ function SignUp() {
                 });
                 setForm({ ...form, password: val });
               }}
-              required
             />
           </div>
           <div className={styles.passDiv}>
             <p>Confirm Password</p>
-            <input
-              className="confirm-pass"
+            <ShowPassInput
               name="confirmPassword"
-              type="password"
               placeholder="Confirm Password"
               value={form.confirmPassword}
-              onChange={handleChange}
-              required
+              onChange={(e) => {
+                const val = e.target.value;
+                setForm({ ...form, confirmPassword: val });
+              }}
             />
           </div>
         </div>

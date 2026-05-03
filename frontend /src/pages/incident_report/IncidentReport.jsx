@@ -145,6 +145,7 @@ function IncidentReport() {
                 value={form.description}
                 onChange={handleDescCount}
                 placeholder="Describe exactly what happened, who was involved and the sequence of events. Stick to facts."
+                required
               ></textarea>
             </div>
             <div className={styles.iDetails2}>

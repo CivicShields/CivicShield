@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useReport } from "../contexts/ReportContext";
 
-function MyReports() {
+function GetReports() {
     const { fetchReports } = useReport();
     const [reports, setReports] = useState([]);
 
@@ -12,4 +12,4 @@ function MyReports() {
     return reports
 }
 
-export default MyReports;
+export default GetReports;

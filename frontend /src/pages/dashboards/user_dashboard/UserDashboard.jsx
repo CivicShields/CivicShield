@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { Bell, Siren, FileText, User2Icon } from "lucide-react";
 import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
-import MyReports from "../../../utilities/GetReports";
+import GetReports from "../../../utilities/GetReports";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
 
 function UserDashboard() {
-  const report = MyReports();
+  const report = GetReports();
 
   const reports =
     report.length > 0 ? (
@@ -19,7 +19,7 @@ function UserDashboard() {
               <div className={styles.reportDetails}>
                 <span className={styles.pending}>&#11044;</span>
                 <p>
-                  {report.description} - Chilomini <br />{" "}
+                  {report.title} - {report.location} <br />{" "}
                   <span>
                     {report.category} &bull; Reported{" "}
                     {getElapsedTime(report.created_at)} &bull;{" "}
@@ -36,7 +36,8 @@ function UserDashboard() {
               <div className={styles.reportDetails}>
                 <span className={styles.resolved}>&#11044;</span>
                 <p>
-                  {report.description} <br />{" "}
+                  {report.title} - {report.location}
+                  <br />{" "}
                   <span>
                     {" "}
                     {report.category} &bull;Reported{" "}
@@ -54,7 +55,8 @@ function UserDashboard() {
               <div className={styles.reportDetails}>
                 <span className={styles.inprogress}>&#11044;</span>
                 <p>
-                  {report.description} <br />{" "}
+                  {report.title} - {report.location}
+                  <br />{" "}
                   <span>
                     {report.category} &bull; Reported{" "}
                     {getElapsedTime(report.created_at)} &bull;{" "}
@@ -128,7 +130,7 @@ function UserDashboard() {
                 <p>
                   My Reports
                   <br />
-                  <span>View all 7</span>
+                  <span>View all {report.length}</span>
                 </p>
               </Link>
             </div>

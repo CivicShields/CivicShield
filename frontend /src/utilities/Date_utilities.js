@@ -4,7 +4,10 @@ const date = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit', y
 const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(':', '-');
 
 function getElapsedTime(dateString) {
-    const past = new Date(dateString);
+    const normalizedDate = dateString.replace(/(\d{2})-(\d{2})/, '$1:$2');
+
+    const past = new Date(normalizedDate);
+
     const diffInSeconds = Math.floor((now - past) / 1000);
 
     if (diffInSeconds < 60) return `${diffInSeconds}s ago`;

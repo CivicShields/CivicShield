@@ -1,9 +1,9 @@
 import styles from "./SecurityPage.module.css";
 import { CheckCircle2Icon } from "lucide-react";
-import Button from "../../../../utilities/Button";
+import Button from "../../../../components/button/Button";
 import { useState } from "react";
 import { useAuth } from "../../../../contexts/AuthContext";
-import ShowPassInput from "../../../../utilities/ShowPasswordInput";
+import ShowPassInput from "../../../../components/show_pass/ShowPasswordInput";
 
 function SecurityPage() {
   const redAsterik = <span style={{ color: "red" }}>*</span>;
@@ -28,6 +28,19 @@ function SecurityPage() {
     if (form.newPassword !== form.confirmNew) {
       return setError("New passwords do not match");
     }
+    if (check.character !== true) {
+      return setError("Password doesnt meet should be at least 8 characters");
+    }
+    if (check.special !== true) {
+      return setError(
+        "Password doesnt meet should contain at least one special characters i.e.!@#%$*",
+      );
+    } else if (check.number !== true) {
+      return setError(
+        "Password doesnt meet should be contain at least one number",
+      );
+    }
+
     try {
       await changePassword(form.oldPassword, form.newPassword);
       setSuccess("Password updated!");

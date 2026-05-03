@@ -178,6 +178,21 @@
   text-decoration: underline;
 }
 
+/* Password requirements checklist */
+.passcheck {
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+}
+
+.passcheck div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
 /* small screen adjustments */
 @media (max-width: 480px) {
   .signupContainer form {

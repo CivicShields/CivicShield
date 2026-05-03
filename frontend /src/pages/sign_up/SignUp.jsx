@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { CheckCircle2Icon } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/favicon.svg";
-import Button from "../../utilities/Button";
+import Button from "../../components/button/Button";
+import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 
 function SignUp() {
   const { register } = useAuth();
@@ -17,12 +19,29 @@ function SignUp() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [check, setCheck] = useState({
+    character: false,
+    number: false,
+    special: false,
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const from = location.state?.from?.pathname || "/dashboard";
+  const previousPage = location.state?.from?.pathname || "/dashboard";
+
+  // Check if the previous page is one we shouldn't go back to
+  const blacklistedPaths = [
+    "/settings",
+    "/settings/notifications",
+    "/settings/security",
+    "/settings/myreports",
+    "/settings/profile",
+  ];
+  const from = blacklistedPaths.includes(previousPage)
+    ? "/dashboard"
+    : previousPage;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +49,19 @@ function SignUp() {
 
     if (form.password !== form.confirmPassword) {
       return setError("Passwords do not match");
+    }
+
+    if (check.character !== true) {
+      return setError("Password doesnt meet should be at least 8 characters");
+    }
+    if (check.special !== true) {
+      return setError(
+        "Password doesnt meet should contain at least one special characters i.e.!@#%$*",
+      );
+    } else if (check.number !== true) {
+      return setError(
+        "Password doesnt meet should be contain at least one number",
+      );
     }
 
     setLoading(true);
@@ -76,27 +108,55 @@ function SignUp() {
         <div className={styles.passContainer}>
           <div className={styles.passDiv}>
             <p>Create Password</p>
-            <input
-              className="first-pass"
+            <ShowPassInput
               name="password"
-              type="password"
               placeholder="Password"
               value={form.password}
-              onChange={handleChange}
-              required
+              onChange={(e) => {
+                const val = e.target.value;
+                setCheck({
+                  character: val.length >= 8,
+                  number: /[0-9]/.test(val),
+                  special: /[!@#$%^&*]/.test(val),
+                });
+                setForm({ ...form, password: val });
+              }}
             />
           </div>
           <div className={styles.passDiv}>
             <p>Confirm Password</p>
-            <input
-              className="confirm-pass"
+            <ShowPassInput
               name="confirmPassword"
-              type="password"
               placeholder="Confirm Password"
               value={form.confirmPassword}
-              onChange={handleChange}
-              required
+              onChange={(e) => {
+                const val = e.target.value;
+                setForm({ ...form, confirmPassword: val });
+              }}
             />
+          </div>
+        </div>
+        <div className={styles.passcheck}>
+          <div>
+            <CheckCircle2Icon
+              size={24}
+              color={check.character ? "green" : "black"}
+            />{" "}
+            &nbsp; Must be at least 8 characters
+          </div>
+          <div>
+            <CheckCircle2Icon
+              size={24}
+              color={check.number ? "green" : "black"}
+            />{" "}
+            &nbsp; Include a number
+          </div>
+          <div>
+            <CheckCircle2Icon
+              size={24}
+              color={check.special ? "green" : "black"}
+            />
+            &nbsp; Include a Special character
           </div>
         </div>
         <p>

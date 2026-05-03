@@ -3,23 +3,23 @@ import { Link } from "react-router-dom";
 import { Bell, Siren, FileText, User2Icon } from "lucide-react";
 import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
-import MyReports from "../../../utilities/GetReports";
+import GetReports from "../../../utilities/GetReports";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
 
 function UserDashboard() {
-  const report = MyReports();
+  const report = GetReports();
 
   const reports =
     report.length > 0 ? (
-      report.slice(0, 10).map((report) => {
+      report.slice(0, 10).map((report, index) => {
         //set the reports to only show a maximum of ten
         if (report.status === "Pending") {
           return (
-            <div>
+            <div key={index}>
               <div className={styles.reportDetails}>
                 <span className={styles.pending}>&#11044;</span>
                 <p>
-                  {report.description} - Chilomini <br />{" "}
+                  {report.title} - {report.location} <br />{" "}
                   <span>
                     {report.category} &bull; Reported{" "}
                     {getElapsedTime(report.created_at)} &bull;{" "}
@@ -32,11 +32,12 @@ function UserDashboard() {
           );
         } else if (report.status === "Resolved") {
           return (
-            <div>
+            <div key={index}>
               <div className={styles.reportDetails}>
                 <span className={styles.resolved}>&#11044;</span>
                 <p>
-                  {report.description} <br />{" "}
+                  {report.title} - {report.location}
+                  <br />{" "}
                   <span>
                     {" "}
                     {report.category} &bull;Reported{" "}
@@ -50,11 +51,12 @@ function UserDashboard() {
           );
         } else {
           return (
-            <div>
+            <div key={index}>
               <div className={styles.reportDetails}>
                 <span className={styles.inprogress}>&#11044;</span>
                 <p>
-                  {report.description} <br />{" "}
+                  {report.title} - {report.location}
+                  <br />{" "}
                   <span>
                     {report.category} &bull; Reported{" "}
                     {getElapsedTime(report.created_at)} &bull;{" "}
@@ -128,7 +130,7 @@ function UserDashboard() {
                 <p>
                   My Reports
                   <br />
-                  <span>View all 7</span>
+                  <span>View all {report.length}</span>
                 </p>
               </Link>
             </div>

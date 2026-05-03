@@ -66,14 +66,3 @@ export function registerRequest(email, password, name, number = "") {
     }, 800);
   });
 }
-
-// export function getDepartmentNamesRequest() {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       const departments = users
-//         .map((u) => u.department)
-//         .filter((dep, i, arr) => dep && arr.indexOf(dep) === i); // unique, truthy
-//       resolve({ departments });
-//     }, 300);
-//   });
-// }

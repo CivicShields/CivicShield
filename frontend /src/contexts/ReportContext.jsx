@@ -14,10 +14,17 @@ export function ReportProvider({ children }) {
   }, [user]);
 
   const addReport = useCallback(
-    async (reportData) => {
-      if (!user) throw new Error("No user is logged in");
-      const { report } = await addReportRequest(user.email, reportData);
-      return report;
+    async (category, depart, rpdate, incTitle, location, descr, doc) => {
+      await addReportRequest(
+        user.email,
+        category,
+        depart,
+        rpdate,
+        incTitle,
+        location,
+        descr,
+        doc,
+      );
     },
     [user],
   );

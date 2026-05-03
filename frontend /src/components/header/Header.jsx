@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import Button from "../../utilities/Button";
+import Button from "../button/Button";
 import styles from "./Header.module.css";
 
 function Header() {

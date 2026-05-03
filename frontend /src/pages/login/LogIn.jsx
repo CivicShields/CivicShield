@@ -3,7 +3,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import logo from "/favicon.svg";
-import Button from "../../utilities/Button";
+import Button from "../../components/button/Button";
+import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 
 function LogIn() {
   const { login } = useAuth();
@@ -16,8 +17,19 @@ function LogIn() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const previousPage = location.state?.from?.pathname || "/dashboard";
 
-  const from = location.state?.from?.pathname || "/dashboard";
+  // Check if the previous page is one we shouldn't go back to
+  const blacklistedPaths = [
+    "/settings",
+    "/settings/notifications",
+    "/settings/security",
+    "/settings/myreports",
+    "/settings/profile",
+  ];
+  const from = blacklistedPaths.includes(previousPage)
+    ? "/dashboard"
+    : previousPage;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,15 +66,20 @@ function LogIn() {
           autoFocus
         />
         <p>Password</p>
-        <input
-          type="password"
-          className={styles.pass}
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
+        <div className={styles.passContainer}>
+          <div className={styles.passDiv}>
+            <ShowPassInput
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={(e) => {
+                const val = e.target.value;
+                setForm({ ...form, password: val });
+              }}
+            />
+          </div>
+        </div>
+
         <div className={styles.forgotPass}>
           <a href="">Forgot Password?</a>
         </div>

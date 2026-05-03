@@ -57,7 +57,6 @@ function LogIn() {
         <p>Password</p>
         <div className={styles.passContainer}>
           <div className={styles.passDiv}>
-            <p>Create Password</p>
             <ShowPassInput
               name="password"
               placeholder="Password"

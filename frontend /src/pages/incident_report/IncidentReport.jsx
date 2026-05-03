@@ -35,6 +35,10 @@ function IncidentReport() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleFileSelect = (file) => {
+    setForm({ ...form, document: file });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -58,13 +62,16 @@ function IncidentReport() {
     }
   };
 
-  const Departments = AllDeparts().map((depart, index) => {
-    return (
+  const Departments = [
+    <option value="" key="default" disabled>
+      Select a Department
+    </option>,
+    ...AllDeparts().map((depart, index) => (
       <option value={depart} key={index}>
         {depart}
       </option>
-    );
-  });
+    )),
+  ];
 
   return (
     <>
@@ -80,7 +87,7 @@ function IncidentReport() {
           <div className={styles.userDetailsContainer}>
             <div className={styles.userDetails}>
               <p>
-                Reports category <span style={{ color: "red" }}>*</span>
+                Report category <span style={{ color: "red" }}>*</span>
               </p>
               <input
                 type="text"
@@ -107,7 +114,7 @@ function IncidentReport() {
               <p>Report Date/Time</p>
               <input
                 type="text"
-                name="reporteddate"
+                name="reportedDate"
                 value={form.reportedDate}
                 onChange={handleChange}
                 readOnly
@@ -148,7 +155,10 @@ function IncidentReport() {
                 value={form.location}
                 onChange={handleChange}
               />
-              <FileDropZone />
+              <FileDropZone
+                key={form.incidentTitle === "" ? "reset" : "active"}
+                onFileSelect={handleFileSelect}
+              />
             </div>
           </div>
           <div className={styles.srButtonDiv}>

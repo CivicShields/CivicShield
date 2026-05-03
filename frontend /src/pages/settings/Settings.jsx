@@ -22,7 +22,6 @@ function Settings() {
   const { user, logout } = useAuth();
 
   const handleLogout = () => {
-    window.history.replaceState({}, document.title);
     logout();
   };
 

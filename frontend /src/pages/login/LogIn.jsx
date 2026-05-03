@@ -17,8 +17,19 @@ function LogIn() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const previousPage = location.state?.from?.pathname || "/dashboard";
 
-  const from = location.state?.from?.pathname || "/dashboard";
+  // Check if the previous page is one we shouldn't go back to
+  const blacklistedPaths = [
+    "/settings",
+    "/settings/notifications",
+    "/settings/security",
+    "/settings/myreports",
+    "/settings/profile",
+  ];
+  const from = blacklistedPaths.includes(previousPage)
+    ? "/dashboard"
+    : previousPage;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

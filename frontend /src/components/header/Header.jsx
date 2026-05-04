@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Button from "../button/Button";
 import styles from "./Header.module.css";
@@ -10,6 +10,16 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function handleLogin() {
     navigate("/login");
@@ -35,7 +45,13 @@ function Header() {
 
   return (
     <>
-      <header>
+      <header
+        className={
+          window.location.pathname === "/about"
+            ? `${styles.header} ${scrolled ? styles.scrolled : ""}`
+            : `${styles.scrolled}`
+        }
+      >
         <div className={styles.brand}>
           <b className={styles.safe}>SafetyTrack</b>
           <span>Kwanganje Incident Reporter</span>

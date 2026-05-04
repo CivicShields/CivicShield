@@ -13,6 +13,9 @@
         "severity": "High",
         "title": "Fire outbreak near Oak Avenue.",
         "department": "Fire Department",
+        "description": "A big fire has erupted near oak avenue",
+        "location": "Oak Avenue",
+        "doc": "/incidentback.jpeg",
         "status": "In Progress",
         "created_at": "May 05, 2026, 02-20 PM"
       }

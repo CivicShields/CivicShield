@@ -1,41 +1,155 @@
 .reportsContainer {
   font-family: sans-serif;
-  padding: 24px;
+  padding: 1.5rem 1rem;
   background-color: #f9fafb;
   min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.labelStyle {
-  display: block;
-  font-size: 20px;
-  font-weight: 600;
-  color: #4b5563;
-  margin-bottom: 4px;
-}
-
+/* FILTER BAR  */
 .filterBarSection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-  padding: 20px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* Label above each select */
+.labelStyle {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+/* Select dropdown */
 .selectStyle {
   width: 100%;
-  padding: 8px;
+  padding: 0.6rem 0.75rem;
   border-radius: 6px;
   border: 1px solid #d1d5db;
+  background-color: white;
+  font-size: 0.95rem;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
 }
+
+.selectStyle:focus {
+  border-color: rgba(18, 23, 91, 0.87);
+}
+
+/* REPORT LIST  */
+/* Report row */
 .reportRowStyle {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
+  gap: 1rem;
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.reportRowStyle:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Report info (title + meta) */
+.reportRowStyle > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Title */
+.reportRowStyle > div:first-child > div:first-child {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827;
+  word-break: break-word;
+}
+
+/* Meta line (category, time) */
+.reportRowStyle > div:first-child > div:last-child {
+  font-size: 0.825rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+/* Right side: "View Details" + status badge */
+.reportRowStyle > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* "View Details" link style */
+.reportRowStyle > div:last-child span:first-child {
+  font-size: 0.8rem;
+  color: rgb(63, 201, 232);
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reportList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .reportsContainer {
+    padding: 1rem 0.75rem;
+  }
+  .filterBarSection {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .reportRowStyle {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .reportRowStyle > div:last-child {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .filterBarSection {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  .labelStyle {
+    font-size: 0.95rem;
+  }
+  .selectStyle {
+    font-size: 0.9rem;
+    padding: 0.65rem 0.75rem;
+  }
+  .reportRowStyle {
+    padding: 0.75rem;
+  }
+  .reportRowStyle > div:first-child > div:first-child {
+    font-size: 0.95rem;
+  }
+  .reportRowStyle > div:last-child span:first-child {
+    font-size: 0.75rem;
+  }
 }

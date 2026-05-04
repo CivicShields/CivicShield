@@ -8,6 +8,7 @@ import Footer from "../../components/footer/Footer";
 import FileDropZone from "../../components/filedropzone/FileDropZone";
 import AllDeparts from "../../utilities/GetDeparts.js";
 import { useReport } from "../../contexts/ReportContext.jsx";
+import { incidentCategories } from "../../utilities/Data.js";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
@@ -89,15 +90,19 @@ function IncidentReport() {
               <p>
                 Report category <span style={{ color: "red" }}>*</span>
               </p>
-              <input
-                type="text"
+              <select
                 name="category"
-                placeholder="Enter category"
                 value={form.category}
                 onChange={handleChange}
                 required
-                autoFocus
-              />
+              >
+                <option value="">Select a Category</option>
+                {incidentCategories.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className={styles.userDetails}>
               <p>Department</p>

@@ -3,6 +3,8 @@ import styles from "./MyReport.module.css";
 import AllDeparts from "../../../../utilities/GetDeparts";
 import GetReports from "../../../../utilities/GetReports";
 import { getElapsedTime } from "../../../../utilities/Date_utilities";
+import ReportDetailView from "../../../../components/report_detail/ReportDetailView";
+import { incidentCategories } from "../../../../utilities/Data";
 
 const MyReports = () => {
   const [filter, setFilter] = useState({
@@ -11,6 +13,9 @@ const MyReports = () => {
     type: "All",
     sortTime: "latest",
   });
+
+  // State to track which report is currently being viewed in detail
+  const [selectedReport, setSelectedReport] = useState(null);
 
   const reports = GetReports();
 
@@ -35,9 +40,25 @@ const MyReports = () => {
     </option>
   ));
 
+  const Categories = incidentCategories.map((item) => (
+    <option key={item.value} value={item.value}>
+      {item.label}
+    </option>
+  ));
+
+  if (selectedReport) {
+    return (
+      <ReportDetailView
+        report={selectedReport}
+        onBack={() => setSelectedReport(null)}
+      />
+    );
+  }
+
   return (
     <div className={styles.reportsContainer}>
       <section className={styles.filterBarSection}>
+        {/* Status Filter */}
         <div>
           <label className={styles.labelStyle}>Status</label>
           <select
@@ -51,6 +72,7 @@ const MyReports = () => {
           </select>
         </div>
 
+        {/* Time Filter */}
         <div>
           <label className={styles.labelStyle}>Time</label>
           <select
@@ -62,6 +84,7 @@ const MyReports = () => {
           </select>
         </div>
 
+        {/* Department Filter */}
         <div>
           <label className={styles.labelStyle}>Department</label>
           <select
@@ -75,24 +98,27 @@ const MyReports = () => {
           </select>
         </div>
 
+        {/* Accident Type Filter */}
         <div>
           <label className={styles.labelStyle}>Accident Type</label>
           <select
             className={styles.selectStyle}
             onChange={(e) => setFilter({ ...filter, type: e.target.value })}
           >
-            <option value="All">All Types</option>
-            <option value="Fall">Fall</option>
-            <option value="Electrical">Electrical</option>
-            <option value="Fire Safety">Fire Safety</option>
+            {Categories}
           </select>
         </div>
       </section>
 
       {/* Reports List */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div className={styles.reportList}>
         {processedReports.map((report) => (
-          <div key={report.report_id} className={styles.reportRowStyle}>
+          <div
+            key={report.report_id}
+            className={styles.reportRowStyle}
+            onClick={() => setSelectedReport(report)} // Click anywhere on row to view
+            style={{ cursor: "pointer" }}
+          >
             <div>
               <div style={{ fontWeight: "600" }}>
                 {report.title} - {report.location}
@@ -107,7 +133,18 @@ const MyReports = () => {
                 {report.category} • Reported {getElapsedTime(report.created_at)}
               </div>
             </div>
-            <div style={getStatusStyle(report.status)}>{report.status}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "rgb(63, 201, 232)",
+                  textDecoration: "underline",
+                }}
+              >
+                View Details
+              </span>
+              <div style={getStatusStyle(report.status)}>{report.status}</div>
+            </div>
           </div>
         ))}
       </div>

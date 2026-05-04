@@ -1,0 +1,315 @@
+:root {
+  --primary: #2563eb;
+  --bg-light: #f8fafc;
+  --sidebar-bg: #0f172a;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --white: #ffffff;
+  --red: #ef4444;
+  --green: #10b981;
+  --amber: #f59e0b;
+}
+
+.textMuted {
+  color: #64748b;
+}
+
+/* Page heading */
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+}
+
+/* Dashboard Layout */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: var(--text-main);
+}
+
+/* Stats Card */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.statLabel {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.statValue {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.statValue.green {
+  color: var(--green);
+}
+
+/* Priority Bars */
+.priorityBars {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.barItem {
+  width: 100%;
+}
+
+.barLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.barBg {
+  background: #f1f5f9;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.barFill.critical {
+  background: var(--red);
+}
+
+.barFill.high {
+  background: var(--amber);
+}
+
+.barFill.low {
+  background: var(--primary);
+}
+
+/* Activity List */
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activityItem {
+  display: flex;
+  gap: 15px;
+}
+
+.activityDot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.activityInfo p {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.activityInfo span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Dept Info Card */
+.deptInfoCard {
+  text-align: center;
+}
+
+.deptIcon {
+  color: var(--primary);
+  margin: 0 auto 15px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 15px 0;
+}
+
+.small {
+  font-size: 0.75rem;
+}
+
+.contentFade {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sectionContainer {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.btnPrimary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.btnText {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.statusPill {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.statusPill.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusPill.assigned {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.incidentList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.incidentCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.incidentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.priorityTag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+}
+
+.priorityTag.high {
+  background: var(--amber);
+}
+
+.priorityTag.critical {
+  background: var(--red);
+}
+
+.priorityTag.low {
+  background: var(--text-muted);
+}
+
+.incidentId {
+  font-family: monospace;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.incidentTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.incidentMeta {
+  display: flex;
+  gap: 15px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.incidentMeta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.font-mono {
+  font-family: monospace;
+}

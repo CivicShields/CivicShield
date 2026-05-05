@@ -1,10 +1,10 @@
 import styles from "./UserDashboard.module.css";
 import { Link } from "react-router-dom";
 import { Bell, Siren, FileText, User2Icon } from "lucide-react";
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import GetReports from "../../utilities/GetReports";
-import { getElapsedTime } from "../../utilities/Date_utilities";
+import Header from "../../../components/header/Header";
+import Footer from "../../../components/footer/Footer";
+import GetReports from "../../../utilities/GetReports";
+import { getElapsedTime } from "../../../utilities/Date_utilities";
 
 function UserDashboard() {
   const report = GetReports();

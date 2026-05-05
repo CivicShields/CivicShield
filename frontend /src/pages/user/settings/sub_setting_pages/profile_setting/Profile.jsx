@@ -1,5 +1,5 @@
-import { useAuth } from "../../../../contexts/AuthContext";
-import Button from "../../../../components/button/Button";
+import { useAuth } from "../../../../../contexts/AuthContext";
+import Button from "../../../../../components/button/Button";
 import styles from "./Profile.module.css";
 
 function Profile() {

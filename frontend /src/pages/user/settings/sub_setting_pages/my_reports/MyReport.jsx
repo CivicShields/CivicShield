@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from "react";
 import styles from "./MyReport.module.css";
-import AllDeparts from "../../../../utilities/GetDeparts";
-import GetReports from "../../../../utilities/GetReports";
-import { getElapsedTime } from "../../../../utilities/Date_utilities";
-import ReportDetailView from "../../../../components/report_detail/ReportDetailView";
-import { incidentCategories } from "../../../../utilities/Data";
+import AllDeparts from "../../../../../utilities/GetDeparts";
+import GetReports from "../../../../../utilities/GetReports";
+import { getElapsedTime } from "../../../../../utilities/Date_utilities";
+import ReportDetailView from "../../../../../components/report_detail/ReportDetailView";
+import { incidentCategories } from "../../../../../utilities/Data";
 
 const MyReports = () => {
   const [filter, setFilter] = useState({

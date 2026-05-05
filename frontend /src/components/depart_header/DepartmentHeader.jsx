@@ -28,6 +28,7 @@ function DepartmentHeader() {
       <li>
         <NavLink
           to="/department/dashboard"
+          end
           className={({ isActive }) =>
             isActive ? styles.active : styles.navItem
           }

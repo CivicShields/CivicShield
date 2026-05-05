@@ -8,6 +8,7 @@ import Modal from "../modal/Modal";
 
 function Header() {
   const { user, logout } = useAuth();
+  console.log(user);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -25,12 +26,12 @@ function Header() {
   }, []);
 
   function handleLogin() {
-    logout();
+    navigate("/login");
+    closeMenu();
   }
 
   function handleLogout() {
-    navigate("/login");
-    closeMenu();
+    logout();
   }
 
   function handleReport() {
@@ -116,15 +117,19 @@ function Header() {
             {user && userIconElement(styles.navLinks, "Settings")}
           </div>
           <div className={styles.logoutItem}>
-            <button
-              onClick={() => {
-                setIsModalOpen(true);
-                closeMenu();
-              }}
-              className={styles.navItemLog}
-            >
-              <LogOut size={25} /> <span>Logout</span>
-            </button>
+            {!user ? (
+              ""
+            ) : (
+              <button
+                onClick={() => {
+                  setIsModalOpen(true);
+                  closeMenu();
+                }}
+                className={styles.navItemLog}
+              >
+                <LogOut size={25} /> <span>Logout</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -136,7 +141,9 @@ function Header() {
         <h2>
           Are you sure you want <br /> to log out
         </h2>
-        <p>Log out of Kwanganje Incident Reporter as {user.email}</p>
+        <p>
+          Log out of Kwanganje Incident Reporter as {!user ? "" : user.email}
+        </p>
       </Modal>
     </>
   );

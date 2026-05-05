@@ -31,9 +31,14 @@
   color: #92400e;
 }
 
-.statusPill.assigned {
+.statusPill.inprogress {
   background: #dbeafe;
   color: #1e40af;
+}
+
+.statusPill.resolved {
+  background: #7fa48d;
+  color: #1fa06e;
 }
 
 .tableContainer {

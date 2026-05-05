@@ -1,33 +1,21 @@
 import { useState } from "react";
 import styles from "./AllIncidents.module.css";
+import GetDepartReports from "../../../utilities/getDepartReports";
+import ReportDetailView from "../../../components/report_detail/ReportDetailView";
 
 function AllIncidents() {
-  const [incidents] = useState([
-    {
-      id: "INC-001",
-      title: "Water Leak",
-      priority: "High",
-      status: "Pending",
-      time: "10 mins ago",
-      location: "CBD",
-    },
-    {
-      id: "INC-002",
-      title: "Trash Pile",
-      priority: "Low",
-      status: "Assigned",
-      time: "1 hour ago",
-      location: "East Side",
-    },
-    {
-      id: "INC-003",
-      title: "Power Spark",
-      priority: "Critical",
-      status: "Pending",
-      time: "2 mins ago",
-      location: "Industrial",
-    },
-  ]);
+  const departIncidents = GetDepartReports();
+  const [selectedReport, setSelectedReport] = useState(null);
+
+  if (selectedReport) {
+    return (
+      <ReportDetailView
+        report={selectedReport}
+        onBack={() => setSelectedReport(null)}
+        viewingAs="department"
+      />
+    );
+  }
   return (
     <div className={styles.contentFade}>
       <h2 className={styles.pageTitle}>All Incident Logs</h2>
@@ -43,12 +31,12 @@ function AllIncidents() {
             </tr>
           </thead>
           <tbody>
-            {incidents.map((i) => {
-              const sta = i.status.toLowerCase();
+            {departIncidents.map((i) => {
+              const sta = i.status.replaceAll(" ", "").toLowerCase();
               return (
-                <tr key={i.id}>
+                <tr key={i.report_id}>
                   <td className={styles.fontMono} data-label="ID">
-                    {i.id}
+                    {i.report_id}
                   </td>
                   <td data-label="Incident">{i.title}</td>
                   <td data-label="Location">{i.location}</td>
@@ -60,7 +48,12 @@ function AllIncidents() {
                     </span>
                   </td>
                   <td data-label="Action">
-                    <button className={styles.btnText}>View Details</button>
+                    <button
+                      className={styles.btnText}
+                      onClick={() => setSelectedReport(i)}
+                    >
+                      View Details
+                    </button>
                   </td>
                 </tr>
               );

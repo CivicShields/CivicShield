@@ -18,7 +18,6 @@ const MyReports = () => {
   const [selectedReport, setSelectedReport] = useState(null);
 
   const reports = GetReports();
-  console.log(reports);
 
   const processedReports = useMemo(() => {
     return reports
@@ -57,6 +56,7 @@ const MyReports = () => {
       <ReportDetailView
         report={selectedReport}
         onBack={() => setSelectedReport(null)}
+        viewingAs="reporter"
       />
     );
   }

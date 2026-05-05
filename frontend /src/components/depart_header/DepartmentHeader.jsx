@@ -69,7 +69,7 @@ function DepartmentHeader() {
           }
           onClick={closeSidebar}
         >
-          <Settings size={18} /> Dept. Settings
+          <Settings size={18} /> Dept. Info
         </NavLink>
       </li>
       <li className={styles.logoutItem}>

@@ -23,7 +23,13 @@ function DepartDashboard() {
     (i) => i.severity === "medium" || i.severity === "low",
   ).length;
 
-  const recentAdditions = departReports.slice(-3).toReversed();
+  const recentAdditions = departReports
+    .toSorted(
+      (a, b) =>
+        new Date(b.created_at.replace("-", ":")).getTime() -
+        new Date(a.created_at.replace("-", ":")).getTime(),
+    )
+    .slice(0, 5);
 
   const recents = recentAdditions ? (
     recentAdditions.map((r) => (
@@ -146,7 +152,7 @@ function DepartDashboard() {
             </div>
             <hr className={styles.divider} />
             <p className={[styles.textMuted, styles.small].join(" ")}>
-              Short info on the department
+              Info on the department
             </p>
           </div>
         </div>

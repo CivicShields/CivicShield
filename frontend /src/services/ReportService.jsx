@@ -1,4 +1,3 @@
-// Import the array of user objects directly
 import reportData from "../mock_data/reports.json" with { type: "json" };
 
 export function getReportsRequest(userID) {
@@ -36,7 +35,7 @@ export function addReportRequest(
       const newReport = {
         report_id: Date.now().toString(),
         category: category,
-        severity: "critical",
+        severity: "medium",
         description: descr,
         assignedDepartment: assignedDepart,
         status: "Pending",

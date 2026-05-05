@@ -10,7 +10,8 @@
     "doc": "",
     "location": "Main Street & 5th Avenue",
     "created_by": "u1",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r2",
@@ -23,7 +24,8 @@
     "doc": "",
     "location": "Warehouse District, Elm Street",
     "created_by": "u2",
-    "assignedDepartment": "police"
+    "assignedDepartment": "police",
+    "team": ""
   },
   {
     "report_id": "r3",
@@ -36,7 +38,8 @@
     "doc": "pothole_photo.jpg",
     "location": "Oak Avenue, near the park entrance",
     "created_by": "u1",
-    "assignedDepartment": "transport"
+    "assignedDepartment": "transport",
+    "team": ""
   },
   {
     "report_id": "r4",
@@ -49,7 +52,8 @@
     "doc": "",
     "location": "Central Park, Playground Area",
     "created_by": "u2",
-    "assignedDepartment": "health"
+    "assignedDepartment": "health",
+    "team": ""
   },
   {
     "report_id": "r5",
@@ -62,7 +66,8 @@
     "doc": "smoke_image.png",
     "location": "Old Factory, Industrial Lane",
     "created_by": "u1",
-    "assignedDepartment": "fire"
+    "assignedDepartment": "fire",
+    "team": ""
   },
   {
     "report_id": "r6",
@@ -75,7 +80,8 @@
     "doc": "",
     "location": "Riverbank, behind the old mill",
     "created_by": "u2",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r7",
@@ -88,7 +94,8 @@
     "doc": "",
     "location": "Cedar Road, near Junction 4",
     "created_by": "u1",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r8",
@@ -101,7 +108,8 @@
     "doc": "graffiti_library.jpg",
     "location": "Central Public Library, Park Road",
     "created_by": "u2",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r9",
@@ -114,7 +122,8 @@
     "doc": "",
     "location": "QuickMart, Corner of 3rd & Birch",
     "created_by": "u1",
-    "assignedDepartment": "police"
+    "assignedDepartment": "police",
+    "team": ""
   },
   {
     "report_id": "r10",
@@ -127,7 +136,8 @@
     "doc": "",
     "location": "Maple Street Bus Stop, Stop #14",
     "created_by": "u2",
-    "assignedDepartment": "transport"
+    "assignedDepartment": "transport",
+    "team": ""
   },
   {
     "report_id": "r11",
@@ -140,7 +150,8 @@
     "doc": "water_main.jpg",
     "location": "Hill Street, between 2nd and 3rd Ave",
     "created_by": "u1",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r12",
@@ -153,7 +164,8 @@
     "doc": "",
     "location": "Waterfront Promenade, South End",
     "created_by": "u2",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r13",
@@ -166,7 +178,8 @@
     "doc": "",
     "location": "Brook Lane, in front of Greenview Primary School",
     "created_by": "u1",
-    "assignedDepartment": "police"
+    "assignedDepartment": "police",
+    "team": ""
   },
   {
     "report_id": "r14",
@@ -179,7 +192,8 @@
     "doc": "",
     "location": "Pine Close, Residential Block C",
     "created_by": "u2",
-    "assignedDepartment": "fire"
+    "assignedDepartment": "fire",
+    "team": ""
   },
   {
     "report_id": "r15",
@@ -192,7 +206,8 @@
     "doc": "dead_animals.jpg",
     "location": "North Riverbank, Crossing Bridge Area",
     "created_by": "u1",
-    "assignedDepartment": "health"
+    "assignedDepartment": "health",
+    "team": ""
   },
   {
     "report_id": "r16",
@@ -205,7 +220,8 @@
     "doc": "",
     "location": "King Road & Queen Street Intersection",
     "created_by": "u2",
-    "assignedDepartment": "transport"
+    "assignedDepartment": "transport",
+    "team": ""
   },
   {
     "report_id": "r17",
@@ -218,7 +234,8 @@
     "doc": "sewage_overflow.jpg",
     "location": "Station Road, outside the train station",
     "created_by": "u1",
-    "assignedDepartment": "health"
+    "assignedDepartment": "health",
+    "team": ""
   },
   {
     "report_id": "r18",
@@ -231,7 +248,8 @@
     "doc": "",
     "location": "East Side Industrial Complex, Factory Row",
     "created_by": "u2",
-    "assignedDepartment": "health"
+    "assignedDepartment": "health",
+    "team": ""
   },
   {
     "report_id": "r19",
@@ -244,7 +262,8 @@
     "doc": "pavement_collapse.jpg",
     "location": "West End Road, near the post office",
     "created_by": "u1",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r20",
@@ -270,7 +289,8 @@
     "doc": "",
     "location": "Rosewood Avenue, Pole #22",
     "created_by": "u1",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r22",
@@ -283,7 +303,8 @@
     "doc": "",
     "location": "Service Alley, behind Market Street",
     "created_by": "u2",
-    "assignedDepartment": "police"
+    "assignedDepartment": "police",
+    "team": ""
   },
   {
     "report_id": "r23",
@@ -296,7 +317,8 @@
     "doc": "",
     "location": "Downtown Construction Site, 7th Street",
     "created_by": "u1",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r24",
@@ -309,7 +331,8 @@
     "doc": "playground_damage.jpg",
     "location": "Riverside Park, Children's Play Area",
     "created_by": "u2",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r25",
@@ -322,7 +345,8 @@
     "doc": "",
     "location": "Hillside Primary School, Front Gate",
     "created_by": "u1",
-    "assignedDepartment": "health"
+    "assignedDepartment": "health",
+    "team": ""
   },
   {
     "report_id": "r26",
@@ -335,7 +359,8 @@
     "doc": "oil_spill.jpg",
     "location": "Highway On-Ramp, Junction 7 North",
     "created_by": "u2",
-    "assignedDepartment": "transport"
+    "assignedDepartment": "transport",
+    "team": ""
   },
   {
     "report_id": "r27",
@@ -348,7 +373,8 @@
     "doc": "fire_apartment.jpg",
     "location": "Sunset Apartments, Block B, Lakeview Drive",
     "created_by": "u1",
-    "assignedDepartment": "fire"
+    "assignedDepartment": "fire",
+    "team": ""
   },
   {
     "report_id": "r28",
@@ -361,7 +387,8 @@
     "doc": "",
     "location": "Lower Bridge Street, near Drainage Point 9",
     "created_by": "u2",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   },
   {
     "report_id": "r29",
@@ -374,7 +401,8 @@
     "doc": "",
     "location": "The Golden Fork Restaurant, High Street",
     "created_by": "u1",
-    "assignedDepartment": "health"
+    "assignedDepartment": "health",
+    "team": ""
   },
   {
     "report_id": "r30",
@@ -387,6 +415,7 @@
     "doc": "construction_dump.jpg",
     "location": "Green Valley Nature Reserve, Car Park A",
     "created_by": "u2",
-    "assignedDepartment": "city_council"
+    "assignedDepartment": "city_council",
+    "team": ""
   }
 ]

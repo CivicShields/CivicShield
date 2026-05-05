@@ -32,3 +32,16 @@ export function getDepartReportsRequest(departName) {
     }, 500);
   });
 }
+
+export function changeReportStatusRequest(reportId, status) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const statusChange = reportData.find((r) => r.report_id === reportId);
+      if (statusChange) {
+        statusChange.status = status;
+      }
+
+      resolve({ statusChange });
+    }, 500);
+  });
+}

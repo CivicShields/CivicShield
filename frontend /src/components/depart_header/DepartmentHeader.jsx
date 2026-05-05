@@ -12,13 +12,15 @@ import {
 } from "lucide-react";
 import Modal from "../modal/Modal";
 import styles from "./DepartmentHeader.module.css";
+import { useAuth } from "../../contexts/AuthContext";
 
 function DepartmentHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // mobile toggle
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    console.log("Logged out");
+    logout();
   };
 
   const closeSidebar = () => setSidebarOpen(false);
@@ -27,7 +29,7 @@ function DepartmentHeader() {
     <ul className={styles.navList}>
       <li>
         <NavLink
-          to="/department/dashboard"
+          to="/dept/dashboard"
           end
           className={({ isActive }) =>
             isActive ? styles.active : styles.navItem
@@ -39,7 +41,7 @@ function DepartmentHeader() {
       </li>
       <li>
         <NavLink
-          to="/department/queue"
+          to="/dept/queue"
           className={({ isActive }) =>
             isActive ? styles.active : styles.navItem
           }
@@ -50,7 +52,7 @@ function DepartmentHeader() {
       </li>
       <li>
         <NavLink
-          to="/department/allIncidents"
+          to="/dept/allIncidents"
           className={({ isActive }) =>
             isActive ? styles.active : styles.navItem
           }
@@ -61,7 +63,7 @@ function DepartmentHeader() {
       </li>
       <li>
         <NavLink
-          to="/department/settings"
+          to="/dept/settings"
           className={({ isActive }) =>
             isActive ? styles.active : styles.navItem
           }

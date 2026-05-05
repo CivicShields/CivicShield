@@ -97,6 +97,9 @@ function LogIn() {
               Sign Up.
             </Link>
           </p>
+          <p>
+            <Link to="/">Back to landing page</Link>
+          </p>
         </div>
       </form>
     </main>

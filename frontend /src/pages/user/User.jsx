@@ -12,50 +12,20 @@ import Profile from "./settings/sub_setting_pages/profile_setting/Profile";
 import NotificationPage from "./settings/sub_setting_pages/notification_setting/NotificationPage";
 import SecurityPage from "./settings/sub_setting_pages/security_setting/SecurityPage";
 import MyReports from "./settings/sub_setting_pages/my_reports/MyReport";
-import { LogIn } from "lucide-react";
 
 function User() {
   return (
     <>
       <Routes>
-        <Route index element={<UserDashboard />} />
-        <Route path="/" element={<Landing />} />
         <Route path="/error" element={<NotFound />} />
-        <Route path="/login" element={<LogIn />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/about" element={<AboutContact />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <UserDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/report"
-          element={
-            <ProtectedRoute>
-              <IncidentReport />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/map"
-          element={
-            <ProtectedRoute>
-              <IncidentMap />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/*"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        >
+
+        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/report" element={<IncidentReport />} />
+        <Route path="/map" element={<IncidentMap />} />
+
+        <Route path="/settings/*" element={<Settings />}>
           <Route index element={<Profile />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notifications" element={<NotificationPage />} />

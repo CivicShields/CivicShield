@@ -5,6 +5,7 @@ import Landing from "./pages/landing/Landing";
 import LogIn from "./pages/login/LogIn";
 import SignUp from "./pages/sign_up/SignUp";
 import NotFound from "./pages/not_found/NotFound";
+import ProtectedRoute from "./components/protected_route/ProtectedRoute";
 
 function App() {
   return (
@@ -15,44 +16,24 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/error" element={<NotFound />} />
+
         <Route
-          path="/dashboard"
+          path="/*"
           element={
-            <ProtectedRoute>
-              <UserDashboard />
+            <ProtectedRoute allowedRoles={["normal"]}>
+              <User />
             </ProtectedRoute>
           }
         />
+
         <Route
-          path="/report"
+          path="/dept/*"
           element={
-            <ProtectedRoute>
-              <IncidentReport />
+            <ProtectedRoute allowedRoles={["department"]}>
+              <Department />
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/map"
-          element={
-            <ProtectedRoute>
-              <IncidentMap />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/*"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Profile />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="notifications" element={<NotificationPage />} />
-          <Route path="security" element={<SecurityPage />} />
-          <Route path="myreports" element={<MyReports />} />
-        </Route>
 
         <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>

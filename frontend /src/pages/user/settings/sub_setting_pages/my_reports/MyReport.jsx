@@ -118,41 +118,50 @@ const MyReports = () => {
 
       {/* Reports List */}
       <div className={styles.reportList}>
-        {processedReports.map((report) => (
-          <div
-            key={report.report_id}
-            className={styles.reportRowStyle}
-            onClick={() => setSelectedReport(report)} // Click anywhere on row to view
-            style={{ cursor: "pointer" }}
-          >
-            <div>
-              <div style={{ fontWeight: "600" }}>
-                {report.title} - {report.location}
+        {processedReports.length > 0 ? (
+          processedReports.map((report) => (
+            <div
+              key={report.report_id}
+              className={styles.reportRowStyle}
+              onClick={() => setSelectedReport(report)} // Click anywhere on row to view
+              style={{ cursor: "pointer" }}
+            >
+              <div>
+                <div style={{ fontWeight: "600" }}>
+                  {report.title} - {report.location}
+                </div>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "#6b7280",
+                    marginTop: "12px",
+                  }}
+                >
+                  {report.category} • Reported{" "}
+                  {getElapsedTime(report.created_at)}
+                </div>
               </div>
               <div
-                style={{
-                  fontSize: "13px",
-                  color: "#6b7280",
-                  marginTop: "12px",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: "15px" }}
               >
-                {report.category} • Reported {getElapsedTime(report.created_at)}
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "rgb(63, 201, 232)",
+                    textDecoration: "underline",
+                  }}
+                >
+                  View Details
+                </span>
+                <div style={getStatusStyle(report.status)}>{report.status}</div>
               </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "rgb(63, 201, 232)",
-                  textDecoration: "underline",
-                }}
-              >
-                View Details
-              </span>
-              <div style={getStatusStyle(report.status)}>{report.status}</div>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <center className={styles.noreport}>
+            <span>No reports made yet</span>
+          </center>
+        )}
       </div>
     </div>
   );

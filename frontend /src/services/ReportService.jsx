@@ -11,7 +11,7 @@ export function getReportsRequest(userID) {
         }
       });
       if (!reports) {
-        reject({ message: "User not found" });
+        reject({ message: "Reports not found" });
       } else {
         resolve({ reports: reports || [] });
       }

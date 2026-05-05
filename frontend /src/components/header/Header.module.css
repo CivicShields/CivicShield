@@ -70,6 +70,33 @@ header {
   align-items: center;
 }
 
+.navItemLog {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.1s,
+    color 0.1s;
+  background: transparent;
+  color: white;
+  margin-left: 98px;
+}
+
+.logoutItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .navLinks a {
   color: white;
   font-weight: 600;

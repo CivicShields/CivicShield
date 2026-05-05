@@ -93,9 +93,60 @@
     margin-bottom: 1rem;
   }
 
-  .rawTable th,
+  .rawTable thead {
+    display: none;
+  }
+
+  .rawTable tr {
+    display: block;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
   .rawTable td {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+    text-align: right;
+  }
+
+  .rawTable td:last-child {
+    border-bottom: none;
+  }
+
+  .rawTable td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-align: left;
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+
+  .rawTable td span.statusPill {
+    margin-left: auto;
+  }
+
+  .rawTable td .btnText {
+    margin-left: auto;
+  }
+
+  .rawTable {
+    min-width: unset;
+  }
+
+  .tableContainer {
+    overflow: visible;
+    border: none;
+    background: transparent;
   }
 }

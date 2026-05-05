@@ -47,17 +47,19 @@ function AllIncidents() {
               const sta = i.status.toLowerCase();
               return (
                 <tr key={i.id}>
-                  <td className={styles.fontMono}>{i.id}</td>
-                  <td>{i.title}</td>
-                  <td>{i.location}</td>
-                  <td>
+                  <td className={styles.fontMono} data-label="ID">
+                    {i.id}
+                  </td>
+                  <td data-label="Incident">{i.title}</td>
+                  <td data-label="Location">{i.location}</td>
+                  <td data-label="Status">
                     <span
                       className={[styles.statusPill, styles[sta]].join(" ")}
                     >
                       {i.status}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="Action">
                     <button className={styles.btnText}>View Details</button>
                   </td>
                 </tr>

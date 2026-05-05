@@ -97,11 +97,17 @@ function IncidentReport() {
                 required
               >
                 <option value="">Select a Category</option>
-                {incidentCategories.map((item) => (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
+                {incidentCategories.map((item) => {
+                  if (item.value === "All") {
+                    return;
+                  } else {
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    );
+                  }
+                })}
               </select>
             </div>
             <div className={styles.userDetails}>

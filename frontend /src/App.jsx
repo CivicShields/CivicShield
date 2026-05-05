@@ -6,6 +6,7 @@ import LogIn from "./pages/login/LogIn";
 import SignUp from "./pages/sign_up/SignUp";
 import NotFound from "./pages/not_found/NotFound";
 import ProtectedRoute from "./components/protected_route/ProtectedRoute";
+import AboutContact from "./pages/help_about/AboutContact";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/error" element={<NotFound />} />
+        <Route path="/about" element={<AboutContact />} />
 
         <Route
           path="/*"

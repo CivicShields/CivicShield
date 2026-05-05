@@ -18,18 +18,24 @@ const MyReports = () => {
   const [selectedReport, setSelectedReport] = useState(null);
 
   const reports = GetReports();
+  console.log(reports);
 
   const processedReports = useMemo(() => {
     return reports
       .filter((r) => filter.status === "All" || r.status === filter.status)
       .filter(
         (r) =>
-          filter.department === "All" || r.department === filter.department,
+          filter.department === "All" ||
+          r.assignedDepartment === filter.department,
       )
       .filter((r) => filter.type === "All" || r.category === filter.type)
       .sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
+        const dateA = new Date(
+          a.created_at.replace(/(\d{2})-(\d{2})/, "$1:$2"),
+        );
+        const dateB = new Date(
+          b.created_at.replace(/(\d{2})-(\d{2})/, "$1:$2"),
+        );
         return filter.sortTime === "latest" ? dateB - dateA : dateA - dateB;
       });
   }, [filter, reports]);

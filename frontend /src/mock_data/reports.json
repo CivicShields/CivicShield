@@ -1,0 +1,80 @@
+[
+  {
+    "report_id": "r1",
+    "title": "Broken streetlight",
+    "category": "infrastructure",
+    "severity": "medium",
+    "description": "The light at Main & 5th has been out for a week.",
+    "status": "Pending",
+    "created_at": "May 01, 2026, 10-30 AM",
+    "doc": "",
+    "location": "Main Street & 5th Avenue",
+    "created_by": "u1",
+    "assignedDepartment": "city_council"
+  },
+  {
+    "report_id": "r2",
+    "title": "Suspicious activity",
+    "category": "crime",
+    "severity": "high",
+    "description": "People loitering behind the warehouse at night.",
+    "status": "In Progress",
+    "created_at": "May 02, 2026, 02-15 PM",
+    "doc": "",
+    "location": "Warehouse District, Elm Street",
+    "created_by": "u2",
+    "assignedDepartment": "police"
+  },
+  {
+    "report_id": "r3",
+    "title": "Dangerous pothole",
+    "category": "transport",
+    "severity": "high",
+    "description": "Large pothole on Oak Avenue causing flat tires.",
+    "status": "Resolved",
+    "created_at": "May 03, 2026, 09-00 AM",
+    "doc": "pothole_photo.jpg",
+    "location": "Oak Avenue, near the park entrance",
+    "created_by": "u1",
+    "assignedDepartment": "transport"
+  },
+  {
+    "report_id": "r4",
+    "title": "Rat infestation in park",
+    "category": "health",
+    "severity": "medium",
+    "description": "Multiple rat sightings near children's playground.",
+    "status": "Pending",
+    "created_at": "May 04, 2026, 07-20 AM",
+    "doc": "",
+    "location": "Central Park, Playground Area",
+    "created_by": "u2",
+    "assignedDepartment": "health"
+  },
+  {
+    "report_id": "r5",
+    "title": "Smoke from building",
+    "category": "fire",
+    "severity": "critical",
+    "description": "Light smoke seen on the roof of the old factory.",
+    "status": "In Progress",
+    "created_at": "May 04, 2026, 04-45 PM",
+    "doc": "smoke_image.png",
+    "location": "Old Factory, Industrial Lane",
+    "created_by": "u1",
+    "assignedDepartment": "fire"
+  },
+  {
+    "report_id": "r6",
+    "title": "Illegal dumping",
+    "category": "environment",
+    "severity": "low",
+    "description": "Someone dumped tyres and paint cans by the river.",
+    "status": "Pending",
+    "created_at": "May 05, 2026, 08-00 AM",
+    "doc": "",
+    "location": "Riverbank, behind the old mill",
+    "created_by": "u2",
+    "assignedDepartment": "city_council"
+  }
+]

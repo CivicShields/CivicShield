@@ -196,6 +196,7 @@
 @media (max-width: 768px) {
   .container {
     padding: 6rem 1rem;
+    padding-top: 75px;
   }
 
   .contactWrapper {
@@ -216,6 +217,7 @@
 @media (max-width: 480px) {
   .container {
     padding: 1.5rem 0.75rem;
+    padding-top: 75px;
   }
 
   .sectionHeader h1 {

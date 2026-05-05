@@ -9,21 +9,30 @@ export function ReportProvider({ children }) {
 
   const fetchReports = useCallback(async () => {
     if (!user) throw new Error("No user is logged in");
-    const { reports } = await getReportsRequest(user.email);
+    const { reports } = await getReportsRequest(user.id);
     return reports;
   }, [user]);
 
   const addReport = useCallback(
-    async (category, depart, rpdate, incTitle, location, descr, doc) => {
+    async (
+      category,
+      assignedDepart,
+      rpdate,
+      incTitle,
+      location,
+      descr,
+      doc,
+    ) => {
       await addReportRequest(
         user.email,
         category,
-        depart,
+        assignedDepart,
         rpdate,
         incTitle,
         location,
         descr,
         doc,
+        user.id,
       );
     },
     [user],

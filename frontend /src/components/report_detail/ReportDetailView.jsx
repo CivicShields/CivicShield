@@ -17,8 +17,8 @@ function ReportDetailView({ report, onBack }) {
         me,
       });
       const other = new Talk.User({
-        id: report.department,
-        name: `${report.department} Dept`,
+        id: report.assignedDepartment,
+        name: `${report.assignedDepartment} Dept`,
       });
 
       const conversation = session.getOrCreateConversation(
@@ -73,7 +73,7 @@ function ReportDetailView({ report, onBack }) {
             <h4>Metadata</h4>
             <ul style={{ fontSize: "14px", listStyle: "none", padding: 0 }}>
               <li>
-                <strong>Reported To:</strong> {report.department}
+                <strong>Reported To:</strong> {report.assignedDepartment}
               </li>
               <li>
                 <strong>Created At:</strong> {report.created_at}
@@ -88,7 +88,7 @@ function ReportDetailView({ report, onBack }) {
         {/* Right Side: Chat Integration */}
         <aside className={styles.chatSection}>
           <h4 style={{ marginBottom: "16px" }}>
-            Chat with {report.department}
+            Chat with {report.assignedDepartment}
           </h4>
           <div
             ref={chatContainerRef}

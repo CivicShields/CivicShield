@@ -1,14 +1,19 @@
 // Import the array of user objects directly
-import users from "../mock_data/user.json" with { type: "json" };
+import reportData from "../mock_data/reports.json" with { type: "json" };
 
-export function getReportsRequest(email) {
+export function getReportsRequest(userID) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user = users.find((u) => u.email === email);
-      if (!user) {
+      const reports = [];
+      reportData.forEach((r) => {
+        if (r.created_by === userID) {
+          reports.push(r);
+        }
+      });
+      if (!reports) {
         reject({ message: "User not found" });
       } else {
-        resolve({ reports: user.reports || [] });
+        resolve({ reports: reports || [] });
       }
     }, 500);
   });
@@ -17,35 +22,32 @@ export function getReportsRequest(email) {
 export function addReportRequest(
   email,
   category,
-  depart,
+  assignedDepart,
   rpdate,
   incTitle,
   location,
   descr,
   doc,
+  creator,
 ) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      const user = users.find((u) => u.email === email);
-      if (!user) {
-        reject({ message: "User not found" });
-      } else {
-        // if (!user.reports) user.reports = [];
-        const newReport = {
-          report_id: Date.now().toString(),
-          category: category,
-          severity: "Urgent",
-          description: descr,
-          department: depart,
-          status: "Pending",
-          created_at: rpdate,
-          doc: doc,
-          location: location,
-          title: incTitle,
-        };
-        user.reports.push(newReport);
-        resolve({ report: newReport });
-      }
+      // if (!user.reports) user.reports = [];
+      const newReport = {
+        report_id: Date.now().toString(),
+        category: category,
+        severity: "Urgent",
+        description: descr,
+        assignedDepartment: assignedDepart,
+        status: "Pending",
+        created_at: rpdate,
+        doc: doc,
+        location: location,
+        title: incTitle,
+        created_by: creator,
+      };
+      reportData.push(newReport);
+      resolve({ report: newReport });
     }, 600);
   });
 }

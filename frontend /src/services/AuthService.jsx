@@ -1,4 +1,4 @@
-import users from "../mock_data/user.json" with { type: "json" };
+import users from "../mock_data/users.json" with { type: "json" };
 
 export function loginRequest(email, password) {
   return new Promise((resolve, reject) => {
@@ -58,6 +58,7 @@ export function registerRequest(email, password, name, number = "") {
           name,
           password,
           number,
+          role: "normal",
         };
         users.push(newUser); // mutates the array
         const { password: _, ...safeUser } = newUser;

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "John Doe",
-    "role": "normal_user",
+    "role": "normal",
     "email": "john.doe@example.com",
     "password": "TestPass123!",
     "phone": "+265991234567",
@@ -13,6 +13,9 @@
         "severity": "High",
         "title": "Fire outbreak near Oak Avenue.",
         "department": "Fire Department",
+        "description": "A big fire has erupted near oak avenue",
+        "location": "Oak Avenue",
+        "doc": "/incidentback.jpeg",
         "status": "In Progress",
         "created_at": "May 05, 2026, 02-20 PM"
       }
@@ -368,5 +371,13 @@
         "created_at": "May 01, 2026, 10:15 PM"
       }
     ]
+  },
+  {
+    "id": 18,
+    "name": "Michael Phiri",
+    "role": "department",
+    "email": "department@example.com",
+    "password": "TestPass123!",
+    "phone": ""
   }
 ]

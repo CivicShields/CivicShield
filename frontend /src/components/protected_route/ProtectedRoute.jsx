@@ -4,13 +4,19 @@ import { Navigate, useLocation } from "react-router-dom";
 // function responsible for restricting routes and allowing only authenticated users to use those routes
 // else redirecting them to the login page
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const { user } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  if (!user) {
     // Pass the current path to the login page state
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    const redirectTo =
+      user.role === "department" ? "/dept/dashboard" : "/dashboard";
+    return <Navigate to={redirectTo} replace />;
   }
 
   return children;

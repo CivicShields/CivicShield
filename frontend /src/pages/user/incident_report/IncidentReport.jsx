@@ -1,13 +1,14 @@
-import Button from "../../components/button/Button";
+import Button from "../../../components/button/Button.jsx";
 import styles from "./IncidentReport.module.css";
-import { time, date } from "../../utilities/Date_utilities";
+import { time, date } from "../../../utilities/Date_utilities.js";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import FileDropZone from "../../components/filedropzone/FileDropZone";
-import AllDeparts from "../../utilities/GetDeparts.js";
-import { useReport } from "../../contexts/ReportContext.jsx";
+import Header from "../../../components/header/Header.jsx";
+import Footer from "../../../components/footer/Footer.jsx";
+import FileDropZone from "../../../components/filedropzone/FileDropZone.jsx";
+import AllDeparts from "../../../utilities/GetDeparts.js";
+import { useReport } from "../../../contexts/ReportContext.jsx";
+import { incidentCategories } from "../../../utilities/Data.js";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
@@ -89,15 +90,19 @@ function IncidentReport() {
               <p>
                 Report category <span style={{ color: "red" }}>*</span>
               </p>
-              <input
-                type="text"
+              <select
                 name="category"
-                placeholder="Enter category"
                 value={form.category}
                 onChange={handleChange}
                 required
-                autoFocus
-              />
+              >
+                <option value="">Select a Category</option>
+                {incidentCategories.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className={styles.userDetails}>
               <p>Department</p>

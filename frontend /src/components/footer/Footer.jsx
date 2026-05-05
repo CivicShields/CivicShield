@@ -25,8 +25,8 @@ function Footer() {
         </div>
         <div className={styles.names}>
           <p>Resources</p>
-          <Link to="/help">Help & Support</Link>
-          <Link to="/contact">Contact Us</Link>
+          <Link to="/about">Help & Support</Link>
+          <Link to="/about">Contact Us</Link>
           <a href="#top">Back to top</a>
         </div>
       </div>

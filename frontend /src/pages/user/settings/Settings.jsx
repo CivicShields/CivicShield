@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   UserCircle,
@@ -14,8 +14,8 @@ import Profile from "./sub_setting_pages/profile_setting/Profile";
 import NotificationPage from "./sub_setting_pages/notification_setting/NotificationPage";
 import MyReport from "./sub_setting_pages/my_reports/MyReport";
 import SecurityPage from "./sub_setting_pages/security_setting/SecurityPage";
-import Header from "../../components/header/Header";
-import Modal from "../../components/modal/Modal";
+import Header from "../../../components/header/Header";
+import Modal from "../../../components/modal/Modal";
 
 function Settings() {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,19 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import ProtectedRoute from "./components/protected_route/ProtectedRoute";
+import Department from "./pages/Department/Department";
+import User from "./pages/user/User";
 import Landing from "./pages/landing/Landing";
-import ReportIncident from "./pages/incident_report/IncidentReport";
 import LogIn from "./pages/login/LogIn";
 import SignUp from "./pages/sign_up/SignUp";
-import Footer from "./components/footer/Footer";
-import IncidentMap from "./IncidentMap";
-import Settings from "./pages/settings/Settings";
-import UserDashboard from "./pages/dashboards/user_dashboard/UserDashboard";
-import NotificationPage from "./pages/settings/sub_setting_pages/notification_setting/NotificationPage";
-import Profile from "./pages/settings/sub_setting_pages/profile_setting/Profile";
-import MyReport from "./pages/settings/sub_setting_pages/my_reports/MyReport";
 import NotFound from "./pages/not_found/NotFound";
-import SecurityPage from "./pages/settings/sub_setting_pages/security_setting/SecurityPage";
-import Policy from "./pages/policy/Policy";
+import ProtectedRoute from "./components/protected_route/ProtectedRoute";
 
 function App() {
   return (
@@ -24,45 +16,25 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/error" element={<NotFound />} />
-        <Route path="/policy" element={<Policy />} />
+
         <Route
-          path="/dashboard"
+          path="/*"
           element={
-            <ProtectedRoute>
-              <UserDashboard />
+            <ProtectedRoute allowedRoles={["normal"]}>
+              <User />
             </ProtectedRoute>
           }
         />
+
         <Route
-          path="/report"
+          path="/dept/*"
           element={
-            <ProtectedRoute>
-              <ReportIncident />
+            <ProtectedRoute allowedRoles={["department"]}>
+              <Department />
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/map"
-          element={
-            <ProtectedRoute>
-              <IncidentMap />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/*"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Profile />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="notifications" element={<NotificationPage />} />
-          <Route path="security" element={<SecurityPage />} />
-          <Route path="myreports" element={<MyReport />} />
-        </Route>
+
         <Route path="*" element={<Navigate to="/error" replace />} />
       </Routes>
     </>

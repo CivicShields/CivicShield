@@ -6,9 +6,6 @@
   --text-muted: #64748b;
   --border: #e2e8f0;
   --white: #ffffff;
-  --red: #ef4444;
-  --green: #10b981;
-  --amber: #f59e0b;
 }
 
 /* Page heading */
@@ -80,15 +77,19 @@
 }
 
 .priorityTag.high {
-  background: var(--amber);
+  background: #dc2626;
 }
 
 .priorityTag.critical {
-  background: var(--red);
+  background: #4c0519;
 }
 
 .priorityTag.low {
-  background: var(--text-muted);
+  background: #10b981;
+}
+
+.priorityTag.medium {
+  background: #f59e0b;
 }
 
 .incidentId {

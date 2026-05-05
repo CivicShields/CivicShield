@@ -8,7 +8,6 @@ import Modal from "../modal/Modal";
 
 function Header() {
   const { user, logout } = useAuth();
-  console.log(user);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

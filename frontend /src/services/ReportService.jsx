@@ -36,7 +36,7 @@ export function addReportRequest(
       const newReport = {
         report_id: Date.now().toString(),
         category: category,
-        severity: "Urgent",
+        severity: "critical",
         description: descr,
         assignedDepartment: assignedDepart,
         status: "Pending",

@@ -1,34 +1,10 @@
 import styles from "./IncidentQueue.module.css";
-import { useState } from "react";
 import { MapPin, Clock, ArrowRight } from "lucide-react";
+import GetDepartReports from "../../../utilities/getDepartReports";
 
 function IncidentQueue() {
-  const [incidents] = useState([
-    {
-      id: "INC-001",
-      title: "Water Leak",
-      priority: "High",
-      status: "Pending",
-      time: "10 mins ago",
-      location: "CBD",
-    },
-    {
-      id: "INC-002",
-      title: "Trash Pile",
-      priority: "Low",
-      status: "Assigned",
-      time: "1 hour ago",
-      location: "East Side",
-    },
-    {
-      id: "INC-003",
-      title: "Power Spark",
-      priority: "Critical",
-      status: "Pending",
-      time: "2 mins ago",
-      location: "Industrial",
-    },
-  ]);
+  const incidents = GetDepartReports();
+
   return (
     <div className={styles.contentFade}>
       <h2 className={styles.pageTitle}>Active Queue</h2>
@@ -36,18 +12,21 @@ function IncidentQueue() {
         {incidents
           .filter((i) => i.status === "Pending")
           .map((incident) => {
-            const priorityVal = incident.priority.toLowerCase();
+            const priorityVal = incident.severity;
+            console.log(priorityVal);
             return (
-              <div key={incident.id} className={styles.incidentCard}>
+              <div key={incident.report_id} className={styles.incidentCard}>
                 <div className={styles.incidentHeader}>
                   <span
                     className={[styles.priorityTag, styles[priorityVal]].join(
                       " ",
                     )}
                   >
-                    {incident.priority}
+                    {incident.severity}
                   </span>
-                  <span className={styles.incidentId}>{incident.id}</span>
+                  <span className={styles.incidentId}>
+                    {incident.report_id}
+                  </span>
                 </div>
                 <h4 className={styles.incidentTitle}>{incident.title}</h4>
                 <div className={styles.incidentMeta}>
@@ -55,7 +34,7 @@ function IncidentQueue() {
                     <MapPin size={14} /> {incident.location}
                   </span>
                   <span>
-                    <Clock size={14} /> {incident.time}
+                    <Clock size={14} /> {incident.created_at}
                   </span>
                 </div>
                 <button className={[styles.btnPrimary, styles.mt10].join(" ")}>

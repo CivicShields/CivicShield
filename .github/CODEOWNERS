@@ -6,8 +6,7 @@
 # Backend Microservices - Individual Owners
 /backend/auth-service/                  @Phirisoilx6
 /backend/incident-service/              @innocent1982
-/backend/department-notification-service    @glory4-cloud 
+/backend/department-service    @glory4-cloud 
+/backend/media-service                              @CivicShields/frontend-team
 
-# Backend General (For shared files or changes in the /backend root)
-/backend/                               @CivicShields/backend-developers
 

@@ -2,22 +2,17 @@ import Button from "../../../components/button/Button.jsx";
 import styles from "./IncidentReport.module.css";
 import { time, date } from "../../../utilities/Date_utilities.js";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../components/header/Header.jsx";
 import Footer from "../../../components/footer/Footer.jsx";
 import FileDropZone from "../../../components/filedropzone/FileDropZone.jsx";
-import AllDeparts from "../../../utilities/GetDeparts.js";
 import { useReport } from "../../../contexts/ReportContext.jsx";
 import { incidentCategories } from "../../../utilities/Data.js";
+import { useDepart } from "../../../contexts/DepartContext.jsx";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
-
-  function handleDescCount(e) {
-    setDescCount(e.target.value.length);
-    handleChange(e);
-  }
-
+  const { fetchDeparts } = useDepart();
   const { addReport } = useReport();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -31,6 +26,16 @@ function IncidentReport() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [departNames, setDepartNames] = useState();
+
+  useEffect(() => {
+    fetchDeparts().then(setDepartNames).catch(console.error);
+  }, [fetchDeparts]);
+
+  function handleDescCount(e) {
+    setDescCount(e.target.value.length);
+    handleChange(e);
+  }
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -63,11 +68,13 @@ function IncidentReport() {
     }
   };
 
+  if (!departNames) return <div>... isloading</div>;
+
   const Departments = [
     <option value="" key="default" disabled>
       Select a Department
     </option>,
-    ...AllDeparts().map((depart, index) => (
+    ...departNames.map((depart, index) => (
       <option value={depart} key={index}>
         {depart}
       </option>
@@ -97,11 +104,17 @@ function IncidentReport() {
                 required
               >
                 <option value="">Select a Category</option>
-                {incidentCategories.map((item) => (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
+                {incidentCategories.map((item) => {
+                  if (item.value === "All") {
+                    return;
+                  } else {
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    );
+                  }
+                })}
               </select>
             </div>
             <div className={styles.userDetails}>

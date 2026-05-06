@@ -17,7 +17,7 @@ import { useAuth } from "../../contexts/AuthContext";
 function DepartmentHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -69,7 +69,7 @@ function DepartmentHeader() {
           }
           onClick={closeSidebar}
         >
-          <Settings size={18} /> Dept. Settings
+          <Settings size={18} /> Dept. Info
         </NavLink>
       </li>
       <li className={styles.logoutItem}>
@@ -127,9 +127,7 @@ function DepartmentHeader() {
         <h2>
           Are you sure you want <br /> to log out
         </h2>
-        <p>
-          Log out of Kwanganje Incident Reporter as Department@department.com
-        </p>
+        <p>Log out of Kwanganje Incident Reporter as {user.email}</p>
       </Modal>
     </>
   );

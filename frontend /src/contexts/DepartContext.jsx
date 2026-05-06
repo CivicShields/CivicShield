@@ -1,10 +1,15 @@
-import { createContext, useContext, useCallback } from "react";
+import { createContext, useContext, useCallback, useState } from "react";
 import { useAuth } from "./AuthContext";
-import { getDepartmentNamesRequest } from "../services/DepartService";
+import {
+  changeReportStatusRequest,
+  getDepartmentNamesRequest,
+  getDepartReportsRequest,
+} from "../services/DepartService";
 
 const DepartContext = createContext(null);
 
 export function DepartProvider({ children }) {
+  const [departReports, setDepartReports] = useState([]);
   const { user } = useAuth();
 
   const fetchDeparts = useCallback(async () => {
@@ -13,8 +18,32 @@ export function DepartProvider({ children }) {
     return departs;
   }, [user]);
 
+  const fetchDepartReports = useCallback(async () => {
+    if (!user) throw new Error("No user is logged in");
+    const { reports: data } = await getDepartReportsRequest(user.department);
+    setDepartReports(data);
+    return data;
+  }, [user]);
+
+  const changeStatus = useCallback(
+    async (reportID, newStatus = "In Progress") => {
+      if (!user) throw new Error("No user logged in");
+      await changeReportStatusRequest(reportID, newStatus);
+      setDepartReports((prev) =>
+        prev.map((departReports) =>
+          departReports.report_id === reportID
+            ? { ...departReports, status: newStatus }
+            : departReports,
+        ),
+      );
+    },
+    [user],
+  );
+
   return (
-    <DepartContext.Provider value={{ fetchDeparts }}>
+    <DepartContext.Provider
+      value={{ departReports, changeStatus, fetchDeparts, fetchDepartReports }}
+    >
       {children}
     </DepartContext.Provider>
   );

@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback } from "react";
+import { createContext, useContext, useCallback, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { getReportsRequest, addReportRequest } from "../services/ReportService";
 
@@ -6,31 +6,42 @@ const ReportContext = createContext(null);
 
 export function ReportProvider({ children }) {
   const { user } = useAuth();
+  const [reports, setReports] = useState([]);
 
   const fetchReports = useCallback(async () => {
     if (!user) throw new Error("No user is logged in");
-    const { reports } = await getReportsRequest(user.email);
-    return reports;
+    const { reports: data } = await getReportsRequest(user.id);
+    setReports(data);
+    return data;
   }, [user]);
 
   const addReport = useCallback(
-    async (category, depart, rpdate, incTitle, location, descr, doc) => {
+    async (
+      category,
+      assignedDepart,
+      rpdate,
+      incTitle,
+      location,
+      descr,
+      doc,
+    ) => {
       await addReportRequest(
         user.email,
         category,
-        depart,
+        assignedDepart,
         rpdate,
         incTitle,
         location,
         descr,
         doc,
+        user.id,
       );
     },
     [user],
   );
 
   return (
-    <ReportContext.Provider value={{ fetchReports, addReport }}>
+    <ReportContext.Provider value={{ reports, fetchReports, addReport }}>
       {children}
     </ReportContext.Provider>
   );

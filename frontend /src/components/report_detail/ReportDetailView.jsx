@@ -2,28 +2,45 @@ import { useRef, useEffect } from "react";
 import Talk from "talkjs";
 import styles from "./ReportDetailView.module.css";
 
-function ReportDetailView({ report, onBack }) {
+// viewingAs should be either "student" or "department"
+function ReportDetailView({ report, onBack, viewingAs }) {
   const chatContainerRef = useRef();
 
   useEffect(() => {
+    let session;
+
     Talk.ready.then(() => {
-      const me = new Talk.User({
-        id: "user_student",
-        name: "Student Reporter",
-        role: "default",
-      });
-      const session = new Talk.Session({
+      const isDept = viewingAs === "department";
+      const reporterId = report.created_by;
+
+      const me = new Talk.User(
+        isDept
+          ? {
+              id: report.assignedDepartment,
+              name: `${report.assignedDepartment} Dept`,
+              role: "default",
+            }
+          : { id: reporterId, name: "Reporter", role: "default" },
+      );
+
+      const other = new Talk.User(
+        isDept
+          ? { id: reporterId, name: "Reporter", role: "default" }
+          : {
+              id: report.assignedDepartment,
+              name: `${report.assignedDepartment} Dept`,
+              role: "default",
+            },
+      );
+
+      session = new Talk.Session({
         appId: import.meta.env.VITE_APPID,
         me,
       });
-      const other = new Talk.User({
-        id: report.department,
-        name: `${report.department} Dept`,
-      });
 
-      const conversation = session.getOrCreateConversation(
-        `report_${report.report_id}`,
-      );
+      const conversationId = `report_${report.report_id}`;
+      const conversation = session.getOrCreateConversation(conversationId);
+
       conversation.setParticipant(me);
       conversation.setParticipant(other);
 
@@ -31,7 +48,13 @@ function ReportDetailView({ report, onBack }) {
       chatbox.select(conversation);
       chatbox.mount(chatContainerRef.current);
     });
-  }, [report]);
+
+    return () => {
+      if (session) {
+        session.destroy();
+      }
+    };
+  }, [report, viewingAs]);
 
   return (
     <div className={styles.reportsContainer}>
@@ -73,7 +96,7 @@ function ReportDetailView({ report, onBack }) {
             <h4>Metadata</h4>
             <ul style={{ fontSize: "14px", listStyle: "none", padding: 0 }}>
               <li>
-                <strong>Reported To:</strong> {report.department}
+                <strong>Reported To:</strong> {report.assignedDepartment}
               </li>
               <li>
                 <strong>Created At:</strong> {report.created_at}
@@ -88,7 +111,9 @@ function ReportDetailView({ report, onBack }) {
         {/* Right Side: Chat Integration */}
         <aside className={styles.chatSection}>
           <h4 style={{ marginBottom: "16px" }}>
-            Chat with {report.department}
+            {viewingAs === "department"
+              ? `Chatting with Student (Report #${report.report_id})`
+              : `Chat with ${report.assignedDepartment} Dept`}
           </h4>
           <div
             ref={chatContainerRef}
@@ -97,17 +122,10 @@ function ReportDetailView({ report, onBack }) {
               background: "#f3f4f6",
               borderRadius: "12px",
               border: "1px solid #e5e7eb",
+              overflow: "hidden",
             }}
           >
-            <p
-              style={{
-                textAlign: "center",
-                paddingTop: "50px",
-                color: "#6b7280",
-              }}
-            >
-              TalkJS Chat Interface will mount here
-            </p>
+            {/* The Chat UI mounts here */}
           </div>
         </aside>
       </div>

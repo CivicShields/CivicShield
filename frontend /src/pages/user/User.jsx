@@ -3,7 +3,6 @@ import UserDashboard from "./user_dashboard/UserDashboard";
 import Landing from "../landing/Landing";
 import NotFound from "../not_found/NotFound";
 import Policy from "../policy/Policy";
-import AboutContact from "../help_about/AboutContact";
 import ProtectedRoute from "../../components/protected_route/ProtectedRoute";
 import IncidentReport from "./incident_report/IncidentReport";
 import Settings from "./settings/Settings";
@@ -19,7 +18,6 @@ function User() {
       <Routes>
         <Route path="/error" element={<NotFound />} />
         <Route path="/policy" element={<Policy />} />
-        <Route path="/about" element={<AboutContact />} />
 
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/report" element={<IncidentReport />} />

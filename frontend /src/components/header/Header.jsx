@@ -3,13 +3,16 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Button from "../button/Button";
 import styles from "./Header.module.css";
+import { LogOut } from "lucide-react";
+import Modal from "../modal/Modal";
 
 function Header() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -24,6 +27,10 @@ function Header() {
   function handleLogin() {
     navigate("/login");
     closeMenu();
+  }
+
+  function handleLogout() {
+    logout();
   }
 
   function handleReport() {
@@ -108,8 +115,35 @@ function Header() {
             />
             {user && userIconElement(styles.navLinks, "Settings")}
           </div>
+          <div className={styles.logoutItem}>
+            {!user ? (
+              ""
+            ) : (
+              <button
+                onClick={() => {
+                  setIsModalOpen(true);
+                  closeMenu();
+                }}
+                className={styles.navItemLog}
+              >
+                <LogOut size={25} /> <span>Logout</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        action={handleLogout}
+      >
+        <h2>
+          Are you sure you want <br /> to log out
+        </h2>
+        <p>
+          Log out of Kwanganje Incident Reporter as {!user ? "" : user.email}
+        </p>
+      </Modal>
     </>
   );
 }

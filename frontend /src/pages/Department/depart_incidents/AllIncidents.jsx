@@ -1,33 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AllIncidents.module.css";
+import ReportDetailView from "../../../components/report_detail/ReportDetailView";
+import { useDepart } from "../../../contexts/DepartContext";
 
 function AllIncidents() {
-  const [incidents] = useState([
-    {
-      id: "INC-001",
-      title: "Water Leak",
-      priority: "High",
-      status: "Pending",
-      time: "10 mins ago",
-      location: "CBD",
-    },
-    {
-      id: "INC-002",
-      title: "Trash Pile",
-      priority: "Low",
-      status: "Assigned",
-      time: "1 hour ago",
-      location: "East Side",
-    },
-    {
-      id: "INC-003",
-      title: "Power Spark",
-      priority: "Critical",
-      status: "Pending",
-      time: "2 mins ago",
-      location: "Industrial",
-    },
-  ]);
+  const { fetchDepartReports, departReports } = useDepart();
+  const [selectedReport, setSelectedReport] = useState(null);
+
+  useEffect(() => {
+    fetchDepartReports();
+  }, [fetchDepartReports]);
+
+  if (!departReports) return <div> ... loading </div>;
+
+  const departIncidents = departReports;
+  if (selectedReport) {
+    return (
+      <ReportDetailView
+        report={selectedReport}
+        onBack={() => setSelectedReport(null)}
+        viewingAs="department"
+      />
+    );
+  }
   return (
     <div className={styles.contentFade}>
       <h2 className={styles.pageTitle}>All Incident Logs</h2>
@@ -43,22 +38,29 @@ function AllIncidents() {
             </tr>
           </thead>
           <tbody>
-            {incidents.map((i) => {
-              const sta = i.status.toLowerCase();
+            {departIncidents?.map((i) => {
+              const sta = i.status.replaceAll(" ", "").toLowerCase();
               return (
-                <tr key={i.id}>
-                  <td className={styles.fontMono}>{i.id}</td>
-                  <td>{i.title}</td>
-                  <td>{i.location}</td>
-                  <td>
+                <tr key={i.report_id}>
+                  <td className={styles.fontMono} data-label="ID">
+                    {i.report_id}
+                  </td>
+                  <td data-label="Incident">{i.title}</td>
+                  <td data-label="Location">{i.location}</td>
+                  <td data-label="Status">
                     <span
                       className={[styles.statusPill, styles[sta]].join(" ")}
                     >
                       {i.status}
                     </span>
                   </td>
-                  <td>
-                    <button className={styles.btnText}>View Details</button>
+                  <td data-label="Action">
+                    <button
+                      className={styles.btnText}
+                      onClick={() => setSelectedReport(i)}
+                    >
+                      View Details
+                    </button>
                   </td>
                 </tr>
               );

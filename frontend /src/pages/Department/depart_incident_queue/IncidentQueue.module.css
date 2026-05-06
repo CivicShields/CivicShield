@@ -6,9 +6,100 @@
   --text-muted: #64748b;
   --border: #e2e8f0;
   --white: #ffffff;
-  --red: #ef4444;
-  --green: #10b981;
-  --amber: #f59e0b;
+
+  --overlay: rgba(15, 23, 42, 0.7);
+}
+
+.textMuted {
+  color: #64748b;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+  border: none;
+  background: none;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.teamOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.teamOption:hover {
+  border-color: var(--primary);
+  background: #f0f7ff;
+}
+
+.teamOption h5 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.teamOption p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  background: white;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+
+.small {
+  font-size: 0.75rem;
 }
 
 /* Page heading */
@@ -22,6 +113,10 @@
 /* Utility */
 .mt10 {
   margin-top: 10px;
+}
+
+.italic {
+  font-style: italic;
 }
 
 /* Primary button */
@@ -80,15 +175,19 @@
 }
 
 .priorityTag.high {
-  background: var(--amber);
+  background: #dc2626;
 }
 
 .priorityTag.critical {
-  background: var(--red);
+  background: #4c0519;
 }
 
 .priorityTag.low {
-  background: var(--text-muted);
+  background: #10b981;
+}
+
+.priorityTag.medium {
+  background: #f59e0b;
 }
 
 .incidentId {

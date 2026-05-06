@@ -8,7 +8,6 @@
   box-sizing: border-box;
 }
 
-/* FILTER BAR  */
 .filterBarSection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -20,7 +19,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Label above each select */
 .labelStyle {
   display: block;
   font-size: 1rem;
@@ -29,7 +27,6 @@
   margin-bottom: 0.25rem;
 }
 
-/* Select dropdown */
 .selectStyle {
   width: 100%;
   padding: 0.6rem 0.75rem;
@@ -47,8 +44,17 @@
   border-color: rgba(18, 23, 91, 0.87);
 }
 
-/* REPORT LIST  */
-/* Report row */
+.noreport {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  color: #555;
+  text-align: center;
+  flex-shrink: 0;
+  cursor: default;
+}
+
 .reportRowStyle {
   display: flex;
   justify-content: space-between;
@@ -72,7 +78,6 @@
   min-width: 0;
 }
 
-/* Title */
 .reportRowStyle > div:first-child > div:first-child {
   font-weight: 600;
   font-size: 1rem;
@@ -80,7 +85,6 @@
   word-break: break-word;
 }
 
-/* Meta line (category, time) */
 .reportRowStyle > div:first-child > div:last-child {
   font-size: 0.825rem;
   color: #6b7280;
@@ -95,7 +99,6 @@
   flex-shrink: 0;
 }
 
-/* "View Details" link style */
 .reportRowStyle > div:last-child span:first-child {
   font-size: 0.8rem;
   color: rgb(63, 201, 232);

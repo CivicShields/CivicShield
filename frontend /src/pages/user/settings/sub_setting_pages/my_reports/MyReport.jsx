@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styles from "./MyReport.module.css";
-import AllDeparts from "../../../../../utilities/GetDeparts";
-import GetReports from "../../../../../utilities/GetReports";
 import { getElapsedTime } from "../../../../../utilities/Date_utilities";
 import ReportDetailView from "../../../../../components/report_detail/ReportDetailView";
 import { incidentCategories } from "../../../../../utilities/Data";
+import { useDepart } from "../../../../../contexts/DepartContext";
+import { useReport } from "../../../../../contexts/ReportContext";
 
 const MyReports = () => {
   const [filter, setFilter] = useState({
@@ -14,27 +14,39 @@ const MyReports = () => {
     sortTime: "latest",
   });
 
-  // State to track which report is currently being viewed in detail
   const [selectedReport, setSelectedReport] = useState(null);
+  const [allDeparts, setAllDeparts] = useState();
+  const { fetchDeparts } = useDepart();
+  const { reports, fetchReports } = useReport();
 
-  const reports = GetReports();
+  useEffect(() => {
+    fetchDeparts().then(setAllDeparts).catch(console.error);
+    fetchReports();
+  }, [fetchDeparts, fetchReports]);
 
   const processedReports = useMemo(() => {
     return reports
       .filter((r) => filter.status === "All" || r.status === filter.status)
       .filter(
         (r) =>
-          filter.department === "All" || r.department === filter.department,
+          filter.department === "All" ||
+          r.assignedDepartment === filter.department,
       )
       .filter((r) => filter.type === "All" || r.category === filter.type)
       .sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
+        const dateA = new Date(
+          a.created_at.replace(/(\d{2})-(\d{2})/, "$1:$2"),
+        );
+        const dateB = new Date(
+          b.created_at.replace(/(\d{2})-(\d{2})/, "$1:$2"),
+        );
         return filter.sortTime === "latest" ? dateB - dateA : dateA - dateB;
       });
   }, [filter, reports]);
 
-  const Departments = AllDeparts().map((depart, index) => (
+  if (!reports && !allDeparts) return <div>.... isloading</div>;
+
+  const Departments = allDeparts?.map((depart, index) => (
     <option value={depart} key={index}>
       {depart}
     </option>
@@ -51,6 +63,7 @@ const MyReports = () => {
       <ReportDetailView
         report={selectedReport}
         onBack={() => setSelectedReport(null)}
+        viewingAs="reporter"
       />
     );
   }
@@ -112,41 +125,50 @@ const MyReports = () => {
 
       {/* Reports List */}
       <div className={styles.reportList}>
-        {processedReports.map((report) => (
-          <div
-            key={report.report_id}
-            className={styles.reportRowStyle}
-            onClick={() => setSelectedReport(report)} // Click anywhere on row to view
-            style={{ cursor: "pointer" }}
-          >
-            <div>
-              <div style={{ fontWeight: "600" }}>
-                {report.title} - {report.location}
+        {processedReports.length > 0 ? (
+          processedReports.map((report) => (
+            <div
+              key={report.report_id}
+              className={styles.reportRowStyle}
+              onClick={() => setSelectedReport(report)} // Click anywhere on row to view
+              style={{ cursor: "pointer" }}
+            >
+              <div>
+                <div style={{ fontWeight: "600" }}>
+                  {report.title} - {report.location}
+                </div>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "#6b7280",
+                    marginTop: "12px",
+                  }}
+                >
+                  {report.category} • Reported{" "}
+                  {getElapsedTime(report.created_at)}
+                </div>
               </div>
               <div
-                style={{
-                  fontSize: "13px",
-                  color: "#6b7280",
-                  marginTop: "12px",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: "15px" }}
               >
-                {report.category} • Reported {getElapsedTime(report.created_at)}
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "rgb(63, 201, 232)",
+                    textDecoration: "underline",
+                  }}
+                >
+                  View Details
+                </span>
+                <div style={getStatusStyle(report.status)}>{report.status}</div>
               </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "rgb(63, 201, 232)",
-                  textDecoration: "underline",
-                }}
-              >
-                View Details
-              </span>
-              <div style={getStatusStyle(report.status)}>{report.status}</div>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <center className={styles.noreport}>
+            <span>No reports made yet</span>
+          </center>
+        )}
       </div>
     </div>
   );

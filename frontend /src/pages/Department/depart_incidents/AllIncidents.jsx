@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AllIncidents.module.css";
-import GetDepartReports from "../../../utilities/getDepartReports";
 import ReportDetailView from "../../../components/report_detail/ReportDetailView";
+import { useDepart } from "../../../contexts/DepartContext";
 
 function AllIncidents() {
-  const departIncidents = GetDepartReports();
+  const { fetchDepartReports, departReports } = useDepart();
   const [selectedReport, setSelectedReport] = useState(null);
 
+  useEffect(() => {
+    fetchDepartReports();
+  }, [fetchDepartReports]);
+
+  if (!departReports) return <div> ... loading </div>;
+
+  const departIncidents = departReports;
   if (selectedReport) {
     return (
       <ReportDetailView
@@ -31,7 +38,7 @@ function AllIncidents() {
             </tr>
           </thead>
           <tbody>
-            {departIncidents.map((i) => {
+            {departIncidents?.map((i) => {
               const sta = i.status.replaceAll(" ", "").toLowerCase();
               return (
                 <tr key={i.report_id}>

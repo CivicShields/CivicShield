@@ -1,20 +1,25 @@
 import styles from "./IncidentQueue.module.css";
 import { MapPin, Clock, ArrowRight, X, Users } from "lucide-react";
-import GetDepartReports from "../../../utilities/getDepartReports";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
-import { useState } from "react";
-import { useReport } from "../../../contexts/ReportContext";
+import { useState, useEffect } from "react";
+import { useDepart } from "../../../contexts/DepartContext";
 
 function IncidentQueue() {
-  const incidents = GetDepartReports();
-  const { changeStatus } = useReport();
+  const { fetchDepartReports, changeStatus, departReports } = useDepart();
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedIncident, setSelectedIncident] = useState(null);
 
-  const handleAssign = (teamName) => {
-    console.log(selectedIncident);
+  useEffect(() => {
+    fetchDepartReports();
+  }, [fetchDepartReports]);
+
+  if (!departReports) return <div>Loading...</div>;
+
+  const incidents = departReports;
+
+  //const handleAssign = teamName;
+  const handleAssign = () => {
     changeStatus(selectedIncident?.report_id, "In Progress");
-    console.log(selectedIncident);
     (setShowAssignModal(false), setSelectedIncident(null));
   };
 
@@ -29,13 +34,13 @@ function IncidentQueue() {
       <div className={styles.incidentList}>
         {incidents
           ? incidents
-              .toSorted(
+              ?.toSorted(
                 (a, b) =>
                   new Date(b.created_at.replace("-", ":")).getTime() -
                   new Date(a.created_at.replace("-", ":")).getTime(),
               )
-              .filter((i) => i.status === "Pending")
-              .map((incident) => {
+              ?.filter((i) => i.status === "Pending")
+              ?.map((incident) => {
                 const priorityVal = incident.severity;
                 return (
                   <div key={incident.report_id} className={styles.incidentCard}>
@@ -71,7 +76,7 @@ function IncidentQueue() {
                   </div>
                 );
               })
-          : incidents.filter((i) => i.status === "Pending").length === 0 && (
+          : incidents?.filter((i) => i.status === "Pending").length === 0 && (
               <div className={styles.emptyState}>
                 No pending incidents in queue.
               </div>
@@ -97,10 +102,7 @@ function IncidentQueue() {
             </p>
 
             <div className={[styles.teamOptions, styles.mt20].join(" ")}>
-              <div
-                className={styles.teamOption}
-                onClick={() => handleAssign("Emergency Unit Alpha")}
-              >
+              <div className={styles.teamOption} onClick={() => handleAssign()}>
                 <Users size={20} className={styles.textPrimary} />
                 <div>
                   <h5>Emergency Unit Alpha</h5>
@@ -108,10 +110,7 @@ function IncidentQueue() {
                 </div>
               </div>
 
-              <div
-                className={styles.teamOption}
-                onClick={() => handleAssign("Field Maintenance B")}
-              >
+              <div className={styles.teamOption} onClick={() => handleAssign()}>
                 <Users size={20} className={styles.textPrimary} />
                 <div>
                   <h5>Field Maintenance B</h5>
@@ -119,10 +118,7 @@ function IncidentQueue() {
                 </div>
               </div>
 
-              <div
-                className={styles.teamOption}
-                onClick={() => handleAssign("Night Shift Support")}
-              >
+              <div className={styles.teamOption} onClick={() => handleAssign()}>
                 <Users size={20} className={styles.textPrimary} />
                 <div>
                   <h5>Night Shift Support</h5>

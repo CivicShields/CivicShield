@@ -41,7 +41,7 @@ export function changeReportStatusRequest(reportId, status) {
         statusChange.status = status;
       }
 
-      resolve({ statusChange });
+      resolve({ status: statusChange });
     }, 500);
   });
 }

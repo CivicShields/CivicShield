@@ -1,14 +1,21 @@
 import { BarChart3, Activity, ShieldCheck } from "lucide-react";
 import styles from "./DepartDashboard.module.css";
-import GetDepartReports from "../../../utilities/getDepartReports";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useDepart } from "../../../contexts/DepartContext";
+import { useEffect } from "react";
 
 function DepartDashboard() {
-  const departReports = GetDepartReports();
+  const { fetchDepartReports, departReports } = useDepart();
   const { user } = useAuth();
 
-  const totalReports = departReports.length;
+  useEffect(() => {
+    fetchDepartReports();
+  }, [fetchDepartReports]);
+
+  if (!departReports) return <div>Loading...</div>;
+
+  const totalReports = departReports?.length;
 
   const getWidth = (count) => {
     if (totalReports === 0) return "0%";
@@ -18,13 +25,13 @@ function DepartDashboard() {
   const criticalCount = departReports.filter(
     (i) => i.severity === "critical",
   ).length;
-  const highCount = departReports.filter((i) => i.severity === "high").length;
-  const lowMedCount = departReports.filter(
+  const highCount = departReports?.filter((i) => i.severity === "high").length;
+  const lowMedCount = departReports?.filter(
     (i) => i.severity === "medium" || i.severity === "low",
   ).length;
 
   const recentAdditions = departReports
-    .toSorted(
+    ?.toSorted(
       (a, b) =>
         new Date(b.created_at.replace("-", ":")).getTime() -
         new Date(a.created_at.replace("-", ":")).getTime(),
@@ -32,7 +39,7 @@ function DepartDashboard() {
     .slice(0, 5);
 
   const recents = recentAdditions ? (
-    recentAdditions.map((r) => (
+    recentAdditions?.map((r) => (
       <div className={styles.activityItem} key={r.report_id}>
         <div className={styles.activityDot}></div>
         <div className={styles.activityInfo}>
@@ -55,14 +62,14 @@ function DepartDashboard() {
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Pending Reports</span>
           <span className={styles.statValue}>
-            {departReports.filter((item) => item.status === "Pending").length}
+            {departReports?.filter((item) => item.status === "Pending").length}
           </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Currently Assigned</span>
           <span className={styles.statValue}>
             {
-              departReports.filter((item) => item.status === "In Progress")
+              departReports?.filter((item) => item.status === "In Progress")
                 .length
             }
           </span>
@@ -70,7 +77,7 @@ function DepartDashboard() {
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Resolved Today</span>
           <span className={[styles.statValue, styles.green].join(" ")}>
-            {departReports.filter((item) => item.status === "Resolved").length}
+            {departReports?.filter((item) => item.status === "Resolved").length}
           </span>
         </div>
       </div>

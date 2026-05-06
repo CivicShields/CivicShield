@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styles from "./MyReport.module.css";
-import AllDeparts from "../../../../../utilities/GetDeparts";
-import GetReports from "../../../../../utilities/GetReports";
 import { getElapsedTime } from "../../../../../utilities/Date_utilities";
 import ReportDetailView from "../../../../../components/report_detail/ReportDetailView";
 import { incidentCategories } from "../../../../../utilities/Data";
+import { useDepart } from "../../../../../contexts/DepartContext";
+import { useReport } from "../../../../../contexts/ReportContext";
 
 const MyReports = () => {
   const [filter, setFilter] = useState({
@@ -14,10 +14,15 @@ const MyReports = () => {
     sortTime: "latest",
   });
 
-  // State to track which report is currently being viewed in detail
   const [selectedReport, setSelectedReport] = useState(null);
+  const [allDeparts, setAllDeparts] = useState();
+  const { fetchDeparts } = useDepart();
+  const { reports, fetchReports } = useReport();
 
-  const reports = GetReports();
+  useEffect(() => {
+    fetchDeparts().then(setAllDeparts).catch(console.error);
+    fetchReports();
+  }, [fetchDeparts, fetchReports]);
 
   const processedReports = useMemo(() => {
     return reports
@@ -39,7 +44,9 @@ const MyReports = () => {
       });
   }, [filter, reports]);
 
-  const Departments = AllDeparts().map((depart, index) => (
+  if (!reports && !allDeparts) return <div>.... isloading</div>;
+
+  const Departments = allDeparts?.map((depart, index) => (
     <option value={depart} key={index}>
       {depart}
     </option>

@@ -3,15 +3,22 @@ import { Link } from "react-router-dom";
 import { Bell, Siren, FileText, User2Icon } from "lucide-react";
 import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
-import GetReports from "../../../utilities/GetReports";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
+import { useReport } from "../../../contexts/ReportContext";
+import { useEffect } from "react";
 
 function UserDashboard() {
-  const report = GetReports();
+  const { reports, fetchReports } = useReport();
 
-  const reports =
-    report.length > 0 ? (
-      report.slice(0, 10).map((report, index) => {
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
+
+  if (!reports) return <div>....isloading</div>;
+
+  const userReports =
+    reports.length > 0 ? (
+      reports.slice(0, 10).map((report, index) => {
         //set the reports to only show a maximum of ten
         if (report.status === "Pending") {
           return (
@@ -82,24 +89,24 @@ function UserDashboard() {
         <section className={styles.firstSection}>
           <div>
             <p>TOTAL REPORTS</p>
-            <p>{report.length}</p>
+            <p>{reports.length}</p>
             <p>Since joining</p>
           </div>
           <div>
             <p>PENDING</p>
-            <p>{report.filter((item) => item.status === "Pending").length}</p>
+            <p>{reports.filter((item) => item.status === "Pending").length}</p>
             <p>Awaiting response</p>
           </div>
           <div>
             <p>IN PROGRESS</p>
             <p>
-              {report.filter((item) => item.status === "In Progress").length}
+              {reports.filter((item) => item.status === "In Progress").length}
             </p>
             <p>Agent assigned</p>
           </div>
           <div>
             <p>RESOLVED</p>
-            <p>{report.filter((item) => item.status === "Resolved").length}</p>
+            <p>{reports.filter((item) => item.status === "Resolved").length}</p>
             <p>Successfully closed</p>
           </div>
         </section>
@@ -110,7 +117,7 @@ function UserDashboard() {
               View all &rarr;
             </Link>
           </div>
-          <div className={styles.report}>{reports}</div>
+          <div className={styles.report}>{userReports}</div>
         </section>
         <section className={styles.lastSection}>
           <p>Quick Actions</p>
@@ -130,7 +137,7 @@ function UserDashboard() {
                 <p>
                   My Reports
                   <br />
-                  <span>View all {report.length}</span>
+                  <span>View all {reports.length}</span>
                 </p>
               </Link>
             </div>

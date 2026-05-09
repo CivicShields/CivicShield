@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .models import Media
+from django.views.decorators.http import require_http_methods
 from .utils import validate_uploaded_file
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404
@@ -67,3 +68,16 @@ def incident_media(request, incident_id):
             'created_at': m.created_at.isoformat(),
         })
     return JsonResponse(result, safe=False)
+
+
+@csrf_exempt                     # because it's an API call, no CSRF token
+@require_http_methods(["DELETE"])
+def delete_media(request, media_id):
+    media = get_object_or_404(Media, pk=media_id)
+
+    # Delete the physical file from disk
+    media.file.delete(save=False)
+    # Delete the database record
+    media.delete()
+
+    return JsonResponse({'message': 'Media deleted successfully'}, status=200)

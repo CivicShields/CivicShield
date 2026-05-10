@@ -17,12 +17,12 @@ export const team = [
     {
         name: "Glory Panulo",
         role: "Backend dev",
-        bio: "Department and Notification service dev",
+        bio: "Department service dev",
     },
     {
         name: "Purpose Sichinga",
         role: "Backend dev",
-        bio: "Media service dev",
+        bio: " Notification service dev",
     },
     {
         name: "William Phiri",
@@ -32,6 +32,6 @@ export const team = [
     {
         name: "Owen k. Swilimba",
         role: "Frontend dev",
-        bio: "Lead frontend dev and team leader",
+        bio: "Frontend dev, media service dev and team leader",
     },
 ];

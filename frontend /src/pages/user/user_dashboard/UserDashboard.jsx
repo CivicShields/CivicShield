@@ -18,7 +18,7 @@ function UserDashboard() {
 
   const userReports =
     reports.length > 0 ? (
-      reports.slice(0, 10).map((report, index) => {
+      reports.slice(0, 5).map((report, index) => {
         //set the reports to only show a maximum of ten
         if (report.status === "Pending") {
           return (

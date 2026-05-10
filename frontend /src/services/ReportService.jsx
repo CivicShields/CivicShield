@@ -18,7 +18,7 @@ export function getReportsRequest(userID) {
   });
 }
 
-export function addReportRequest(
+export async function addReportRequest(
   email,
   category,
   assignedDepart,
@@ -29,24 +29,37 @@ export function addReportRequest(
   doc,
   creator,
 ) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // if (!user.reports) user.reports = [];
-      const newReport = {
-        report_id: Date.now().toString(),
-        category: category,
-        severity: "medium",
-        description: descr,
-        assignedDepartment: assignedDepart,
-        status: "Pending",
-        created_at: rpdate,
-        doc: doc,
-        location: location,
-        title: incTitle,
-        created_by: creator,
-      };
-      reportData.push(newReport);
-      resolve({ report: newReport });
-    }, 600);
-  });
+  const newReport = {
+    report_id: Date.now().toString(),
+    category,
+    severity: "medium",
+    description: descr,
+    assignedDepartment: assignedDepart,
+    status: "Pending",
+    created_at: rpdate,
+    doc: doc,
+    location: location,
+    title: incTitle,
+    created_by: creator,
+  };
+
+  const formData = new FormData();
+  formData.append("file", doc);
+  formData.append("incident_id", newReport.report_id);
+
+  try {
+    const response = await fetch("http://localhost:8000/media/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+
+    newReport.doc = data.media_id;
+    reportData.push(newReport);
+
+    return { report: newReport, serverResponse: data };
+  } catch (error) {
+    console.error("Upload failed:", error);
+    throw error;
+  }
 }

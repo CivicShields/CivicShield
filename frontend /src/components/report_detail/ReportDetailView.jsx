@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Talk from "talkjs";
 import styles from "./ReportDetailView.module.css";
 
@@ -6,8 +6,25 @@ import styles from "./ReportDetailView.module.css";
 function ReportDetailView({ report, onBack, viewingAs }) {
   const chatContainerRef = useRef();
 
+  const API_BASE = "http://localhost:8000";
+
+  const [imageUrl, setImageUrl] = useState(null);
+  const [error, setError] = useState(null);
+
+  const mediaId = report.doc;
+
   useEffect(() => {
     let session;
+    const fetchMedia = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/media/${mediaId}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        setImageUrl(data.url);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
     Talk.ready.then(() => {
       const isDept = viewingAs === "department";
@@ -49,12 +66,19 @@ function ReportDetailView({ report, onBack, viewingAs }) {
       chatbox.mount(chatContainerRef.current);
     });
 
+    fetchMedia();
     return () => {
       if (session) {
         session.destroy();
       }
     };
-  }, [report, viewingAs]);
+  }, [
+    report.assignedDepartment,
+    report.report_id,
+    report.created_by,
+    viewingAs,
+    mediaId,
+  ]);
 
   return (
     <div className={styles.reportsContainer}>
@@ -78,11 +102,14 @@ function ReportDetailView({ report, onBack, viewingAs }) {
           <div className={styles.detailSection}>
             <h4>Media Attachments</h4>
             <div className={styles.mediaGallery}>
-              {report.doc !== "" ? (
+              {imageUrl ? (
                 <img
-                  src={report.doc}
-                  alt="Incident"
+                  src={imageUrl}
+                  alt="Report attachment"
                   className={styles.reportImage}
+                  onError={() =>
+                    setError("Image failed to load. The link may have expired.")
+                  }
                 />
               ) : (
                 <p style={{ fontStyle: "italic", color: "#999" }}>
@@ -105,6 +132,7 @@ function ReportDetailView({ report, onBack, viewingAs }) {
                 <strong>Category:</strong> {report.category}
               </li>
             </ul>
+            <p style={{ color: "red", fontSize: "30px" }}>{error}</p>
           </div>
         </section>
 

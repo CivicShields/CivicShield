@@ -10,6 +10,7 @@ import { useReport } from "../../../contexts/ReportContext.jsx";
 import { incidentCategories } from "../../../utilities/Data.js";
 import { useDepart } from "../../../contexts/DepartContext.jsx";
 import { LocateIcon } from "lucide-react";
+import { reverseGeocode } from "../../../utilities/location_utilities.js";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
@@ -21,17 +22,13 @@ function IncidentReport() {
     department: "",
     reportedDate: date + ", " + time,
     incidentTitle: "",
-    location: "",
+    location: null,
     description: "",
     document: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [departNames, setDepartNames] = useState();
-  const [userLocation, setUserLocation] = useState({
-    latitude: null,
-    longitude: null,
-  });
 
   useEffect(() => {
     fetchDeparts().then(setDepartNames).catch(console.error);
@@ -42,17 +39,21 @@ function IncidentReport() {
     handleChange(e);
   }
 
-  function getUserLocation(e) {
+  function getUserLocation() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setUserLocation({
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          });
+        async (pos) => {
+          const addr = await reverseGeocode(
+            pos.coords.latitude,
+            pos.coords.longitude,
+          );
           setForm({
             ...form,
-            [e.target.name]: userLocation,
+            location: {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+              address: addr,
+            },
           });
         },
         (err) => {
@@ -197,9 +198,9 @@ function IncidentReport() {
               <p>Location Details</p>
               <button
                 name="location"
-                value={form.location}
                 onClick={getUserLocation}
                 className={styles.locateButton}
+                required
               >
                 {" "}
                 <LocateIcon size={20} />

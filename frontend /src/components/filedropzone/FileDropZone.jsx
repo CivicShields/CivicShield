@@ -39,7 +39,7 @@ function FileDropZone({ onFileSelect }) {
       <h5 className={styles.heading}>Upload Document</h5>
 
       <div {...getRootProps()} className={styles.dropzoneContainer}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} required />
 
         {filePreview ? (
           <div className={styles.previewSection}>

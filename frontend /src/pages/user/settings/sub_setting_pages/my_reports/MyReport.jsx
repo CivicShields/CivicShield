@@ -43,7 +43,6 @@ const MyReports = () => {
         return filter.sortTime === "latest" ? dateB - dateA : dateA - dateB;
       });
   }, [filter, reports]);
-  console.log(reports);
 
   if (!reports && !allDeparts) return <div>.... isloading</div>;
 

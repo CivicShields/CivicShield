@@ -9,6 +9,7 @@ import FileDropZone from "../../../components/filedropzone/FileDropZone.jsx";
 import { useReport } from "../../../contexts/ReportContext.jsx";
 import { incidentCategories } from "../../../utilities/Data.js";
 import { useDepart } from "../../../contexts/DepartContext.jsx";
+import { LocateIcon } from "lucide-react";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
@@ -27,6 +28,10 @@ function IncidentReport() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [departNames, setDepartNames] = useState();
+  const [userLocation, setUserLocation] = useState({
+    latitude: null,
+    longitude: null,
+  });
 
   useEffect(() => {
     fetchDeparts().then(setDepartNames).catch(console.error);
@@ -35,6 +40,28 @@ function IncidentReport() {
   function handleDescCount(e) {
     setDescCount(e.target.value.length);
     handleChange(e);
+  }
+
+  function getUserLocation(e) {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setUserLocation({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          });
+          setForm({
+            ...form,
+            [e.target.name]: userLocation,
+          });
+        },
+        (err) => {
+          setError(err.message);
+        },
+      );
+    } else {
+      setError("Geolocation is not supported by your browser");
+    }
   }
 
   const handleChange = (e) => {
@@ -168,12 +195,16 @@ function IncidentReport() {
             </div>
             <div className={styles.iDetails2}>
               <p>Location Details</p>
-              <input
-                type="text"
+              <button
                 name="location"
                 value={form.location}
-                onChange={handleChange}
-              />
+                onClick={getUserLocation}
+                className={styles.locateButton}
+              >
+                {" "}
+                <LocateIcon size={20} />
+                Get current location
+              </button>
               <FileDropZone
                 key={form.incidentTitle === "" ? "reset" : "active"}
                 onFileSelect={handleFileSelect}

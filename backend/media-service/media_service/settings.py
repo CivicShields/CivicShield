@@ -39,19 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'media',
     "corsheaders",
 ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-=======
-    'media'
-]
-
-MIDDLEWARE = [
->>>>>>> origin
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,10 +137,7 @@ MEDIA_URL = '/media/'                  # URL prefix to serve user-uploaded files
 MEDIA_ROOT = BASE_DIR / 'media_files'  # folder where files will be saved
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-<<<<<<< HEAD
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
-=======
->>>>>>> origin

@@ -29,6 +29,10 @@ function IncidentReport() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [departNames, setDepartNames] = useState();
+  const [userLocation, setUserLocation] = useState({
+    latitude: null,
+    longitude: null,
+  });
 
   useEffect(() => {
     fetchDeparts().then(setDepartNames).catch(console.error);

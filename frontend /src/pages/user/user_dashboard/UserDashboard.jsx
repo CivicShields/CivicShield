@@ -26,7 +26,7 @@ function UserDashboard() {
               <div className={styles.reportDetails}>
                 <span className={styles.pending}>&#11044;</span>
                 <p>
-                  {report.title} - {report.location} <br />{" "}
+                  {report.title} - {report.location.address} <br />{" "}
                   <span>
                     {report.category} &bull; Reported{" "}
                     {getElapsedTime(report.created_at)} &bull;{" "}
@@ -43,7 +43,7 @@ function UserDashboard() {
               <div className={styles.reportDetails}>
                 <span className={styles.resolved}>&#11044;</span>
                 <p>
-                  {report.title} - {report.location}
+                  {report.title} - {report.location.address}
                   <br />{" "}
                   <span>
                     {" "}
@@ -62,7 +62,7 @@ function UserDashboard() {
               <div className={styles.reportDetails}>
                 <span className={styles.inprogress}>&#11044;</span>
                 <p>
-                  {report.title} - {report.location}
+                  {report.title} - {report.location.address}
                   <br />{" "}
                   <span>
                     {report.category} &bull; Reported{" "}

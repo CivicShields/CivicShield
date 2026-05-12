@@ -8,7 +8,11 @@
     "status": "Pending",
     "created_at": "May 01, 2026, 10-30 AM",
     "doc": "",
-    "location": "Main Street & 5th Avenue",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Main Street & 5th Avenue"
+    },
     "created_by": "u1",
     "assignedDepartment": "city_council",
     "team": ""
@@ -22,7 +26,11 @@
     "status": "In Progress",
     "created_at": "May 02, 2026, 02-15 PM",
     "doc": "",
-    "location": "Warehouse District, Elm Street",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Warehouse District, Elm Street"
+    },
     "created_by": "u2",
     "assignedDepartment": "police",
     "team": ""
@@ -36,7 +44,11 @@
     "status": "Resolved",
     "created_at": "May 03, 2026, 09-00 AM",
     "doc": "pothole_photo.jpg",
-    "location": "Oak Avenue, near the park entrance",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Oak Avenue, near the park entrance"
+    },
     "created_by": "u1",
     "assignedDepartment": "transport",
     "team": ""
@@ -50,7 +62,11 @@
     "status": "Pending",
     "created_at": "May 04, 2026, 07-20 AM",
     "doc": "",
-    "location": "Central Park, Playground Area",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Central Park, Playground Area"
+    },
     "created_by": "u2",
     "assignedDepartment": "health",
     "team": ""
@@ -64,7 +80,11 @@
     "status": "In Progress",
     "created_at": "May 04, 2026, 04-45 PM",
     "doc": "smoke_image.png",
-    "location": "Old Factory, Industrial Lane",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Old Factory, Industrial Lane"
+    },
     "created_by": "u1",
     "assignedDepartment": "fire",
     "team": ""
@@ -78,7 +98,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 08-00 AM",
     "doc": "",
-    "location": "Riverbank, behind the old mill",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Riverbank, behind the old mill"
+    },
     "created_by": "u2",
     "assignedDepartment": "city_council",
     "team": ""
@@ -92,7 +116,11 @@
     "status": "In Progress",
     "created_at": "May 01, 2026, 06-10 AM",
     "doc": "",
-    "location": "Cedar Road, near Junction 4",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Cedar Road, near Junction 4"
+    },
     "created_by": "u1",
     "assignedDepartment": "city_council",
     "team": ""
@@ -106,7 +134,11 @@
     "status": "Pending",
     "created_at": "May 01, 2026, 11-45 AM",
     "doc": "graffiti_library.jpg",
-    "location": "Central Public Library, Park Road",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Central Public Library, Park Road"
+    },
     "created_by": "u2",
     "assignedDepartment": "city_council",
     "team": ""
@@ -120,7 +152,11 @@
     "status": "In Progress",
     "created_at": "May 02, 2026, 09-30 PM",
     "doc": "",
-    "location": "QuickMart, Corner of 3rd & Birch",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "QuickMart, Corner of 3rd & Birch"
+    },
     "created_by": "u1",
     "assignedDepartment": "police",
     "team": ""
@@ -134,7 +170,11 @@
     "status": "Pending",
     "created_at": "May 02, 2026, 03-00 PM",
     "doc": "",
-    "location": "Maple Street Bus Stop, Stop #14",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Maple Street Bus Stop, Stop #14"
+    },
     "created_by": "u2",
     "assignedDepartment": "transport",
     "team": ""
@@ -148,7 +188,11 @@
     "status": "In Progress",
     "created_at": "May 02, 2026, 07-55 AM",
     "doc": "water_main.jpg",
-    "location": "Hill Street, between 2nd and 3rd Ave",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Hill Street, between 2nd and 3rd Ave"
+    },
     "created_by": "u1",
     "assignedDepartment": "city_council",
     "team": ""
@@ -162,7 +206,11 @@
     "status": "Pending",
     "created_at": "May 03, 2026, 10-15 AM",
     "doc": "",
-    "location": "Waterfront Promenade, South End",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Waterfront Promenade, South End"
+    },
     "created_by": "u2",
     "assignedDepartment": "city_council",
     "team": ""
@@ -176,7 +224,11 @@
     "status": "Pending",
     "created_at": "May 03, 2026, 08-30 AM",
     "doc": "",
-    "location": "Brook Lane, in front of Greenview Primary School",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Brook Lane, in front of Greenview Primary School"
+    },
     "created_by": "u1",
     "assignedDepartment": "police",
     "team": ""
@@ -190,7 +242,11 @@
     "status": "In Progress",
     "created_at": "May 03, 2026, 05-20 PM",
     "doc": "",
-    "location": "Pine Close, Residential Block C",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Pine Close, Residential Block C"
+    },
     "created_by": "u2",
     "assignedDepartment": "fire",
     "team": ""
@@ -204,7 +260,11 @@
     "status": "Pending",
     "created_at": "May 03, 2026, 02-00 PM",
     "doc": "dead_animals.jpg",
-    "location": "North Riverbank, Crossing Bridge Area",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "North Riverbank, Crossing Bridge Area"
+    },
     "created_by": "u1",
     "assignedDepartment": "health",
     "team": ""
@@ -218,7 +278,11 @@
     "status": "In Progress",
     "created_at": "May 04, 2026, 08-00 AM",
     "doc": "",
-    "location": "King Road & Queen Street Intersection",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "King Road & Queen Street Intersection"
+    },
     "created_by": "u2",
     "assignedDepartment": "transport",
     "team": ""
@@ -232,7 +296,11 @@
     "status": "Pending",
     "created_at": "May 04, 2026, 11-10 AM",
     "doc": "sewage_overflow.jpg",
-    "location": "Station Road, outside the train station",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Station Road, outside the train station"
+    },
     "created_by": "u1",
     "assignedDepartment": "health",
     "team": ""
@@ -246,7 +314,11 @@
     "status": "In Progress",
     "created_at": "May 04, 2026, 03-30 PM",
     "doc": "",
-    "location": "East Side Industrial Complex, Factory Row",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "East Side Industrial Complex, Factory Row"
+    },
     "created_by": "u2",
     "assignedDepartment": "health",
     "team": ""
@@ -260,7 +332,11 @@
     "status": "Pending",
     "created_at": "May 04, 2026, 01-00 PM",
     "doc": "pavement_collapse.jpg",
-    "location": "West End Road, near the post office",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "West End Road, near the post office"
+    },
     "created_by": "u1",
     "assignedDepartment": "city_council",
     "team": ""
@@ -274,7 +350,11 @@
     "status": "Pending",
     "created_at": "May 04, 2026, 12-00 PM",
     "doc": "",
-    "location": "Town Square, North Entrance",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Town Square, North Entrance"
+    },
     "created_by": "u2",
     "assignedDepartment": "police"
   },
@@ -287,7 +367,11 @@
     "status": "In Progress",
     "created_at": "May 05, 2026, 06-45 AM",
     "doc": "",
-    "location": "Rosewood Avenue, Pole #22",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Rosewood Avenue, Pole #22"
+    },
     "created_by": "u1",
     "assignedDepartment": "city_council",
     "team": ""
@@ -301,7 +385,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 09-15 AM",
     "doc": "",
-    "location": "Service Alley, behind Market Street",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Service Alley, behind Market Street"
+    },
     "created_by": "u2",
     "assignedDepartment": "police",
     "team": ""
@@ -315,7 +403,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 01-10 AM",
     "doc": "",
-    "location": "Downtown Construction Site, 7th Street",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Downtown Construction Site, 7th Street"
+    },
     "created_by": "u1",
     "assignedDepartment": "city_council",
     "team": ""
@@ -329,7 +421,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 10-00 AM",
     "doc": "playground_damage.jpg",
-    "location": "Riverside Park, Children's Play Area",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Riverside Park, Children's Play Area"
+    },
     "created_by": "u2",
     "assignedDepartment": "city_council",
     "team": ""
@@ -343,7 +439,11 @@
     "status": "In Progress",
     "created_at": "May 05, 2026, 07-50 AM",
     "doc": "",
-    "location": "Hillside Primary School, Front Gate",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Hillside Primary School, Front Gate"
+    },
     "created_by": "u1",
     "assignedDepartment": "health",
     "team": ""
@@ -357,7 +457,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 11-30 AM",
     "doc": "oil_spill.jpg",
-    "location": "Highway On-Ramp, Junction 7 North",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Highway On-Ramp, Junction 7 North"
+    },
     "created_by": "u2",
     "assignedDepartment": "transport",
     "team": ""
@@ -371,7 +475,11 @@
     "status": "In Progress",
     "created_at": "May 05, 2026, 03-22 PM",
     "doc": "fire_apartment.jpg",
-    "location": "Sunset Apartments, Block B, Lakeview Drive",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Sunset Apartments, Block B, Lakeview Drive"
+    },
     "created_by": "u1",
     "assignedDepartment": "fire",
     "team": ""
@@ -385,7 +493,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 02-40 PM",
     "doc": "",
-    "location": "Lower Bridge Street, near Drainage Point 9",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Lower Bridge Street, near Drainage Point 9"
+    },
     "created_by": "u2",
     "assignedDepartment": "city_council",
     "team": ""
@@ -399,7 +511,11 @@
     "status": "In Progress",
     "created_at": "May 05, 2026, 05-00 PM",
     "doc": "",
-    "location": "The Golden Fork Restaurant, High Street",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "The Golden Fork Restaurant, High Street"
+    },
     "created_by": "u1",
     "assignedDepartment": "health",
     "team": ""
@@ -413,7 +529,11 @@
     "status": "Pending",
     "created_at": "May 05, 2026, 06-30 AM",
     "doc": "construction_dump.jpg",
-    "location": "Green Valley Nature Reserve, Car Park A",
+    "location": {
+      "latitude": "",
+      "longitude": "",
+      "address": "Green Valley Nature Reserve, Car Park A"
+    },
     "created_by": "u2",
     "assignedDepartment": "city_council",
     "team": ""

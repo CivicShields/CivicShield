@@ -43,7 +43,6 @@ const MyReports = () => {
         return filter.sortTime === "latest" ? dateB - dateA : dateA - dateB;
       });
   }, [filter, reports]);
-  console.log(reports);
 
   if (!reports && !allDeparts) return <div>.... isloading</div>;
 
@@ -136,7 +135,7 @@ const MyReports = () => {
             >
               <div>
                 <div style={{ fontWeight: "600" }}>
-                  {report.title} - {report.location}
+                  {report.title} - {report.location.address}
                 </div>
                 <div
                   style={{

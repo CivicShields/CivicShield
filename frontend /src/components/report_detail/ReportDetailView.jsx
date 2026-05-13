@@ -91,7 +91,7 @@ function ReportDetailView({ report, onBack, viewingAs }) {
         <section>
           <h2 style={{ margin: "0 0 10px 0" }}>{report.title}</h2>
           <p style={{ color: "#6b7280" }}>
-            Location: {report.location} | ID: {report.report_id}
+            Location: {report.location.address} | ID: {report.report_id}
           </p>
 
           <div className={styles.detailSection}>

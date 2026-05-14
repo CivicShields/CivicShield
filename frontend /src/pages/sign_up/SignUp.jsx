@@ -16,6 +16,7 @@ function SignUp() {
     email: "",
     password: "",
     confirmPassword: "",
+    phone: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -63,10 +64,18 @@ function SignUp() {
         "Password doesnt meet should be contain at least one number",
       );
     }
-
     setLoading(true);
     try {
-      await register(form.email, form.password, form.name);
+      const reg = await register(
+        form.email,
+        form.password,
+        form.name,
+        form.phone,
+      );
+      if (reg.error) {
+        setLoading(false);
+        return setError(reg.error);
+      }
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Registration failed");
@@ -162,7 +171,17 @@ function SignUp() {
         <p>
           Phone Number <span>(optional)</span>
         </p>
-        <input type="text" className={styles.phone} />
+        <input
+          type="text"
+          className={styles.phone}
+          name="phone"
+          placeholder="Enter your phone number"
+          value={form.phone}
+          onChange={(e) => {
+            const val = e.target.value;
+            setForm({ ...form, phone: val });
+          }}
+        />
         <p>Terms & Conditions</p>
         <div className={styles.terms}>
           <input type="checkbox" required /> I agree to the Terms of Service and

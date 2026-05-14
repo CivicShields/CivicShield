@@ -20,6 +20,7 @@ function SecurityPage() {
     number: false,
     special: false,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,11 +42,21 @@ function SecurityPage() {
       );
     }
 
+    setLoading(true);
     try {
-      await changePassword(form.oldPassword, form.newPassword);
-      setSuccess("Password updated!");
+      const changePass = await changePassword(
+        form.oldPassword,
+        form.newPassword,
+      );
+      if (changePass.error) {
+        setLoading(false);
+        return setError(changePass.error);
+      }
+      setSuccess(changePass.message);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,8 +120,9 @@ function SecurityPage() {
         />
         <Button
           classStyle={styles.changepass}
-          name="Change Password"
+          name={loading ? "...changing password" : "change password"}
           type="submit"
+          disable={loading}
         />
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}

@@ -8,8 +8,9 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     const { loginRequest } = await import("../services/AuthService");
-    const { user } = await loginRequest(email, password);
-    setUser(user);
+    const { serverResponse } = await loginRequest(email, password);
+    setUser(serverResponse);
+    return serverResponse;
   }, []);
 
   const changePassword = useCallback(
@@ -18,7 +19,11 @@ export function AuthProvider({ children }) {
         throw new Error("You must be logged in to change password");
       }
       const { changePasswordRequest } = await import("../services/AuthService");
-      await changePasswordRequest(user.email, oldPassword, newPassword);
+      const { serverResponse } = await changePasswordRequest(
+        oldPassword,
+        newPassword,
+      );
+      return serverResponse;
     },
     [user],
   );
@@ -28,15 +33,20 @@ export function AuthProvider({ children }) {
       throw new Error("No user is logged in");
     }
     const { getCurrentUserRequest } = await import("../services/AuthService");
-    const { user: freshUser } = await getCurrentUserRequest(user.email);
-    setUser(freshUser);
-    return freshUser;
+    const { serverResponse } = await getCurrentUserRequest();
+    return serverResponse;
   }, [user]);
 
   const register = useCallback(async (email, password, name, number = "") => {
     const { registerRequest } = await import("../services/AuthService");
-    const { user } = await registerRequest(email, password, name, number);
-    setUser(user);
+    const { serverResponse } = await registerRequest(
+      email,
+      password,
+      name,
+      number,
+    );
+    setUser(serverResponse);
+    return serverResponse;
   }, []);
 
   const logout = useCallback(() => {

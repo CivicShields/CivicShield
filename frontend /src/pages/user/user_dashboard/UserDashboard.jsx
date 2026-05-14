@@ -6,14 +6,15 @@ import Footer from "../../../components/footer/Footer";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
 import { useReport } from "../../../contexts/ReportContext";
 import { useEffect } from "react";
+import report from "../../../mock_data/reports.json" with { type: "json" };
 
 function UserDashboard() {
-  const { reports, fetchReports } = useReport();
+  // const { reports, fetchReports } = useReport();
 
-  useEffect(() => {
-    fetchReports();
-  }, [fetchReports]);
-
+  // useEffect(() => {
+  //   fetchReports();
+  // }, [fetchReports]);
+  const reports = report;
   if (!reports) return <div>....isloading</div>;
 
   const userReports =

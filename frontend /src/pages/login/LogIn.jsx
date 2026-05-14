@@ -36,7 +36,11 @@ function LogIn() {
     setError("");
     setLoading(true);
     try {
-      await login(form.email, form.password);
+      const logged = await login(form.email, form.password);
+      if (logged.error) {
+        setLoading(false);
+        return setError(logged.error);
+      }
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");

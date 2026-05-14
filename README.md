@@ -36,3 +36,21 @@
 git clone https://github.com/yourusername/civicshield.git
 cd CivicShield
 ```
+### Frontend Setup (React)
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/civicshield.git
+```
+2. Naviagate to the frontend folder:
+```bash
+cd CivicShield/frontend
+```
+3. Install required dependicies :
+```bash
+npm install
+```
+4. Run project:
+```bash
+npm run dev
+```

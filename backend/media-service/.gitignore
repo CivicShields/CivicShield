@@ -1,3 +1,4 @@
 **/__pycache__/
 *.pyc
 backend/media-service/media/migrations/__pycache__/
+backend/media-service/media_files

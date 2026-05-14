@@ -1,21 +1,20 @@
-# CivicShield
+# Kwanganje Incident Reporter
 
-**CivicShield** is a community-driven crime reporting platform where citizens can report incidents and law enforcement authorities can respond. It bridges communities and authorities to improve safety, accountability, and transparency.
+**Kwanganje Incident Reporter** is a community-driven reporting platform where citizens can report incidents and law enforcement authorities can respond. It bridges communities and authorities to improve safety, accountability and transparency.
 
 ## Features
 
 - **User Accounts:** Citizens and authorities have accounts. Authorities have special roles to respond to reports.
-- **Community Reporting:** Users can submit crime reports with descriptions, locations, and media attachments.
-- **Authority Responses:** Verified authorities can update reports, provide guidance, and mark cases as resolved.
-- **Anonymous Reporting:** Users can report anonymously to protect privacy.
+- **Community Reporting:** Users can submit reports with descriptions, locations and media attachments.
+- **Authority Responses:** Verified authorities can update reports, provide guidance and mark cases as resolved.
 - **Categorized Incidents:** Reports are organized by type (theft, assault, vandalism, etc.) for easy tracking.
 - **Real-Time Updates:** Users can follow incidents and receive updates.
 
 ## Tech Stack
 
-- **Backend:** Django + Django REST Framework
+- **Backend:** Django 
 - **Frontend:** React
-- **Database:** PostgreSQL / SQLite (development)
+- **Database:** PostgreSQL 
 - **Authentication:** JWT or Django auth system with role-based access
 
 ## Getting Started
@@ -25,7 +24,7 @@
 - Python 3.11+
 - Node.js 18+
 - Git
-- PostgreSQL (or SQLite for development)
+- PostgreSQL 
 
 ---
 

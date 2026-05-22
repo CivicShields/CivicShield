@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(eaimiswpxv5fp($lafd#p+%l85o#ciyxn+0_lv^lyuxylug5$'
+SECRET_KEY = 'kwanganjesecretkey1234!pass'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'media_service.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mediadb',
-        'USER': 'media',
-        'PASSWORD': 'mediapass',
+        'NAME': 'media_db',
+        'USER': 'kwanganji',
+        'PASSWORD': 'kwanganjiPass1@',
         'HOST': 'localhost',
         'PORT': '5432',
     }

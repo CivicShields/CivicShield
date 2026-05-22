@@ -1,0 +1,3 @@
+**/__pycache__/
+*.pyc
+backend/notification-service/notifications/migrations/__pycache__/

@@ -1,0 +1,280 @@
+:root {
+  --primary: #2563eb;
+  --bg-light: #f8fafc;
+  --sidebar-bg: #0f172a;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --white: #ffffff;
+
+  --overlay: rgba(15, 23, 42, 0.7);
+}
+
+.textMuted {
+  color: #64748b;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+  border: none;
+  background: none;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.teamOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.teamOption:hover {
+  border-color: var(--primary);
+  background: #f0f7ff;
+}
+
+.teamOption h5 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.teamOption p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  background: white;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+
+.small {
+  font-size: 0.75rem;
+}
+
+/* Page heading */
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+}
+
+/* Utility */
+.mt10 {
+  margin-top: 10px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* Primary button */
+.btnPrimary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btnPrimary:hover {
+  background: #1d4ed8;
+}
+
+.incidentList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Individual card */
+.incidentCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: box-shadow 0.2s;
+}
+
+.incidentCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Header inside card (priority tag + incident ID) */
+.incidentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.priorityTag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: white;
+}
+
+.priorityTag.high {
+  background: #dc2626;
+}
+
+.priorityTag.critical {
+  background: #4c0519;
+}
+
+.priorityTag.low {
+  background: #10b981;
+}
+
+.priorityTag.medium {
+  background: #f59e0b;
+}
+
+.incidentId {
+  font-family: monospace;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* Incident title */
+.incidentTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-main);
+}
+
+/* Meta data (location + time) */
+.incidentMeta {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.incidentMeta span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Fade animation */
+.contentFade {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .incidentList {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .incidentCard {
+    padding: 1rem;
+  }
+
+  .btnPrimary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .incidentList {
+    grid-template-columns: 1fr; /* single column, full width */
+  }
+
+  .incidentTitle {
+    font-size: 0.95rem;
+  }
+
+  .incidentMeta {
+    gap: 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .btnPrimary {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+}

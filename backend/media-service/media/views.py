@@ -19,8 +19,8 @@ def upload_media(request):
 
     try:
         mime_type = validate_uploaded_file(uploaded_file)
-    except ValidationError as e:
-        return JsonResponse({'error': str(e)}, status=400)
+    except ValidationError:
+        return JsonResponse({'error': "Invalid file upload"}, status=400)
 
     media = Media.objects.create(
         incident_id=incident_id,

@@ -73,10 +73,10 @@ def trigger_escalation(request, incident_id):
 # GET /notifications
 @login_required
 def all_notifications(request):
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
+    token = request.COOKIES.get('auth_token')
+    if not token:
         return JsonResponse({'error': 'unauthorized'}, status=401)
-    payload = verify_token(auth_header[7:])
+    payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
     notifications = Notification.objects.all()

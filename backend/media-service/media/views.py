@@ -6,7 +6,8 @@ from django.views.decorators.http import require_http_methods
 from .utils import validate_uploaded_file
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404
-from .auth_decorator import login_required
+from .auth_decorator import login_required, verify_token
+from django.forms.models import model_to_dict
 
 
 @csrf_exempt           
@@ -39,7 +40,6 @@ def upload_media(request):
         'url': public_url
     }, status=201)
 
-
 @require_GET  # only accept GET requests
 @login_required
 def get_media(request, media_id):        # media_id comes from the URL
@@ -65,6 +65,26 @@ def incident_media(request, incident_id):
 
     result = []
     for m in media_list:
+        result.append({
+            'id': str(m.id),
+            'file_name': m.file_name,
+            'file_type': m.file_type,
+            'url': request.build_absolute_uri(m.file.url),
+            'created_at': m.created_at.isoformat(),
+        })
+    return JsonResponse(result, safe=False)
+
+@login_required
+def all_media(request):
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
+        return JsonResponse({'error': 'forbidden'}, status=403)
+    media = Media.objects.all()
+    result = []
+    for m in media:
         result.append({
             'id': str(m.id),
             'file_name': m.file_name,

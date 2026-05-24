@@ -6,4 +6,5 @@ urlpatterns = [
     path('media/<uuid:media_id>', views.get_media, name='get_media'),
     path('incidents/<uuid:incident_id>/media', views.incident_media, name='incident_media'),
     path('media/<uuid:media_id>/delete', views.delete_media, name='delete_media'),
+    path('allmedia/', views.all_media, name='all_media'),
 ]

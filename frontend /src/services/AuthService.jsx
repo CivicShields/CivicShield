@@ -3,7 +3,6 @@ export async function changePasswordRequest(old_password, new_password) {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("userToken"),
     },
     credentials: "include",
     body: JSON.stringify({ old_password, new_password }),
@@ -18,7 +17,6 @@ export async function getCurrentUserRequest() {
   const response = await fetch("/auth/me/", {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("userToken"),
     },
     credentials: "include",
   });
@@ -47,9 +45,20 @@ export async function loginRequest(email, password) {
     body: JSON.stringify({ email, password }),
     credentials: "include",
   });
+  if (!response.ok) {
+    const errorData = { error: "Invalid email or password" };
+    return { serverResponse: errorData };
+  }
   if (response.ok) {
     const data = await response.json();
-    localStorage.setItem("userToken", data.token);
     return { serverResponse: data };
   }
+}
+
+export async function logoutRequest() {
+  await fetch("/auth/logout/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
 }

@@ -44,6 +44,27 @@ def register(request):
     return JsonResponse(user_to_dict(user), status=201)
 
 @csrf_exempt
+def logout(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'no token provided'}, status=400)
+    payload = verify_token(token)
+    if not payload:
+        return JsonResponse({'error': 'invalid token'}, status=401)
+    response = JsonResponse({'message': 'logged out'})
+    response.set_cookie(
+        'auth_token',
+        '',
+        httponly=True,
+        secure=False,          
+        samesite='Strict',
+        max_age=0,            
+    )
+    return response
+
+@csrf_exempt
 def login(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'POST required'}, status=405)
@@ -55,19 +76,19 @@ def login(request):
     email = data.get('email')
     password = data.get('password')
     user = authenticate(request, username=email, password=password)
-    
+
     if user:
-        access_token = create_token(user) 
-        response = JsonResponse({
-            'token': access_token, 
+        auth_token = create_token(user) 
+        response = JsonResponse({ 
             'user': user_to_dict(user)
         })
         response.set_cookie(
-            key='refresh_token',
-            value=access_token,
+            key='auth_token',
+            value=auth_token,
             httponly=True,        # Block client-side JavaScript access (XSS defense)
             secure=False,         # Change to True in production (forces HTTPS)
-            samesite='Lax'        # Protection against CSRF attacks
+            samesite='Lax',       # Protection against CSRF attacks
+            max_age=3600*4 ,        # valid for four hours
         )
         return response
         
@@ -77,10 +98,9 @@ def login(request):
 def change_password(request):
     if request.method != 'PATCH':
         return JsonResponse({'error': 'PATCH required'}, status=405)
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
+    token = request.COOKIES.get('auth_token')
+    if not token:
         return JsonResponse({'error': 'unauthorized'}, status=401)
-    token = auth_header[7:]
     payload = verify_token(token)
     if not payload:
         return JsonResponse({'error': 'invalid token'}, status=401)
@@ -102,24 +122,23 @@ def change_password(request):
     return JsonResponse({'message': 'password changed'})
 
 def me(request):
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
+    token = request.COOKIES.get('auth_token')
+    if not token:
         return JsonResponse({'error': 'unauthorized'}, status=401)
-    token = auth_header[7:]
     payload = verify_token(token)
     if not payload:
         return JsonResponse({'error': 'invalid token'}, status=401)
     user = User.objects.filter(id=payload['user_id']).first()
     if not user:
         return JsonResponse({'error': 'user not found'}, status=404)
-    return JsonResponse(user_to_dict(user))
+    return JsonResponse({'user': user_to_dict(user)})
 
 def list_users(request):
     # admin only
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
+    token = request.COOKIES.get('auth_token')
+    if not token:
         return JsonResponse({'error': 'unauthorized'}, status=401)
-    payload = verify_token(auth_header[7:])
+    payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
     users = User.objects.all()
@@ -129,10 +148,10 @@ def list_users(request):
 def update_role(request, user_id):
     if request.method != 'PATCH':
         return JsonResponse({'error': 'PATCH required'}, status=405)
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
+    token = request.COOKIES.get('auth_token')
+    if not token:
         return JsonResponse({'error': 'unauthorized'}, status=401)
-    payload = verify_token(auth_header[7:])
+    payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
     user = User.objects.filter(id=user_id).first()
@@ -153,10 +172,10 @@ def update_role(request, user_id):
 def delete_user(request, user_id):
     if request.method != 'DELETE':
         return JsonResponse({'error': 'DELETE required'}, status=405)
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
+    token = request.COOKIES.get('auth_token')
+    if not token:
         return JsonResponse({'error': 'unauthorized'}, status=401)
-    payload = verify_token(auth_header[7:])
+    payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
     User.objects.filter(id=user_id).delete()

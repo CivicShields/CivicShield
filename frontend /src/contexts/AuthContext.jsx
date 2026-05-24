@@ -1,10 +1,33 @@
 // contexts/AuthContext.jsx
-import { createContext, useContext, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  useEffect(() => {
+    async function initializeAuth() {
+      try {
+        const { getCurrentUserRequest } =
+          await import("../services/AuthService");
+        const { serverResponse } = await getCurrentUserRequest();
+        setUser(serverResponse);
+      } catch (error) {
+        console.error("Failed to restore session on reload:", error);
+      } finally {
+        setIsInitializing(false);
+      }
+    }
+    initializeAuth();
+  }, []);
 
   const login = useCallback(async (email, password) => {
     const { loginRequest } = await import("../services/AuthService");
@@ -28,15 +51,6 @@ export function AuthProvider({ children }) {
     [user],
   );
 
-  const fetchCurrentUser = useCallback(async () => {
-    if (!user) {
-      throw new Error("No user is logged in");
-    }
-    const { getCurrentUserRequest } = await import("../services/AuthService");
-    const { serverResponse } = await getCurrentUserRequest();
-    return serverResponse;
-  }, [user]);
-
   const register = useCallback(async (email, password, name, number = "") => {
     const { registerRequest } = await import("../services/AuthService");
     const { serverResponse } = await registerRequest(
@@ -49,8 +63,9 @@ export function AuthProvider({ children }) {
     return serverResponse;
   }, []);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem("userToken");
+  const logout = useCallback(async () => {
+    const { logoutRequest } = await import("../services/AuthService");
+    await logoutRequest();
     setUser(null);
   }, []);
 
@@ -61,14 +76,26 @@ export function AuthProvider({ children }) {
       value={{
         user,
         isAuthenticated,
-        fetchCurrentUser,
         login,
         register,
         logout,
         changePassword,
       }}
     >
-      {children}
+      {isInitializing ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div>Loading your session...</div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 }

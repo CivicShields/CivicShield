@@ -127,7 +127,7 @@ function DepartmentHeader() {
         <h2>
           Are you sure you want <br /> to log out
         </h2>
-        <p>Log out of Kwanganje Incident Reporter as {user.email}</p>
+        <p>Log out of Kwanganje Incident Reporter as {user.user.email}</p>
       </Modal>
     </>
   );

@@ -11,10 +11,10 @@ def verify_token(token):
 
 def login_required(view_func):
     def wrapper(request, *args, **kwargs):
-        auth_header = request.headers.get('Authorization', '')
-        if not auth_header.startswith('Bearer '):
-            return JsonResponse({'error': 'Unauthorized attempt'}, status=401)
-        payload = verify_token(auth_header[7:])
+        token = request.COOKIES.get('auth_token')
+        if not token:
+            return JsonResponse({'error': 'unauthorized'}, status=401)
+        payload = verify_token(token)
         if not payload:
             return JsonResponse({'error': 'invalid token'}, status=401)
         request.user_payload = payload

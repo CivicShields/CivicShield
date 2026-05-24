@@ -80,7 +80,7 @@ function Header() {
           {user &&
             userIconElement(
               styles.userIcon,
-              user.email ? user.email[0].toUpperCase() : "U",
+              user.user.email ? user.user.email[0].toUpperCase() : "U",
             )}
         </div>
 
@@ -141,7 +141,8 @@ function Header() {
           Are you sure you want <br /> to log out
         </h2>
         <p>
-          Log out of Kwanganje Incident Reporter as {!user ? "" : user.email}
+          Log out of Kwanganje Incident Reporter as{" "}
+          {!user ? "" : user.user.email}
         </p>
       </Modal>
     </>

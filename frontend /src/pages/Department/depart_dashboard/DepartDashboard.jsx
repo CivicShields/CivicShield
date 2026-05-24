@@ -145,7 +145,9 @@ function DepartDashboard() {
             <h4>Department Identity</h4>
             <div className={styles.infoRow}>
               <span>Department Name:</span>
-              <strong className={styles.fontMono}>{user.department}</strong>
+              <strong className={styles.fontMono}>
+                {user.user.department}
+              </strong>
             </div>
             <div className={styles.infoRow}>
               <span>Zone:</span>

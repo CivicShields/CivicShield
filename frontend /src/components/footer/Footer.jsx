@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
-import logo from "/favicon.svg";
+import logo from "/incident.png";
 
 function Footer() {
   return (

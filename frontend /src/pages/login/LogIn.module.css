@@ -33,7 +33,7 @@
 }
 
 .loginContainer h2 img {
-  height: 1.4rem;
+  height: 3rem;
 }
 
 .loginContainer h3 {
@@ -127,12 +127,6 @@
   text-decoration: underline;
 }
 
-.forgotPass {
-  width: 100%;
-  text-align: end;
-  margin: 1rem 0;
-}
-
 .donthaveAC {
   width: 100%;
   text-align: center;
@@ -168,5 +162,9 @@
   .loginButton {
     height: 3rem;
     font-size: 1.1rem;
+  }
+
+  .loginContainer h2 img {
+    height: 2.5rem;
   }
 }

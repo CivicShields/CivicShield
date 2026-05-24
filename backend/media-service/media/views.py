@@ -6,10 +6,13 @@ from django.views.decorators.http import require_http_methods
 from .utils import validate_uploaded_file
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404
+from .auth_decorator import login_required
 
 
-@csrf_exempt           # because we're not using Django forms (just an API)
-@require_POST          # only allow POST requests
+@csrf_exempt           
+@require_POST  
+@login_required
+# only allow POST requests and requires login
 def upload_media(request):
     incident_id = request.POST.get('incident_id')
     uploaded_file = request.FILES.get('file')
@@ -38,6 +41,7 @@ def upload_media(request):
 
 
 @require_GET  # only accept GET requests
+@login_required
 def get_media(request, media_id):        # media_id comes from the URL
     media = get_object_or_404(Media, pk=media_id)
 
@@ -54,6 +58,7 @@ def get_media(request, media_id):        # media_id comes from the URL
     })
 
 @require_GET
+@login_required
 def incident_media(request, incident_id):
     # Django ORM: .filter() returns a QuerySet (like an array of records)
     media_list = Media.objects.filter(incident_id=incident_id)
@@ -70,9 +75,10 @@ def incident_media(request, incident_id):
     return JsonResponse(result, safe=False)
 
 
-@csrf_exempt                     # because it's an API call, no CSRF token
+@csrf_exempt                    
 @require_http_methods(["DELETE"])
-def delete_media(request, media_id):
+@login_required
+def delete_media( media_id):
     media = get_object_or_404(Media, pk=media_id)
 
     # Delete the physical file from disk

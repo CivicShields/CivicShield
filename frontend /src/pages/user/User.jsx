@@ -6,7 +6,7 @@ import Policy from "../policy/Policy";
 import ProtectedRoute from "../../components/protected_route/ProtectedRoute";
 import IncidentReport from "./incident_report/IncidentReport";
 import Settings from "./settings/Settings";
-import IncidentMap from "../../IncidentMap";
+import IncidentMap from "../../utilities/IncidentMap";
 import Profile from "./settings/sub_setting_pages/profile_setting/Profile";
 import NotificationPage from "./settings/sub_setting_pages/notification_setting/NotificationPage";
 import SecurityPage from "./settings/sub_setting_pages/security_setting/SecurityPage";

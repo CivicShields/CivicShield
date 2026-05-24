@@ -1,0 +1,6 @@
+**/__pycache__/
+*.pyc
+backend/auth-service/core/migrations/__pycache__/
+.authvenv/
+venv/
+ENV/

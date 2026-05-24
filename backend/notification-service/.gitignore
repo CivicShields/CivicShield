@@ -5,5 +5,3 @@ backend/notification-service/notifications/migrations/__pycache__/
 .novenv/
 venv/
 ENV/
-node_modules/
-

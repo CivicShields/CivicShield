@@ -3,9 +3,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import { CheckCircle2Icon } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import logo from "/favicon.svg";
+import logo from "/incident.png";
 import Button from "../../components/button/Button";
 import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
+import Notify from "../../components/notify/Notify";
 
 function SignUp() {
   const { register } = useAuth();
@@ -94,6 +95,7 @@ function SignUp() {
           Join our community of responders and help <br /> make your
           neighborhood safer
         </p>
+        {error && <Notify key={error} content={error} type="error" />}
         <p>Full Name</p>
         <input
           type="text"
@@ -194,7 +196,6 @@ function SignUp() {
             type="submit"
             disabled={loading}
           />
-          {error && <p style={{ color: "red" }}>{error}</p>}
           <p>
             Already have an account? <Link to="/login">Log In</Link>
           </p>

@@ -3,19 +3,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'd5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-  
-]
-
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -27,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'media',
+    'core',
     "corsheaders",
 ]
 
@@ -42,7 +36,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'media_service.urls'
+AUTH_USER_MODEL = 'core.User'
+
+ROOT_URLCONF = 'auth_service.urls'
 
 TEMPLATES = [
     {
@@ -59,23 +55,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'media_service.wsgi.application'
+WSGI_APPLICATION = 'auth_service.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'media_db',
+        'NAME': 'auth_db',
         'USER': 'kwanganji',
         'PASSWORD': 'kwanganjiPass1@',
         'HOST': 'localhost',
@@ -120,11 +109,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Local file storage
-MEDIA_URL = '/media/'                  # URL prefix to serve user-uploaded files
-MEDIA_ROOT = BASE_DIR / 'media_files'  # folder where files will be saved
+CORS_ALLOW_CREDENTIALS = True
 
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",

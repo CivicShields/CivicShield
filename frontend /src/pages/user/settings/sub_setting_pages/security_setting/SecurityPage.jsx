@@ -4,6 +4,7 @@ import Button from "../../../../../components/button/Button";
 import { useState } from "react";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import ShowPassInput from "../../../../../components/show_pass/ShowPasswordInput";
+import Notify from "../../../../../components/notify/Notify";
 
 function SecurityPage() {
   const redAsterik = <span style={{ color: "red" }}>*</span>;
@@ -68,6 +69,8 @@ function SecurityPage() {
         <h2>Change Your Password</h2>
         <h3>Update Your Password </h3>
         <label>Current Password {redAsterik}</label>
+        {error && <Notify key={error} content={error} type="error" />}
+        {success && <Notify key={success} content={success} type="success" />}
         <ShowPassInput
           autoFocus={true}
           placeholder="Current password"
@@ -125,8 +128,6 @@ function SecurityPage() {
           disable={loading}
         />
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
     </section>
   );
 }

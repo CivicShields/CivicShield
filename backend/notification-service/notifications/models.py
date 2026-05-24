@@ -13,17 +13,11 @@ class Notification(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
     user_id = models.UUIDField()
-
     incident_id = models.UUIDField(null=True, blank=True)
-
     type = models.CharField(max_length=50, choices=NOTIFICATION_TYPES)
-
     message = models.TextField()
-
     is_read = models.BooleanField(default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -32,11 +26,8 @@ class Notification(models.Model):
 
 class Escalation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
     incident_id = models.UUIDField()
-
     triggered_at = models.DateTimeField(auto_now_add=True)
-
     resolved_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):

@@ -39,7 +39,7 @@ function AboutContact() {
           <section className={styles.contactWrapper}>
             <div className={styles.contactInfo}>
               <h2>Get in Touch</h2>
-              <p>Have questions? Fill out the form or reach out directly.</p>
+              <p>Have questions? Reach out directly.</p>
               <div style={{ marginTop: "20px" }}>
                 <p>
                   <strong>Email:</strong> support@safetytrack.io
@@ -49,24 +49,6 @@ function AboutContact() {
                 </p>
               </div>
             </div>
-
-            <form className={styles.contactForm}>
-              <div className={styles.formGroup}>
-                <label>Name</label>
-                <input type="text" placeholder="Your Name" />
-              </div>
-              <div className={styles.formGroup}>
-                <label>Email</label>
-                <input type="email" placeholder="email@example.com" />
-              </div>
-              <div className={styles.formGroup}>
-                <label>Message</label>
-                <textarea rows="5" placeholder="How can we help?"></textarea>
-              </div>
-              <button type="submit" className={styles.submitBtn}>
-                Send Message
-              </button>
-            </form>
           </section>
         </div>
       </main>

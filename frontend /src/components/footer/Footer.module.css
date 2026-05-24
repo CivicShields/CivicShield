@@ -41,7 +41,8 @@ footer {
 }
 
 .names h2 img {
-  height: 1.4rem;
+  height: 2.5rem;
+  mix-blend-mode: multiply;
 }
 
 /* Column title (bold & underlined) */

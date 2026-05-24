@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./LogIn.module.css";
-import logo from "/favicon.svg";
+import logo from "/incident.png";
 import Button from "../../components/button/Button";
 import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
+import Notify from "../../components/notify/Notify";
 
 function LogIn() {
   const { login } = useAuth();
@@ -57,6 +58,7 @@ function LogIn() {
         </h2>
         <h3>Welcome Back!</h3>
         <p className={styles.p1}>Log in to access your reporter dashboard.</p>
+        {error && <Notify key={error} type="error" content={error} />}
         <p>Email Address</p>
         <input
           name="email"
@@ -83,17 +85,12 @@ function LogIn() {
             />
           </div>
         </div>
-
-        <div className={styles.forgotPass}>
-          <a href="">Forgot Password?</a>
-        </div>
         <Button
           name={loading ? "Logging in..." : "Login"}
           classStyle={styles.loginButton}
           type="submit"
           disabled={loading}
         />
-        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className={styles.donthaveAC}>
           <p>
             Don't have an account?{" "}

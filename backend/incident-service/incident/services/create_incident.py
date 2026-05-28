@@ -1,3 +1,3 @@
-def function validate_incident(data, user):
+def validate_incident(data, user):
 
 

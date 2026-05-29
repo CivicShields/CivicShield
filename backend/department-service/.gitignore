@@ -1,0 +1,3 @@
+**/__pycache__/
+*.pyc
+backend/yourmediaservice-service/appname/migrations/__pycache__/

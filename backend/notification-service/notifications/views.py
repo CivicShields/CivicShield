@@ -5,7 +5,6 @@ from .models import Notification, Escalation
 from .auth_decorator import login_required, verify_token
 import json
 
-
 # GET /notifications/user/{userId}
 @login_required
 def user_notifications(user_id):

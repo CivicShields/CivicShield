@@ -18,3 +18,14 @@ class IsDepartment(BasePermission):
             return user_data.get("department_id") == obj.department_id
         print("Failed to fetch user data:", response.status_code, response.text)
         return False
+    
+class IsAdmin(BasePermission):
+
+    def has_permission(self, request, view):
+        USERS_URL = "Url to query department here"
+        response = requests.get(f"{USERS_URL}/users/{request.user.id}/")
+        if response.status_code == 200:
+            user_data = response.json()
+            return user_data.get("is_admin", False)
+        print("Failed to fetch user data:", response.status_code, response.text)
+        return False

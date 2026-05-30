@@ -3,9 +3,10 @@ from ..models import Incident
 from django.http import JsonResponse
 from ..forms import IncidentForm
 from django.core import serializers 
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-
+@csrf_exempt
 def create_incident(request):
     # Only allow POST method
     if request.method != "POST":
@@ -18,7 +19,8 @@ def create_incident(request):
     
     # create new incident object
     incident = form.save(commit=False)
-    incident.reporter_id = request.user.id  # Set the reporter_id to the authenticated user's ID
+    incident.reporter_id = request.user.id
+    # Set the reporter_id to the authenticated user's ID
     data = incident.save()
 
     return JsonResponse({"suceess":True, "data":data}, status=201)

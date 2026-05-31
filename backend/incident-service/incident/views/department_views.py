@@ -60,6 +60,6 @@ def update_status(request, *args, **kwargs):
     
     except Incident.DoesNotExist:
         return JsonResponse({"error": "Incident not found"}, status=404)
-    except Exception as e:
-        return JsonResponse({"error": "An error occurred while updating incident status", "errors":f"{str(e)}"}, status=500)
+    except Exception:
+        return JsonResponse({"error": "An error occurred while updating incident status"}, status=500)
     

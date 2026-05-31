@@ -2,7 +2,6 @@ from ..permissions import IsReporter
 from ..models import Incident
 from django.http import JsonResponse
 from ..forms import IncidentForm
-from django.core import serializers 
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 

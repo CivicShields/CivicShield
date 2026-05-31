@@ -8,7 +8,7 @@ import json
 
 # GET /notifications/user/{userId}
 @login_required
-def user_notifications(user_id):
+def user_notifications(request, user_id):
     notifications = Notification.objects.filter(user_id=user_id)
     data = [model_to_dict(n) for n in notifications]
     return JsonResponse(data, safe=False)

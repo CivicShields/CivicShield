@@ -2,9 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('create-depart/', views.create_depart, name='create_depart'),
-    path('get-all-departs/', views.get_depart_list, name='get_depart_list'),
-    path('get-depart/', views.get_depart, name='get_depart'),
-    path('update-depart/', views.update_depart, name='update-depart'),
-    path('delete-depart/', views.delete_depart, name='delete-depart'),
+    path('departments/', views.list_departments),
+    path('departments/create/', views.create_department),
+    path('departments/<int:id>/', views.get_department),
+    path('departments/<int:id>/update/', views.update_department),
+    path('departments/<int:id>/delete/', views.delete_department),
+    path('departments/<int:id>/incidents/', views.department_incidents),
+    path('departments/<int:id>/assign/<int:incident_id>/', views.assign_incident),
 ]

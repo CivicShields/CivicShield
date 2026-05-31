@@ -49,30 +49,16 @@ def get_media(request, media_id):        # media_id comes from the URL
     public_url = request.build_absolute_uri(media.file.url)
 
     return JsonResponse({
-        'id': str(media.id),
-        'incident_id': str(media.incident_id),
-        'file_name': media.file_name,
-        'file_type': media.file_type,
-        'url': public_url,
-        'created_at': media.created_at.isoformat(),
+        'success': True,
+        'media': {
+            'id': str(media.id),
+            'incident_id': str(media.incident_id),
+            'file_name': media.file_name,
+            'file_type': media.file_type,
+            'url': public_url,
+            'created_at': media.created_at.isoformat()
+        }
     })
-
-@require_GET
-@login_required
-def incident_media(request, incident_id):
-    # Django ORM: .filter() returns a QuerySet (like an array of records)
-    media_list = Media.objects.filter(incident_id=incident_id)
-
-    result = []
-    for m in media_list:
-        result.append({
-            'id': str(m.id),
-            'file_name': m.file_name,
-            'file_type': m.file_type,
-            'url': request.build_absolute_uri(m.file.url),
-            'created_at': m.created_at.isoformat(),
-        })
-    return JsonResponse(result, safe=False)
 
 @login_required
 def all_media(request):
@@ -92,7 +78,7 @@ def all_media(request):
             'url': request.build_absolute_uri(m.file.url),
             'created_at': m.created_at.isoformat(),
         })
-    return JsonResponse(result, safe=False)
+    return JsonResponse({'success': True, 'medias': result}, safe=False)
 
 
 @csrf_exempt                    
@@ -106,4 +92,4 @@ def delete_media( media_id):
     # Delete the database record
     media.delete()
 
-    return JsonResponse({'message': 'Media deleted successfully'}, status=200)
+    return JsonResponse({'success': True, 'message': 'Media deleted successfully'}, status=200)

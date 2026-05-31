@@ -1,9 +1,12 @@
+import logging
 from ..permissions import IsReporter
 from ..models import Incident
 from django.http import JsonResponse
 from ..forms import IncidentForm
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def create_incident(request):
@@ -45,7 +48,8 @@ def list_user_incidents(request, *args, **kwargs):
         return JsonResponse({"success":True, "data":data}, status=200)
 
     except Exception as e:
-        return JsonResponse({"error": "An error occurred while fetching incidents", "errors":f"{str(e)}"}, status=500)
+        logger.exception("Error while fetching incidents for user_id=%s", user_id)
+        return JsonResponse({"error": "An error occurred while fetching incidents"}, status=500)
 
 
 

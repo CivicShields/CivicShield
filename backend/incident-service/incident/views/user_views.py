@@ -1,5 +1,4 @@
 import logging
-from ..permissions import IsReporter
 from ..models import Incident
 from django.http import JsonResponse
 from ..forms import IncidentForm

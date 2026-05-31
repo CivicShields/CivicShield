@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from ..models import Incident
-from django.core import serializers 
 from django.views.decorators.csrf import csrf_exempt
 import json
 import logging

@@ -4,6 +4,9 @@ from ..permissions import IsDepartment
 from django.core import serializers 
 from django.views.decorators.csrf import csrf_exempt
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def list_dept_incidents(request, *args, **kwargs):
@@ -22,8 +25,9 @@ def list_dept_incidents(request, *args, **kwargs):
         incidents = Incident.objects.filter(department_id=dept_id)
         data = list(incidents.values("id", "reporter_id", "category","severity", "status", "description", "location"))
         return JsonResponse({"success":True, "data":data}, status=200)
-    except Exception as e:
-        return JsonResponse({"error": "An error occurred while fetching incidents", "errors":f"{str(e)}"}, status=500)
+    except Exception:
+        logger.exception("Error occurred while fetching incidents")
+        return JsonResponse({"error": "An error occurred while fetching incidents"}, status=500)
     
 
 @csrf_exempt

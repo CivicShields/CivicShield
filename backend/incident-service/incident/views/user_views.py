@@ -3,11 +3,12 @@ from ..models import Incident
 from django.http import JsonResponse
 from ..forms import IncidentForm
 from django.views.decorators.csrf import csrf_exempt
-# Create your views here.
+from core.authentication import login_required
 
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
+@login_required
 def create_incident(request):
     # Only allow POST method
     if request.method != "POST":
@@ -29,7 +30,7 @@ def create_incident(request):
 
     return JsonResponse({"success":True, "data":data}, status=201)
 
-
+@login_required
 def list_user_incidents(request, *args, **kwargs):
     # Only allow GET method
     if request.method != "GET":

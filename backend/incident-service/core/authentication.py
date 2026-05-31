@@ -1,31 +1,22 @@
-from rest_framework.authentication import BaseAuthentication
-from rest_framework.exceptions import AuthenticationFailed
+from django.conf import settings
+from django.http import JsonResponse
 import jwt
 
-class JWTAuthentication(BaseAuthentication):
+def verify_token(token):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        return payload
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return None
 
-    def authenticate(self, request):
-
-        auth_header = request.headers.get("Authorization")
-
-        if not auth_header:
-            return None
-
-        try:
-            token = auth_header.split(" ")[1]
-
-            payload = jwt.decode(
-                token,
-                "SECRET_KEY ",
-                algorithms=["HS256"]
-            )
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Token expired")
-
-        except jwt.InvalidTokenError:
-            raise AuthenticationFailed("Invalid token")
-
-        request.user = payload
-
-        return (payload, None)
+def login_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        token = request.COOKIES.get('auth_token')
+        if not token:
+            return JsonResponse({'error': 'unauthorized'}, status=401)
+        payload = verify_token(token)
+        if not payload:
+            return JsonResponse({'error': 'invalid token'}, status=401)
+        request.user_payload = payload
+        return view_func(request, *args, **kwargs)
+    return wrapper

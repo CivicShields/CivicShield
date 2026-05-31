@@ -3,10 +3,12 @@ from ..models import Incident
 from django.views.decorators.csrf import csrf_exempt
 import json
 import logging
+from core.authentication import login_required
 
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
+@login_required
 def list_dept_incidents(request, *args, **kwargs):
 
     #only GET method allowed
@@ -29,6 +31,7 @@ def list_dept_incidents(request, *args, **kwargs):
     
 
 @csrf_exempt
+@login_required
 def update_status(request, *args, **kwargs):
 
     #only PATCH request accepted

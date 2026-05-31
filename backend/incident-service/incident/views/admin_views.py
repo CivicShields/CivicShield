@@ -1,9 +1,12 @@
 from django.http import JsonResponse
 from django.core import serializers
 import logging
+from ..models import Incident
+from core.authentication import login_required
 
 logger = logging.getLogger(__name__)
 
+@login_required
 def admin_list_incidents(request, *args, **kwargs):
 
     #only POST method is allowed
@@ -29,7 +32,8 @@ def admin_list_incidents(request, *args, **kwargs):
 
     #getting incidents
     try:
-        queryset = Incidents.objects.filter(department_id = department, severity=severity, status=status)
+        queryset = Incident.objects.filter(department_id = department, severity=severity, status=status)
+# Register your models here.
 
         if not queryset.exists():
             return JsonResponse({"error":"no incidents found"}, status=404)
@@ -42,7 +46,7 @@ def admin_list_incidents(request, *args, **kwargs):
         logger.exception("Error while fetching incidents")
         return JsonResponse({"error":"an error occurred while fetching incidents"}, status=500)
 
-
+@login_required
 def admin_remove_incidents(request, *args, **kwargs):
     
     #only DELETE method is allowed
@@ -56,18 +60,19 @@ def admin_remove_incidents(request, *args, **kwargs):
     
     #deleting incident
     try:
-        incident = Incidents.objects.get(id=incident_id)
+        incident = Incident.objects.get(id=incident_id)
         incident.delete()
         return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been removed"}, status=200)
     
-    except Incidents.DoesNotExist:
+    except Incident.DoesNotExist:
         return JsonResponse({"error":"incident not found"}, status=404)
     
     except Exception as e:
         logger.exception("Error while removing incident")
         return JsonResponse({"error":"an error occurred while removing incident"}, status=500)
 
-    
+
+@login_required   
 def admin_update_incident(request, *args, **kwargs):
 
     #only PATCH method is allowed
@@ -94,7 +99,7 @@ def admin_update_incident(request, *args, **kwargs):
 
     #updating incident
     try:
-        incident = Incidents.objects.get(id=incident_id)
+        incident = Incident.objects.get(id=incident_id)
 
         if severity:
             incident.severity = severity
@@ -105,7 +110,7 @@ def admin_update_incident(request, *args, **kwargs):
         incident.save()
         return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been updated"}, status=200)
     
-    except Incidents.DoesNotExist:
+    except Incident.DoesNotExist:
         return JsonResponse({"error":"incident not found"}, status=404)
     
     except Exception as e:

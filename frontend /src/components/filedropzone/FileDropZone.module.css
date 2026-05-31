@@ -1,0 +1,130 @@
+.dropzoneContainer {
+  border: 2px dashed #cccccc;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  padding: 1rem 0.9rem; /* reduced side padding on mobile */
+  text-align: center;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition:
+    border 0.3s ease,
+    background-color 0.3s ease;
+  width: 100%;
+  max-width: 200px; /* prevents it from getting too wide */
+  margin: 0 auto; /* center if needed */
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 1rem 0 0.3rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2c2a2a;
+  text-align: center;
+}
+
+.previewSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.changeText {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.dropzoneContainer:hover {
+  border-color: rgb(58, 65, 135);
+  background-color: #f0f7ff;
+}
+
+.thumbnailWrapper {
+  position: relative; /* So the button can be positioned absolutely */
+  display: inline-block;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.removeBtn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.removeBtn:hover {
+  background: #ff0000;
+  transform: scale(1.1);
+}
+
+.iconPlaceholder {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eee;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.icon {
+  font-size: 1.4rem; /* scales with root font size */
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.uploadButton {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(58, 65, 135);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  width: auto;
+  transition: background-color 0.2s;
+}
+
+.uploadButton:hover {
+  background-color: #1976d2;
+}
+
+/* 📱 Small screen adjustments */
+@media (max-width: 480px) {
+  .dropzoneContainer {
+    padding: 1.5rem 1rem; /* tighter padding on phones */
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .uploadButton {
+    width: 100%; /* full width button for easier tapping */
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
+}

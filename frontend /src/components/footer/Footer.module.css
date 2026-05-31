@@ -1,0 +1,149 @@
+/* Outer footer */
+footer {
+  background-color: rgba(19, 47, 119, 0.894);
+  color: white;
+  width: 100%;
+  padding: 2rem 1.5rem 1.5rem;
+  box-sizing: border-box;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main columns container */
+.footerStyle {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px; /* keeps content comfortable on ultra‑wide screens */
+  gap: 2rem;
+  flex-wrap: wrap; /* allows wrapping on smaller screens */
+  margin-bottom: 1.5rem;
+}
+
+/* Each column */
+.names {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  flex: 1 1 200px; /* grow, shrink, base width */
+}
+
+/* Headings inside columns */
+.names h2 {
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.names h2 img {
+  height: 2.5rem;
+  mix-blend-mode: multiply;
+}
+
+/* Column title (bold & underlined) */
+.names p:nth-child(1) {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid rgb(227, 87, 7);
+  padding-bottom: 0.5rem;
+}
+
+/* Regular paragraph inside columns */
+.names p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Links in the footer */
+footer a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  transition: opacity 0.2s;
+}
+
+footer a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* Copyright line */
+footer > p {
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+  max-width: 100%;
+}
+
+/* ---------------------- */
+/* 📱 Tablet (≤768px) */
+/* ---------------------- */
+@media (max-width: 768px) {
+  footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .footerStyle {
+    gap: 1.5rem;
+    justify-content: space-around; /* less gap between wrapped columns */
+  }
+
+  .names {
+    flex: 1 1 140px;
+    min-width: 140px;
+  }
+
+  .names > p:first-of-type {
+    font-size: 1.1rem;
+  }
+}
+
+/* ---------------------- */
+/* 📱 Phone (≤480px) */
+/* ---------------------- */
+@media (max-width: 480px) {
+  footer {
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+
+  .footerStyle {
+    flex-direction: column; /* stack all columns */
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .names {
+    align-items: center; /* center text & links */
+    min-width: 100%;
+    flex: unset;
+  }
+
+  .names h2 {
+    justify-content: center;
+  }
+
+  .names > p:first-of-type {
+    border-bottom: none;
+    margin-bottom: 0.5rem;
+  }
+
+  footer a {
+    font-size: 1.05rem;
+    padding: 0.4rem 0;
+  }
+
+  footer > p {
+    font-size: 0.85rem;
+  }
+}

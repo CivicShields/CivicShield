@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from ..models import Incident
 from django.core import serializers
 import logging
 

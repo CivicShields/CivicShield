@@ -1,6 +1,9 @@
 from django.http import JsonResponse
 from ..models import Incident
 from django.core import serializers
+import logging
+
+logger = logging.getLogger(__name__)
 
 def admin_list_incidents(request, *args, **kwargs):
 
@@ -37,7 +40,8 @@ def admin_list_incidents(request, *args, **kwargs):
         return JsonResponse({"success":True, "data":data}, status=200)
     
     except Exception as e:
-        return JsonResponse({"error":"an error occurred while fetching incidents", "errors":f"{str(e)}"}, status=500)
+        logger.exception("Error while fetching incidents")
+        return JsonResponse({"error":"an error occurred while fetching incidents"}, status=500)
 
 
 def admin_remove_incidents(request, *args, **kwargs):
@@ -61,7 +65,8 @@ def admin_remove_incidents(request, *args, **kwargs):
         return JsonResponse({"error":"incident not found"}, status=404)
     
     except Exception as e:
-        return JsonResponse({"error":"an error occurred while removing incident", "errors":f"{str(e)}"}, status=500)
+        logger.exception("Error while removing incident")
+        return JsonResponse({"error":"an error occurred while removing incident"}, status=500)
 
     
 def admin_update_incident(request, *args, **kwargs):
@@ -105,4 +110,5 @@ def admin_update_incident(request, *args, **kwargs):
         return JsonResponse({"error":"incident not found"}, status=404)
     
     except Exception as e:
-        return JsonResponse({"error":"an error occurred while updating incident", "errors":f"{str(e)}"}, status=500)
+        logger.exception("Error while updating incident")
+        return JsonResponse({"error":"an error occurred while updating incident"}, status=500)

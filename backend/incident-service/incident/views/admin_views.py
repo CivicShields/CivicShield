@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from ..models import Incident
 from django.core import serializers
 
-def list_incidents(request, *args, **kwargs):
+def admin_list_incidents(request, *args, **kwargs):
 
     #only POST method is allowed
     if request.method != "POST":
@@ -40,7 +40,7 @@ def list_incidents(request, *args, **kwargs):
         return JsonResponse({"error":"an error occurred while fetching incidents", "errors":f"{str(e)}"}, status=500)
 
 
-def remove_incidents(request, *args, **kwargs):
+def admin_remove_incidents(request, *args, **kwargs):
     
     #only DELETE method is allowed
     if request.method != "DELETE":
@@ -64,7 +64,7 @@ def remove_incidents(request, *args, **kwargs):
         return JsonResponse({"error":"an error occurred while removing incident", "errors":f"{str(e)}"}, status=500)
 
     
-def update_incident(request, *args, **kwargs):
+def admin_update_incident(request, *args, **kwargs):
 
     #only PATCH method is allowed
     if request.method != "PATCH":

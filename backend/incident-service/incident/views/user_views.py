@@ -18,15 +18,18 @@ def create_incident(request):
         return JsonResponse({"error": "Invalid form data", "details": form.errors}, status=400)
     
     # create new incident object
-    incident = form.save(commit=False)
-    incident.reporter_id = request.user.id
+    validated_data = form.cleaned_data
+    validated_data["reporter_id"] = request.user.id if request.user.id is not None else 1
+    print(validated_data)
+    incident = Incident.objects.create(**validated_data)
+    incident.save()
     # Set the reporter_id to the authenticated user's ID
     data = incident.save()
 
-    return JsonResponse({"suceess":True, "data":data}, status=201)
+    return JsonResponse({"success":True, "data":data}, status=201)
 
 
-def list_incidents(request, *args, **kwargs):
+def list_user_incidents(request, *args, **kwargs):
     # Only allow GET method
     if request.method != "GET":
         return JsonResponse({"error": "Only GET method is allowed"}, status=405)
@@ -39,7 +42,7 @@ def list_incidents(request, *args, **kwargs):
     # Query the database for incidents reported by the user and perfoming serialization    
     try:
         incidents = Incident.objects.filter(reporter_id=user_id)
-        data = serializers.serialize("json", incidents)
+        data = list(incidents.values("id", "department_id", "category", "severity", "status", "description", "location"))
         return JsonResponse({"success":True, "data":data}, status=200)
 
     except Exception as e:

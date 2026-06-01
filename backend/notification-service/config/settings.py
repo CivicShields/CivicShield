@@ -71,6 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+DEVELOPMENT_PORT = 8003
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases

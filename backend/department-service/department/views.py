@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Department, Assignment
-from .auth_decorator import login_required   
+from .auth_decorator import login_required
 
 def department_to_dict(dept):
     return {
@@ -52,10 +52,17 @@ def create_department(request):
     name = data.get('name')
     email = data.get('contact_email')
     phone = data.get('contact_phone')
-    if not name or not email or not phone:
+    #removing phone due to testing purposes
+    if not name or not email:
         return JsonResponse({'success': False, 
-                             'error': 'name, contact_phone and contact_email required'}, 
+                             'error': 'name and contact_email required'}, 
                             status=400)
+        
+    if Department.objects.filter(name=name).exists() or Department.objects.filter(name=email).exists():
+            return JsonResponse(
+                {'success': False, 'error': 'A department with that name or email is already registered.'}, 
+                status=400
+            )
 
     dept = Department.objects.create(
         name=name,
@@ -100,6 +107,13 @@ def update_department(request, id):
         dept.contact_phone = data['contact_phone']
     dept.save()
     return JsonResponse({'success': True, 'department': department_to_dict(dept)})
+
+
+@login_required
+def get_depart_names(request):
+    # Returns only unique names, ignoring duplicates
+    depart_list = list(Department.objects.values_list('name', flat=True).distinct())
+    return JsonResponse({'success': True, 'list': depart_list}, safe=False)
 
 
 # DELETE /departments/<id>/   (admin only)

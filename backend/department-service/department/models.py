@@ -7,8 +7,8 @@ class Department(models.Model):
         message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
     )
  
-    name = models.CharField(max_length=100)
-    contact_email = models.EmailField()
+    name = models.CharField(max_length=100, unique=True)
+    contact_email = models.EmailField(unique=True)
     contact_phone = models.CharField(
         validators=[phone_regex], 
         max_length=17, 

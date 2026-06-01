@@ -8,13 +8,11 @@ import Footer from "../../../components/footer/Footer.jsx";
 import FileDropZone from "../../../components/filedropzone/FileDropZone.jsx";
 import { useReport } from "../../../contexts/ReportContext.jsx";
 import { incidentCategories } from "../../../utilities/Data.js";
-import { useDepart } from "../../../contexts/DepartContext.jsx";
 import { LocateIcon } from "lucide-react";
 import { reverseGeocode } from "../../../utilities/location_utilities.js";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
-  const { fetchDeparts } = useDepart();
   const { addReport } = useReport();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -28,11 +26,23 @@ function IncidentReport() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [departNames, setDepartNames] = useState();
+  const [departNames, setDepartNames] = useState([]);
 
   useEffect(() => {
-    fetchDeparts().then(setDepartNames).catch(console.error);
-  }, [fetchDeparts]);
+    async function fetchDeparts() {
+      const req = await fetch("/departments/depart-names", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (req.ok) {
+        const res = await req.json();
+        if (res.success) setDepartNames(res.list);
+      }
+    }
+    fetchDeparts();
+  }, [departNames]);
 
   function handleDescCount(e) {
     setDescCount(e.target.value.length);

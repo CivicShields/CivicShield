@@ -2,7 +2,6 @@ import { createContext, useContext, useCallback, useState } from "react";
 import { useAuth } from "./AuthContext";
 import {
   changeReportStatusRequest,
-  getDepartmentNamesRequest,
   getDepartReportsRequest,
 } from "../services/DepartService";
 
@@ -11,12 +10,6 @@ const DepartContext = createContext(null);
 export function DepartProvider({ children }) {
   const [departReports, setDepartReports] = useState([]);
   const { user } = useAuth();
-
-  const fetchDeparts = useCallback(async () => {
-    if (!user) throw new Error("No user is logged in");
-    const { departs } = await getDepartmentNamesRequest();
-    return departs;
-  }, [user]);
 
   const fetchDepartReports = useCallback(async () => {
     if (!user) throw new Error("No user is logged in");
@@ -42,7 +35,7 @@ export function DepartProvider({ children }) {
 
   return (
     <DepartContext.Provider
-      value={{ departReports, changeStatus, fetchDeparts, fetchDepartReports }}
+      value={{ departReports, changeStatus, fetchDepartReports }}
     >
       {children}
     </DepartContext.Provider>

@@ -40,6 +40,8 @@ AUTH_USER_MODEL = 'core.User'
 
 ROOT_URLCONF = 'auth_service.urls'
 
+DEVELOPMENT_PORT = '8000'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

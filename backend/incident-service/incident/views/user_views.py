@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from ..forms import IncidentForm
 from django.views.decorators.csrf import csrf_exempt
 from core.authentication import login_required
+from incident.data import get_media, save_media
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +25,8 @@ def create_incident(request):
     validated_data["reporter_id"] = request.user.id if request.user.id is not None else 1
     print(validated_data)
     incident = Incident.objects.create(**validated_data)
+    print(incident)
+    
     incident.save()
     # Set the reporter_id to the authenticated user's ID
     data = incident.save()

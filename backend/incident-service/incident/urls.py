@@ -5,7 +5,7 @@ from .views.admin_views import admin_list_incidents, admin_remove_incidents, adm
 
 urlpatterns = [
     # urls for normal user
-    path('create/', create_incident, name='incident-create'),
+    path('create', create_incident, name='incident-create'),
     path("reporter/<int:id>", list_user_incidents, name="list-incidents"),
 
     # urls for departments

@@ -116,6 +116,19 @@ def get_depart_names(request):
     return JsonResponse({'success': True, 'list': depart_list}, safe=False)
 
 
+@login_required
+def get_depart_id(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        data = request.POST
+
+    name = data.get('name')
+    # Returns only unique names, ignoring duplicates
+    depart = list(Department.objects.filter(name))
+    return JsonResponse({'success': True, 'depart': depart}, safe=False)
+
+
 # DELETE /departments/<id>/   (admin only)
 @csrf_exempt
 @login_required

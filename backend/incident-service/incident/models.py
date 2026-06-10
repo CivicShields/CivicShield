@@ -1,8 +1,6 @@
-from venv import create
-
 from django.db import models
+import uuid
 
-# Create your models here.
 class Incident(models.Model):
     SEVERITY_CHOICES = [
         ('Low', 'Low'),
@@ -15,9 +13,9 @@ class Incident(models.Model):
         ("in_progress", "In Progress"),
         ("resolved", "Resolved"),
     ]
-    id = models.IntegerField(primary_key=True)
-    reporter_id = models.IntegerField(blank=False, null=False)
-    department_id = models.IntegerField(blank=False, null=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    reporter_id = models.IntegerField()  # Matches User.id standard
+    department_id = models.UUIDField()
     category  = models.CharField(max_length=50, blank=False, null=False)
     severity  = models.CharField(max_length=20, choices=SEVERITY_CHOICES, blank=False, null=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
@@ -28,7 +26,7 @@ class Incident(models.Model):
 
 
 class TimelineEvents(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     incident_id = models.IntegerField(blank=False, null=False)
     actor_id = models.IntegerField(blank=False, null=False)
     event_type = models.CharField(max_length=50, blank=False, null=False)

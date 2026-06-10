@@ -79,13 +79,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
-DEVELOPMENT_PORT = 8001
+DEVELOPMENT_PORT = "8001"
 
 # urls to connect
-MEDIA_URL = 'http://127.0.0.1:8004'
-DEPARTMENT_URL = 'http://127.0.0.1:8002'
-NOTIFICATION_URL = 'http://127.0.0.1:8003'
-AUTH_URL = 'http://127.0.0.1:8000'
+MEDIA_URL = 'http://127.0.0.1:8004/'
+DEPARTMENT_URL = 'http://127.0.0.1:8002/'
+NOTIFICATION_URL = 'http://127.0.0.1:8003/'
+AUTH_URL = 'http://127.0.0.1:8000/'
 
 
 # Database

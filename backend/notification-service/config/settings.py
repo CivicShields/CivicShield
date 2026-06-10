@@ -71,7 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DEVELOPMENT_PORT = 8003
+DEVELOPMENT_PORT = "8003"
 
 
 # Database

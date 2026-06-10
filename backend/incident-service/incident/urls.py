@@ -1,7 +1,5 @@
 from django.urls import path
-from .views.user_views import list_user_incidents, create_incident
-from .views.department_views import list_dept_incidents, update_status 
-from .views.admin_views import admin_list_incidents, admin_remove_incidents, admin_update_incident
+from .views import list_user_incidents, create_incident, list_dept_incidents, update_status, admin_list_incidents, admin_remove_incidents, admin_update_incident
 
 urlpatterns = [
     # urls for normal user

@@ -44,7 +44,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'media_service.urls'
 
-DEVELOPMENT_PORT = 8004
+DEVELOPMENT_PORT = "8004"
 
 TEMPLATES = [
     {

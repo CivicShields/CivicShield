@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:id>/incidents', views.department_incidents),
     path('<int:id>/assign/<int:incident_id>', views.assign_incident),
     path('depart-names', views.get_depart_names, name='get_depart_names'),
+    path('depart-id', views.get_depart_id, name='get_depart_id'),
 ]

@@ -42,7 +42,7 @@ function IncidentReport() {
       }
     }
     fetchDeparts();
-  }, [departNames]);
+  }, [departNames.length]);
 
   function handleDescCount(e) {
     setDescCount(e.target.value.length);
@@ -89,15 +89,15 @@ function IncidentReport() {
 
     setLoading(true);
     try {
-      await addReport(
+      const repo = await addReport(
         form.category,
         form.department,
-        form.reportedDate,
         form.incidentTitle,
         form.location,
         form.description,
         form.document,
       );
+      console.log(repo);
       navigate("/settings/myreports");
     } catch (err) {
       setError(err.message || "Report registration failed");
@@ -107,14 +107,13 @@ function IncidentReport() {
   };
 
   if (!departNames) return <div>... isloading</div>;
-
   const Departments = [
     <option value="" key="default" disabled>
       Select a Department
     </option>,
     ...departNames.map((depart, index) => (
-      <option value={depart} key={index}>
-        {depart}
+      <option value={depart.id} key={index}>
+        {depart.name}
       </option>
     )),
   ];

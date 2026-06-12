@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { CheckCircle2Icon } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import logo from "/incident.png";
+import logo from "/imagelogo.png";
 import Button from "../../components/button/Button";
 import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 import Notify from "../../components/notify/Notify";

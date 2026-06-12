@@ -17,6 +17,7 @@ def incident_to_dict(inc):
         'category': inc.category,
         'severity': inc.severity,
         'status': inc.status,
+        'title': inc.title,
         'description': inc.description,
         'location': inc.location,
         'created_at': inc.created_at.isoformat(),
@@ -30,19 +31,22 @@ def create_incident(request):
     # Only allow POST method
     if request.method != "POST":
         return JsonResponse({"error": "Only POST method is allowed"}, status=405)
-    try:
-        data = json.loads(request.body)
-    except:
-        data = request.POST
-        inc = Incident.objects.create(
-            reporter_id=request.user_payload['user_id'],
-            department_id=data.get('department_id'),
-            category=data['category'],
-            severity=data.get('severity', 'medium'),
-            description=data['description'],
-            location=data.get('location', ''),
-        )
-        return JsonResponse({"success":True, "report": incident_to_dict(inc)}, status=201)
+    
+    data = request.POST
+    inc = Incident.objects.create(
+        reporter_id=request.user_payload['user_id'],
+        department_id=data.get('department_id'),
+        category=data['category'],
+        severity=data.get('severity', 'medium'),
+        description=data['description'],
+        location=data.get('location', ''),
+        title=data.get('title', ''),
+    )
+    inc.save()
+    med = save_media(request, inc.id)
+    if not med.success: 
+        return JsonResponse({"error": "Error occurred while saving media"})
+    return JsonResponse({"success":True, "report": incident_to_dict(inc)}, status=201)
 
 @csrf_exempt
 @login_required
@@ -68,19 +72,21 @@ def list_user_incidents(request, *args, **kwargs):
 
 @csrf_exempt
 @login_required
-def admin_list_incidents(request, *args, **kwargs):
+def admin_list_incidents(request):
 
     #only POST method is allowed
     if request.method != "POST":
         return JsonResponse({"error":"only POST request is allowed"}, status=400)
     
     #getting and validating request body
-    get_media(request, "c1df42c1-b725-488d-bb5f-3614eb30320e")
-    department = request.POST.get("department")
-    severity = request.POST.get("severity")
-    status = request.POST.get("status")
+    data = json.loads(request.body)
+    med = get_media(request, media_id="c1df42c1-b725-488d-bb5f-3614eb30320e")
+    print(med)
+    department = data.get("department")
+    severity = data.get("severity")
+    status = data.get("status")
 
-    ALLOWED_SEVERITY = ["Low", "Medium", "High", "Urgent"]
+    ALLOWED_SEVERITY = ["low", "medium", "high", "urgent"]
     ALLOWED_STATUS = ["pending", "in_progress", "resolved"]
 
     if not severity or not status or not department:

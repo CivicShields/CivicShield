@@ -19,45 +19,30 @@ export function getReportsRequest(userID) {
 }
 
 export async function addReportRequest(
-  email,
   category,
   assignedDepart,
-  rpdate,
   incTitle,
   location,
   descr,
   doc,
-  creator,
 ) {
-  const newReport = {
-    report_id: Date.now().toString(),
-    category,
-    severity: "medium",
-    description: descr,
-    assignedDepartment: assignedDepart,
-    status: "Pending",
-    created_at: rpdate,
-    doc: doc,
-    location: location,
-    title: incTitle,
-    created_by: creator,
-  };
-
   const formData = new FormData();
   formData.append("file", doc);
-  formData.append("incident_id", newReport.report_id);
+  formData.append("department_id", assignedDepart);
+  formData.append("location", location);
+  (formData.append("title", incTitle), formData.append("category", category));
+  formData.append("description", descr);
 
   try {
-    const response = await fetch("http://localhost:8000/media/upload", {
+    const req = await fetch("/incident/create", {
       method: "POST",
       body: formData,
+      credentials: "include",
     });
-    const data = await response.json();
+    const res = await req.json();
+    console.log(res);
 
-    newReport.doc = data.media_id;
-    reportData.push(newReport);
-
-    return { report: newReport, serverResponse: data };
+    return { serverResponse: res };
   } catch (error) {
     console.error("Upload failed:", error);
     throw error;

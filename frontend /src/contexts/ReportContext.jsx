@@ -16,28 +16,17 @@ export function ReportProvider({ children }) {
   }, [user]);
 
   const addReport = useCallback(
-    async (
-      category,
-      assignedDepart,
-      rpdate,
-      incTitle,
-      location,
-      descr,
-      doc,
-    ) => {
+    async (category, assignedDepart, incTitle, location, descr, doc) => {
       await addReportRequest(
-        user.email,
         category,
         assignedDepart,
-        rpdate,
         incTitle,
         location,
         descr,
         doc,
-        user.id,
       );
     },
-    [user],
+    [],
   );
 
   return (

@@ -73,6 +73,7 @@ def create_department(request):
 
 
 # GET /departments/<id>/
+@csrf_exempt
 @login_required
 def get_department(id):
     dept = Department.objects.filter(id=id).first()
@@ -108,25 +109,12 @@ def update_department(request, id):
     dept.save()
     return JsonResponse({'success': True, 'department': department_to_dict(dept)})
 
-
+@csrf_exempt
 @login_required
 def get_depart_names(request):
     # Returns only unique names, ignoring duplicates
-    depart_list = list(Department.objects.values_list('name', flat=True).distinct())
+    depart_list = list(Department.objects.values('id', 'name').distinct())
     return JsonResponse({'success': True, 'list': depart_list}, safe=False)
-
-
-@login_required
-def get_depart_id(request):
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        data = request.POST
-
-    name = data.get('name')
-    # Returns only unique names, ignoring duplicates
-    depart = list(Department.objects.filter(name))
-    return JsonResponse({'success': True, 'depart': depart}, safe=False)
 
 
 # DELETE /departments/<id>/   (admin only)
@@ -144,6 +132,7 @@ def delete_department(request, id):
 
 
 # GET /departments/<id>/incidents/
+@csrf_exempt
 @login_required
 def department_incidents(request, id):
     dept = Department.objects.filter(id=id).first()

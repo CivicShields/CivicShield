@@ -3,8 +3,6 @@ import styles from "./MyReport.module.css";
 import { getElapsedTime } from "../../../../../utilities/Date_utilities";
 import ReportDetailView from "../../../../../components/report_detail/ReportDetailView";
 import { incidentCategories } from "../../../../../utilities/Data";
-import { useDepart } from "../../../../../contexts/DepartContext";
-import { useReport } from "../../../../../contexts/ReportContext";
 
 const MyReports = () => {
   const [filter, setFilter] = useState({
@@ -15,31 +13,47 @@ const MyReports = () => {
   });
 
   const [selectedReport, setSelectedReport] = useState(null);
-  const [allDeparts, setAllDeparts] = useState();
-  const { fetchDeparts } = useDepart();
-  const { reports, fetchReports } = useReport();
+  const [allDeparts, setAllDeparts] = useState([]);
+  const [reports, setReports] = useState([]);
 
   useEffect(() => {
-    fetchDeparts().then(setAllDeparts).catch(console.error);
+    async function fetchReports() {
+      const req = await fetch("/incident/reporter/", {
+        credentials: "include",
+      });
+      const res = await req.json();
+      if (res.success) setReports(res.reports);
+    }
+    async function fetchDeparts() {
+      const req = await fetch("/departments/depart-names/", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (req.ok) {
+        const res = await req.json();
+        if (res.success) setAllDeparts(res.list);
+      }
+    }
+    fetchDeparts();
     fetchReports();
-  }, [fetchDeparts, fetchReports]);
+  }, []);
 
   const processedReports = useMemo(() => {
+    // Safety guard if data is still loading
+    if (!reports) return [];
+
     return reports
       .filter((r) => filter.status === "All" || r.status === filter.status)
       .filter(
         (r) =>
-          filter.department === "All" ||
-          r.assignedDepartment === filter.department,
+          filter.department === "All" || r.department_id === filter.department,
       )
       .filter((r) => filter.type === "All" || r.category === filter.type)
       .sort((a, b) => {
-        const dateA = new Date(
-          a.created_at.replace(/(\d{2})-(\d{2})/, "$1:$2"),
-        );
-        const dateB = new Date(
-          b.created_at.replace(/(\d{2})-(\d{2})/, "$1:$2"),
-        );
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
         return filter.sortTime === "latest" ? dateB - dateA : dateA - dateB;
       });
   }, [filter, reports]);
@@ -47,8 +61,8 @@ const MyReports = () => {
   if (!reports && !allDeparts) return <div>.... isloading</div>;
 
   const Departments = allDeparts?.map((depart, index) => (
-    <option value={depart} key={index}>
-      {depart}
+    <option value={depart.name} key={index}>
+      {depart.name}
     </option>
   ));
 
@@ -79,9 +93,9 @@ const MyReports = () => {
             onChange={(e) => setFilter({ ...filter, status: e.target.value })}
           >
             <option value="All">All Statuses</option>
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Resolved">Resolved</option>
+            <option value="pending">Pending</option>
+            <option value="in_rogress">In Progress</option>
+            <option value="resolved">Resolved</option>
           </select>
         </div>
 
@@ -126,44 +140,51 @@ const MyReports = () => {
       {/* Reports List */}
       <div className={styles.reportList}>
         {processedReports.length > 0 ? (
-          processedReports.map((report) => (
-            <div
-              key={report.report_id}
-              className={styles.reportRowStyle}
-              onClick={() => setSelectedReport(report)} // Click anywhere on row to view
-              style={{ cursor: "pointer" }}
-            >
-              <div>
-                <div style={{ fontWeight: "600" }}>
-                  {report.title} - {report.location.address}
+          processedReports.map((report) => {
+            const loc = JSON.parse(report.location.replace(/'/g, '"'));
+
+            // FIX 4: Added explicit 'return' keyword here
+            return (
+              <div
+                key={report.id}
+                className={styles.reportRowStyle}
+                onClick={() => setSelectedReport(report)}
+                style={{ cursor: "pointer" }}
+              >
+                <div>
+                  <div style={{ fontWeight: "600" }}>
+                    {report.title} - {loc.address}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "13px",
+                      color: "#6b7280",
+                      marginTop: "12px",
+                    }}
+                  >
+                    {report.category} • Reported{" "}
+                    {getElapsedTime(report.created_at)}
+                  </div>
                 </div>
                 <div
-                  style={{
-                    fontSize: "13px",
-                    color: "#6b7280",
-                    marginTop: "12px",
-                  }}
+                  style={{ display: "flex", alignItems: "center", gap: "15px" }}
                 >
-                  {report.category} • Reported{" "}
-                  {getElapsedTime(report.created_at)}
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      color: "rgb(63, 201, 232)",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    View Details
+                  </span>
+                  <div style={getStatusStyle(report.status)}>
+                    {report.status}
+                  </div>
                 </div>
               </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "15px" }}
-              >
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "rgb(63, 201, 232)",
-                    textDecoration: "underline",
-                  }}
-                >
-                  View Details
-                </span>
-                <div style={getStatusStyle(report.status)}>{report.status}</div>
-              </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <center className={styles.noreport}>
             <span>No reports made yet</span>

@@ -28,7 +28,7 @@ function IncidentReport() {
 
   useEffect(() => {
     async function fetchDeparts() {
-      const req = await fetch("/departments/depart-names", {
+      const req = await fetch("/departments/depart-names/", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -92,7 +92,7 @@ function IncidentReport() {
 
     setLoading(true);
     try {
-      const req = await fetch("/incident/create", {
+      const req = await fetch("/incident/create/", {
         method: "POST",
         body: formData,
       });

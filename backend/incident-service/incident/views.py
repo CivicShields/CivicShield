@@ -3,14 +3,12 @@ from .models import Incident
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.authentication import login_required
-from incident.data import get_media, save_media
-from django.core import serializers
+from incident.data import get_media, save_media, get_name
 import json
-import ast
 
 logger = logging.getLogger(__name__)
 
-def incident_to_dict(inc):
+def incident_to_dict(request, inc):
     return {
         'id': inc.id,
         'reporter_id': inc.reporter_id,
@@ -49,24 +47,25 @@ def create_incident(request):
     med = save_media(request, inc.id)
     if not med['success']: 
         return JsonResponse({"success": False, "error": "Error occurred while saving media"})
-    return JsonResponse({"success":True, "report": incident_to_dict(inc), "message": "Successfully reported"}, status=201)
+    return JsonResponse({"success":True, "report": incident_to_dict(request, inc), "message": "Successfully reported"}, status=201)
 
 @csrf_exempt
 @login_required
-def list_user_incidents(request, *args, **kwargs):
+def list_user_incidents(request):
     # Only allow GET method
     if request.method != "GET":
         return JsonResponse({"error": "Only GET method is allowed"}, status=405)
-    #getting user id from url parameters
-    user_id = kwargs.get("id")
-    if user_id is None:
-        return JsonResponse({"error": "User ID is required"}, status=400)
-    
-    # Query the database for incidents reported by the user and perfoming serialization    
+    #getting user id from request
+    user_id = request.user_payload['user_id']
+    # Query the database for incidents reported by the user    
     try:
         incidents = Incident.objects.filter(reporter_id=user_id)
-        data = list(incidents.values("id", "department_id", "category", "severity", "status", "description", "location"))
-        return JsonResponse({"success":True, "data":data}, status=200)
+        reports = list(incidents.values("id", "title", "department_id", "category", "severity", "status", "description", "location", "reporter_id", "created_at"))
+        name = get_name(request, reports[0]["department_id"])["data"]
+        for item in reports:
+            item['department_id'] = name["name"]
+        
+        return JsonResponse({"success":True, "reports": reports}, status=200)
 
     except Exception as e:
         logger.exception("Error while fetching incidents for user_id=%s", user_id)
@@ -108,9 +107,7 @@ def admin_list_incidents(request):
         if not queryset.exists():
             return JsonResponse({"error":"no incidents found"}, status=404)
     
-        #serializing data
-        data = serializers.serialize("json", queryset)
-        return JsonResponse({"success":True, "data":data}, status=200)
+        return JsonResponse({"success":True, "reports": incident_to_dict(queryset)}, status=200)
     
     except Exception as e:
         logger.exception("Error while fetching incidents")
@@ -197,7 +194,6 @@ def list_dept_incidents(request, *args, **kwargs):
     if not dept_id:
         return JsonResponse({"error": "Department ID is required"}, status=400)
     
-    #getting and serializing incident data
     try:
         incidents = Incident.objects.filter(department_id=dept_id)
         data = list(incidents.values("id", "reporter_id", "category","severity", "status", "description", "location"))

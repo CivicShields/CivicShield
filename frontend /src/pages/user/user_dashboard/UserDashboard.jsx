@@ -4,84 +4,93 @@ import { Bell, Siren, FileText, User2Icon } from "lucide-react";
 import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
-import { useReport } from "../../../contexts/ReportContext";
-import { useEffect } from "react";
-import report from "../../../mock_data/reports.json" with { type: "json" };
+import { useEffect, useState, useMemo } from "react";
 
 function UserDashboard() {
-  // const { reports, fetchReports } = useReport();
+  const [reports, setReports] = useState([]);
 
-  // useEffect(() => {
-  //   fetchReports();
-  // }, [fetchReports]);
-  const reports = report;
-  if (!reports) return <div>....isloading</div>;
-
-  const userReports =
-    reports.length > 0 ? (
-      reports.slice(0, 5).map((report, index) => {
-        //set the reports to only show a maximum of ten
-        if (report.status === "Pending") {
-          return (
-            <div key={index}>
-              <div className={styles.reportDetails}>
-                <span className={styles.pending}>&#11044;</span>
-                <p>
-                  {report.title} - {report.location.address} <br />{" "}
-                  <span>
-                    {report.category} &bull; Reported{" "}
-                    {getElapsedTime(report.created_at)} &bull;{" "}
-                    {report.report_id}
-                  </span>
-                </p>
+  const userReports = useMemo(() => {
+    return reports.length > 0 ? (
+      reports
+        .sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at);
+        })
+        .slice(0, 5)
+        .map((report, index) => {
+          const loc = JSON.parse(report.location.replace(/'/g, '"'));
+          //set the reports to only show a maximum of ten
+          if (report.status === "pending") {
+            return (
+              <div key={index}>
+                <div className={styles.reportDetails}>
+                  <span className={styles.pending}>&#11044;</span>
+                  <p>
+                    {report.title} - {loc.address} <br />{" "}
+                    <span>
+                      {report.category} &bull; Reported{" "}
+                      {getElapsedTime(report.created_at)} &bull; {report.id}
+                    </span>
+                  </p>
+                </div>
+                <p className={styles.pending}>pending</p>
               </div>
-              <p className={styles.pending}>pending</p>
-            </div>
-          );
-        } else if (report.status === "Resolved") {
-          return (
-            <div key={index}>
-              <div className={styles.reportDetails}>
-                <span className={styles.resolved}>&#11044;</span>
-                <p>
-                  {report.title} - {report.location.address}
-                  <br />{" "}
-                  <span>
-                    {" "}
-                    {report.category} &bull;Reported{" "}
-                    {getElapsedTime(report.created_at)} &bull;{" "}
-                    {report.report_id}
-                  </span>
-                </p>
+            );
+          } else if (report.status === "resolved") {
+            return (
+              <div key={index}>
+                <div className={styles.reportDetails}>
+                  <span className={styles.resolved}>&#11044;</span>
+                  <p>
+                    {report.title} - {loc.address}
+                    <br />{" "}
+                    <span>
+                      {" "}
+                      {report.category} &bull;Reported{" "}
+                      {getElapsedTime(report.created_at)} &bull; {report.id}
+                    </span>
+                  </p>
+                </div>
+                <p className={styles.resolved}>resolved</p>
               </div>
-              <p className={styles.resolved}>resolved</p>
-            </div>
-          );
-        } else {
-          return (
-            <div key={index}>
-              <div className={styles.reportDetails}>
-                <span className={styles.inprogress}>&#11044;</span>
-                <p>
-                  {report.title} - {report.location.address}
-                  <br />{" "}
-                  <span>
-                    {report.category} &bull; Reported{" "}
-                    {getElapsedTime(report.created_at)} &bull;{" "}
-                    {report.report_id}
-                  </span>
-                </p>
+            );
+          } else {
+            return (
+              <div key={index}>
+                <div className={styles.reportDetails}>
+                  <span className={styles.inprogress}>&#11044;</span>
+                  <p>
+                    {report.title} - {loc.address}
+                    <br />{" "}
+                    <span>
+                      {report.category} &bull; Reported{" "}
+                      {getElapsedTime(report.created_at)} &bull; {report.id}
+                    </span>
+                  </p>
+                </div>
+                <p className={styles.inprogress}>In Progress</p>
               </div>
-              <p className={styles.inprogress}>In Progress</p>
-            </div>
-          );
-        }
-      })
+            );
+          }
+        })
     ) : (
       <center className={styles.noreport}>
         <span>No reports made yet</span>
       </center>
     );
+  }, [reports]);
+
+  useEffect(() => {
+    async function fetchReports() {
+      const req = await fetch("/incident/reporter/", {
+        credentials: "include",
+      });
+      const res = await req.json();
+      if (res.success) setReports(res.reports);
+    }
+    fetchReports();
+  }, [reports.length]);
+
+  if (!reports) return <div>....isloading</div>;
 
   return (
     <>
@@ -95,19 +104,19 @@ function UserDashboard() {
           </div>
           <div>
             <p>PENDING</p>
-            <p>{reports.filter((item) => item.status === "Pending").length}</p>
+            <p>{reports.filter((item) => item.status === "pending").length}</p>
             <p>Awaiting response</p>
           </div>
           <div>
             <p>IN PROGRESS</p>
             <p>
-              {reports.filter((item) => item.status === "In Progress").length}
+              {reports.filter((item) => item.status === "in_progress").length}
             </p>
             <p>Agent assigned</p>
           </div>
           <div>
             <p>RESOLVED</p>
-            <p>{reports.filter((item) => item.status === "Resolved").length}</p>
+            <p>{reports.filter((item) => item.status === "resolved").length}</p>
             <p>Successfully closed</p>
           </div>
         </section>

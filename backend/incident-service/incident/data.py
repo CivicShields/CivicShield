@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 
 def save_media(request, incident_id):
-    url = f"{settings.MEDIA_URL}/media/upload"
+    url = f"{settings.MEDIA_URL}/media/upload/"
     uploaded_file = request.FILES.get('file')
     
     if not uploaded_file:
@@ -37,7 +37,7 @@ def save_media(request, incident_id):
 
 
 def get_media(request, media_id):
-    url = f"{settings.MEDIA_URL}media/{media_id}"
+    url = f"{settings.MEDIA_URL}media/{media_id}/"
     client_cookies = request.COOKIES   
     try:
         # pass the cookies forward into the internal microservice request
@@ -53,3 +53,21 @@ def get_media(request, media_id):
         
     except requests.exceptions.RequestException:
         raise Exception("Failed to connect to the Media service")
+    
+def get_name(request, department_id):
+    url = f"{settings.DEPARTMENT_URL}departments/{department_id}/"
+    client_cookies = request.COOKIES   
+    try:
+        # pass the cookies forward into the internal microservice request
+        response = requests.get(url, cookies=client_cookies, timeout=5)      
+        response.raise_for_status()
+        return {'success': True, 'status': 'Department name retrieved successfully', 'data': response.json()["department"]}
+
+    except requests.exceptions.Timeout:
+        raise Exception("Department service timed out")
+        
+    except requests.exceptions.HTTPError as err:
+        raise Exception(f"Department service error: {str(err)}")
+        
+    except requests.exceptions.RequestException:
+        raise Exception("Failed to connect to the Department service")

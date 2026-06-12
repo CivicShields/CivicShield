@@ -75,8 +75,8 @@ def create_department(request):
 # GET /departments/<id>/
 @csrf_exempt
 @login_required
-def get_department(id):
-    dept = Department.objects.filter(id=id).first()
+def get_department(request, department_id):
+    dept = Department.objects.filter(id=department_id).first()
     if not dept:
         return JsonResponse({'error': 'department not found'}, status=404)
     return JsonResponse({'success': True, 'department': department_to_dict(dept)})

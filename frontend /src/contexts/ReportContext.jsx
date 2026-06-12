@@ -1,6 +1,6 @@
 import { createContext, useContext, useCallback, useState } from "react";
 import { useAuth } from "./AuthContext";
-import { getReportsRequest, addReportRequest } from "../services/ReportService";
+import { getReportsRequest } from "../services/ReportService";
 
 const ReportContext = createContext(null);
 
@@ -15,22 +15,8 @@ export function ReportProvider({ children }) {
     return data;
   }, [user]);
 
-  const addReport = useCallback(
-    async (category, assignedDepart, incTitle, location, descr, doc) => {
-      await addReportRequest(
-        category,
-        assignedDepart,
-        incTitle,
-        location,
-        descr,
-        doc,
-      );
-    },
-    [],
-  );
-
   return (
-    <ReportContext.Provider value={{ reports, fetchReports, addReport }}>
+    <ReportContext.Provider value={{ reports, fetchReports }}>
       {children}
     </ReportContext.Provider>
   );

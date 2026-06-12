@@ -17,34 +17,3 @@ export function getReportsRequest(userID) {
     }, 500);
   });
 }
-
-export async function addReportRequest(
-  category,
-  assignedDepart,
-  incTitle,
-  location,
-  descr,
-  doc,
-) {
-  const formData = new FormData();
-  formData.append("file", doc);
-  formData.append("department_id", assignedDepart);
-  formData.append("location", location);
-  (formData.append("title", incTitle), formData.append("category", category));
-  formData.append("description", descr);
-
-  try {
-    const req = await fetch("/incident/create", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    });
-    const res = await req.json();
-    console.log(res);
-
-    return { serverResponse: res };
-  } catch (error) {
-    console.error("Upload failed:", error);
-    throw error;
-  }
-}

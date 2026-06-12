@@ -6,6 +6,7 @@ from core.authentication import login_required
 from incident.data import get_media, save_media
 from django.core import serializers
 import json
+import ast
 
 logger = logging.getLogger(__name__)
 
@@ -30,23 +31,25 @@ def incident_to_dict(inc):
 def create_incident(request):
     # Only allow POST method
     if request.method != "POST":
-        return JsonResponse({"error": "Only POST method is allowed"}, status=405)
-    
-    data = request.POST
+        return JsonResponse({"success": False, "error": "Only POST method is allowed"}, status=405)
+    data = (request.POST)["metadata"]
+    metadata_dict = json.loads(data)
+
     inc = Incident.objects.create(
         reporter_id=request.user_payload['user_id'],
-        department_id=data.get('department_id'),
-        category=data['category'],
-        severity=data.get('severity', 'medium'),
-        description=data['description'],
-        location=data.get('location', ''),
-        title=data.get('title', ''),
+        department_id=metadata_dict['department'],
+        category=metadata_dict['category'],
+        description=metadata_dict['description'],
+        location=metadata_dict['location'],
+        title=metadata_dict['incidentTitle'],
     )
+    if not inc:
+        return JsonResponse({"success": False, "error": "Incident not created and saved"})
     inc.save()
     med = save_media(request, inc.id)
-    if not med.success: 
-        return JsonResponse({"error": "Error occurred while saving media"})
-    return JsonResponse({"success":True, "report": incident_to_dict(inc)}, status=201)
+    if not med['success']: 
+        return JsonResponse({"success": False, "error": "Error occurred while saving media"})
+    return JsonResponse({"success":True, "report": incident_to_dict(inc), "message": "Successfully reported"}, status=201)
 
 @csrf_exempt
 @login_required

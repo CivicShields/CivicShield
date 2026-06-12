@@ -28,7 +28,7 @@ def save_media(request, incident_id):
         )
         if response.status_code == 201:
             media_data = response.json()
-            return JsonResponse({'success': True, 'status': 'Media uploaded successfully', 'data': media_data})
+            return {'success': True, 'status': 'Media uploaded successfully', 'media_data': media_data}
         else:
             return JsonResponse({'error': 'Media service rejected the upload', 'details': response.json()}, status=response.status_code)
             

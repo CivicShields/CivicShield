@@ -3,9 +3,9 @@ import uuid
 
 class Incident(models.Model):
     SEVERITY_CHOICES = [
-        ('Low', 'Low'),
-        ('Medium', 'Medium'),
-        ('High', 'High'),
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
         ("urgent", "Urgent"),
     ]
     STATUS_CHOICES = [
@@ -17,11 +17,11 @@ class Incident(models.Model):
     reporter_id = models.IntegerField()  # Matches User.id standard
     department_id = models.UUIDField()
     category  = models.CharField(max_length=50, blank=False, null=False)
-    severity  = models.CharField(max_length=20, choices=SEVERITY_CHOICES, blank=False, null=False)
+    severity  = models.CharField(max_length=20, choices=SEVERITY_CHOICES, default="medium")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=2000, blank=False, null=False)
-    location = models.CharField(max_length=100, blank=False, null=False)
+    location = models.CharField(max_length=1000, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

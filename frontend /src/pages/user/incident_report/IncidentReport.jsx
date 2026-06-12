@@ -6,14 +6,12 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../components/header/Header.jsx";
 import Footer from "../../../components/footer/Footer.jsx";
 import FileDropZone from "../../../components/filedropzone/FileDropZone.jsx";
-import { useReport } from "../../../contexts/ReportContext.jsx";
 import { incidentCategories } from "../../../utilities/Data.js";
 import { LocateIcon } from "lucide-react";
 import { reverseGeocode } from "../../../utilities/location_utilities.js";
 
 function IncidentReport() {
   const [descCount, setDescCount] = useState(0);
-  const { addReport } = useReport();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     category: "",
@@ -87,17 +85,20 @@ function IncidentReport() {
     e.preventDefault();
     setError("");
 
+    const formData = new FormData();
+    const { document, ...restOfForm } = form;
+    if (document) formData.append("file", document);
+    formData.append("metadata", JSON.stringify(restOfForm));
+
     setLoading(true);
     try {
-      const repo = await addReport(
-        form.category,
-        form.department,
-        form.incidentTitle,
-        form.location,
-        form.description,
-        form.document,
-      );
-      console.log(repo);
+      const req = await fetch("/incident/create", {
+        method: "POST",
+        body: formData,
+      });
+
+      const res = await req.json();
+      if (!res.success) setError(res.error);
       navigate("/settings/myreports");
     } catch (err) {
       setError(err.message || "Report registration failed");

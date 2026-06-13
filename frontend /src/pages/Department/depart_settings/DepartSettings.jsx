@@ -11,7 +11,7 @@ function DepartSettings() {
           <label>Department ID</label>
           <input
             type="text"
-            value={user.user.id}
+            value={user.id}
             disabled
             className={[styles.rawInput, styles.disabled].join(" ")}
           />
@@ -20,7 +20,7 @@ function DepartSettings() {
           <label>Department Name</label>
           <input
             type="text"
-            value={user.user.department + " Department"}
+            value={user.department + " Department"}
             disabled
             className={[styles.rawInput, styles.disabled].join(" ")}
           />
@@ -29,7 +29,7 @@ function DepartSettings() {
           <label>Contact Email</label>
           <input
             type="email"
-            value={user.user.email}
+            value={user.email}
             disabled
             className={[styles.rawInput, styles.disabled].join(" ")}
           />

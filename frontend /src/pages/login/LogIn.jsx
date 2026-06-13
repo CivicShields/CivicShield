@@ -8,7 +8,7 @@ import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 import Notify from "../../components/notify/Notify";
 
 function LogIn() {
-  const { login } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -37,11 +37,22 @@ function LogIn() {
     setError("");
     setLoading(true);
     try {
-      const logged = await login(form.email, form.password);
-      if (logged.error) {
-        setLoading(false);
-        return setError(logged.error);
+      const req = await fetch("/auth/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, password: form.password }),
+        credentials: "include",
+      });
+      if (!req.ok) {
+        const errorData = { error: "Invalid email or password" };
+        return setError(errorData);
       }
+      const res = await req.json();
+      if (res.error) {
+        setLoading(false);
+        return setError(res.error);
+      }
+      setUser(res.user);
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");

@@ -2,13 +2,11 @@ import styles from "./SecurityPage.module.css";
 import { CheckCircle2Icon } from "lucide-react";
 import Button from "../../../../../components/button/Button";
 import { useState } from "react";
-import { useAuth } from "../../../../../contexts/AuthContext";
 import ShowPassInput from "../../../../../components/show_pass/ShowPasswordInput";
 import Notify from "../../../../../components/notify/Notify";
 
 function SecurityPage() {
   const redAsterik = <span style={{ color: "red" }}>*</span>;
-  const { changePassword } = useAuth();
   const [form, setForm] = useState({
     oldPassword: "",
     newPassword: "",
@@ -45,15 +43,24 @@ function SecurityPage() {
 
     setLoading(true);
     try {
-      const changePass = await changePassword(
-        form.oldPassword,
-        form.newPassword,
-      );
-      if (changePass.error) {
+      const req = await fetch("/auth/change-password/", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          old_password: form.oldPassword,
+          new_password: form.newPassword,
+        }),
+      });
+      const res = await req.json();
+
+      if (res.error) {
         setLoading(false);
-        return setError(changePass.error);
+        return setError(res.error);
       }
-      setSuccess(changePass.message);
+      setSuccess(res.message);
     } catch (err) {
       setError(err.message);
     } finally {

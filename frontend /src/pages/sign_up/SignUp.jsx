@@ -9,7 +9,7 @@ import ShowPassInput from "../../components/show_pass/ShowPasswordInput";
 import Notify from "../../components/notify/Notify";
 
 function SignUp() {
-  const { register } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [form, setForm] = useState({
@@ -67,16 +67,23 @@ function SignUp() {
     }
     setLoading(true);
     try {
-      const reg = await register(
-        form.email,
-        form.password,
-        form.name,
-        form.phone,
-      );
-      if (reg.error) {
+      const req = await fetch("/auth/register/", {
+        method: "POST",
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          name: form.name,
+          number: form.phone,
+        }),
+        credentials: "include",
+      });
+      const res = await req.json();
+
+      if (res.error) {
         setLoading(false);
-        return setError(reg.error);
+        return setError(res.error);
       }
+      setUser(res.user);
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Registration failed");

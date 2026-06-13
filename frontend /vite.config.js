@@ -25,6 +25,18 @@ export default defineConfig({
         secure: false,
         cookieDomainRewrite: 'localhost'
       },
+      '/notifications': {
+        target: 'http://127.0.0.1:8003',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: 'localhost'
+      },
+      '/media': {
+        target: 'http://127.0.0.1:8004',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: 'localhost'
+      },
     }
   }
 })

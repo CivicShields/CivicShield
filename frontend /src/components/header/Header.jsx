@@ -37,7 +37,6 @@ function Header() {
     navigate("/report");
     closeMenu();
   }
-
   // Buttons / elements that depend on auth state
   const loginButton = (
     <Button name="Log in" classStyle="not-covered" onClick={handleLogin} />
@@ -80,7 +79,7 @@ function Header() {
           {user &&
             userIconElement(
               styles.userIcon,
-              user.user.email ? user.user.email[0].toUpperCase() : "U",
+              user.email ? user.email[0].toUpperCase() : "U",
             )}
         </div>
 
@@ -141,8 +140,7 @@ function Header() {
           Are you sure you want <br /> to log out
         </h2>
         <p>
-          Log out of Kwanganje Incident Reporter as{" "}
-          {!user ? "" : user.user.email}
+          Log out of Kwanganje Incident Reporter as {!user ? "" : user.email}
         </p>
       </Modal>
     </>

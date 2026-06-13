@@ -16,10 +16,14 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function initializeAuth() {
       try {
-        const { getCurrentUserRequest } =
-          await import("../services/AuthService");
-        const { serverResponse } = await getCurrentUserRequest();
-        setUser(serverResponse);
+        const req = await fetch("/auth/me/", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const res = await req.json();
+        setUser(res.user);
       } catch (error) {
         console.error("Failed to restore session on reload:", error);
       } finally {
@@ -29,43 +33,12 @@ export function AuthProvider({ children }) {
     initializeAuth();
   }, []);
 
-  const login = useCallback(async (email, password) => {
-    const { loginRequest } = await import("../services/AuthService");
-    const { serverResponse } = await loginRequest(email, password);
-    setUser(serverResponse);
-    return serverResponse;
-  }, []);
-
-  const changePassword = useCallback(
-    async (oldPassword, newPassword) => {
-      if (!user) {
-        throw new Error("You must be logged in to change password");
-      }
-      const { changePasswordRequest } = await import("../services/AuthService");
-      const { serverResponse } = await changePasswordRequest(
-        oldPassword,
-        newPassword,
-      );
-      return serverResponse;
-    },
-    [user],
-  );
-
-  const register = useCallback(async (email, password, name, number = "") => {
-    const { registerRequest } = await import("../services/AuthService");
-    const { serverResponse } = await registerRequest(
-      email,
-      password,
-      name,
-      number,
-    );
-    setUser(serverResponse);
-    return serverResponse;
-  }, []);
-
   const logout = useCallback(async () => {
-    const { logoutRequest } = await import("../services/AuthService");
-    await logoutRequest();
+    await fetch("/auth/logout/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
     setUser(null);
   }, []);
 
@@ -76,10 +49,8 @@ export function AuthProvider({ children }) {
       value={{
         user,
         isAuthenticated,
-        login,
-        register,
         logout,
-        changePassword,
+        setUser,
       }}
     >
       {isInitializing ? (

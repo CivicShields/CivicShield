@@ -22,6 +22,7 @@ class Incident(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=2000, blank=False, null=False)
     location = models.CharField(max_length=1000, blank=False, null=False)
+    media= models.CharField(max_length=200, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

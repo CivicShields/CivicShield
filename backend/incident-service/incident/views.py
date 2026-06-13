@@ -17,6 +17,7 @@ def incident_to_dict(request, inc):
         'severity': inc.severity,
         'status': inc.status,
         'title': inc.title,
+        'media': inc.media,
         'description': inc.description,
         'location': inc.location,
         'created_at': inc.created_at.isoformat(),
@@ -43,10 +44,11 @@ def create_incident(request):
     )
     if not inc:
         return JsonResponse({"success": False, "error": "Incident not created and saved"})
-    inc.save()
     med = save_media(request, inc.id)
     if not med['success']: 
         return JsonResponse({"success": False, "error": "Error occurred while saving media"})
+    inc.media = med["media_data"]["media_id"]
+    inc.save()
     return JsonResponse({"success":True, "report": incident_to_dict(request, inc), "message": "Successfully reported"}, status=201)
 
 @csrf_exempt
@@ -60,7 +62,7 @@ def list_user_incidents(request):
     # Query the database for incidents reported by the user    
     try:
         incidents = Incident.objects.filter(reporter_id=user_id)
-        reports = list(incidents.values("id", "title", "department_id", "category", "severity", "status", "description", "location", "reporter_id", "created_at"))
+        reports = list(incidents.values("id", "title", "department_id", "category", "severity", "status", "description", "location", "reporter_id", "created_at",  "media"))
         name = get_name(request, reports[0]["department_id"])["data"]
         for item in reports:
             item['department_id'] = name["name"]

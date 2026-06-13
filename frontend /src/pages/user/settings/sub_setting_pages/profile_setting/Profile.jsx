@@ -10,15 +10,15 @@ function Profile() {
       <h2>Profile settings</h2>
       <div className={styles.container}>
         <div className={styles.userIcon}>
-          {user.user.email ? user.user.email[0].toUpperCase() : "U"}
+          {user.user.email ? user.email[0].toUpperCase() : "U"}
         </div>
         <p>Personal Information</p>
         <label>FullName</label>
-        <input type="text" placeholder={user.user.name} readOnly />
+        <input type="text" placeholder={user.name} readOnly />
         <label> Email Address</label>
-        <input type="text" placeholder={user.user.email} readOnly />
+        <input type="text" placeholder={user.email} readOnly />
         <label>Phone number</label>
-        <input type="text" placeholder={user.user.phone} readOnly />
+        <input type="text" placeholder={user.phone} readOnly />
       </div>
     </section>
   );

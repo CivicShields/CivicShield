@@ -141,9 +141,6 @@ const MyReports = () => {
       <div className={styles.reportList}>
         {processedReports.length > 0 ? (
           processedReports.map((report) => {
-            const loc = JSON.parse(report.location.replace(/'/g, '"'));
-
-            // FIX 4: Added explicit 'return' keyword here
             return (
               <div
                 key={report.id}
@@ -153,7 +150,7 @@ const MyReports = () => {
               >
                 <div>
                   <div style={{ fontWeight: "600" }}>
-                    {report.title} - {loc.address}
+                    {report.title} - {report.named_location}
                   </div>
                   <div
                     style={{

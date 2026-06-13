@@ -18,7 +18,8 @@ function IncidentReport() {
     department: "",
     reportedDate: date + ", " + time,
     incidentTitle: "",
-    location: null,
+    coordinates: null,
+    address: "",
     description: "",
     document: "",
   });
@@ -57,11 +58,11 @@ function IncidentReport() {
           );
           setForm({
             ...form,
-            location: {
+            coordinates: {
               latitude: pos.coords.latitude,
               longitude: pos.coords.longitude,
-              address: addr,
             },
+            address: addr,
           });
         },
         (err) => {

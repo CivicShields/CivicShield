@@ -93,7 +93,7 @@ AUTH_URL = 'http://127.0.0.1:8000/'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+       'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'incident_db',
         'USER': 'kwanganji',
         'PASSWORD': 'kwanganjiPass1@',

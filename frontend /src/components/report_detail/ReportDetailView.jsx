@@ -5,7 +5,6 @@ import styles from "./ReportDetailView.module.css";
 // viewingAs should be either "student" or "department"
 function ReportDetailView({ report, onBack, viewingAs }) {
   const chatContainerRef = useRef();
-  const loc = JSON.parse(report.location.replace(/'/g, '"'));
   const [imageUrl, setImageUrl] = useState(null);
   const [error, setError] = useState(null);
 
@@ -83,7 +82,7 @@ function ReportDetailView({ report, onBack, viewingAs }) {
         <section>
           <h2 style={{ margin: "0 0 10px 0" }}>{report.title}</h2>
           <p style={{ color: "#6b7280" }}>
-            Location: {loc.address} | ID: {report.id}
+            Location: {report.named_location} | ID: {report.id}
           </p>
 
           <div className={styles.detailSection}>

@@ -17,7 +17,6 @@ function UserDashboard() {
         })
         .slice(0, 5)
         .map((report, index) => {
-          const loc = JSON.parse(report.location.replace(/'/g, '"'));
           //set the reports to only show a maximum of ten
           if (report.status === "pending") {
             return (
@@ -25,7 +24,7 @@ function UserDashboard() {
                 <div className={styles.reportDetails}>
                   <span className={styles.pending}>&#11044;</span>
                   <p>
-                    {report.title} - {loc.address} <br />{" "}
+                    {report.title} - {report.named_location} <br />{" "}
                     <span>
                       {report.category} &bull; Reported{" "}
                       {getElapsedTime(report.created_at)} &bull; {report.id}
@@ -41,7 +40,7 @@ function UserDashboard() {
                 <div className={styles.reportDetails}>
                   <span className={styles.resolved}>&#11044;</span>
                   <p>
-                    {report.title} - {loc.address}
+                    {report.title} - {report.named_location}
                     <br />{" "}
                     <span>
                       {" "}
@@ -59,7 +58,7 @@ function UserDashboard() {
                 <div className={styles.reportDetails}>
                   <span className={styles.inprogress}>&#11044;</span>
                   <p>
-                    {report.title} - {loc.address}
+                    {report.title} - {report.named_location}
                     <br />{" "}
                     <span>
                       {report.category} &bull; Reported{" "}

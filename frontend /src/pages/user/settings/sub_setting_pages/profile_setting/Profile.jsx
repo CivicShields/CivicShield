@@ -10,7 +10,7 @@ function Profile() {
       <h2>Profile settings</h2>
       <div className={styles.container}>
         <div className={styles.userIcon}>
-          {user.user.email ? user.email[0].toUpperCase() : "U"}
+          {user.email ? user.email[0].toUpperCase() : "U"}
         </div>
         <p>Personal Information</p>
         <label>FullName</label>

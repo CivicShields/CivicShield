@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models 
 import uuid
 
 class Incident(models.Model):
@@ -14,15 +14,16 @@ class Incident(models.Model):
         ("resolved", "Resolved"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    reporter_id = models.IntegerField()  # Matches User.id standard
+    reporter_id = models.IntegerField() 
     department_id = models.UUIDField()
-    category  = models.CharField(max_length=50, blank=False, null=False)
+    category  = models.CharField(max_length=100, blank=False, null=False)
     severity  = models.CharField(max_length=20, choices=SEVERITY_CHOICES, default="medium")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
-    title = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=2000, blank=False, null=False)
-    location = models.CharField(max_length=1000, blank=False, null=False)
-    media= models.CharField(max_length=200, blank=False, null=False)
+    named_location = models.CharField(max_length=255, blank=False, null=False) 
+    coordinates = models.PointField(srid=4326) 
+    media= models.CharField(max_length=255, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

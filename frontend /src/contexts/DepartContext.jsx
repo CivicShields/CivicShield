@@ -1,9 +1,6 @@
 import { createContext, useContext, useCallback, useState } from "react";
 import { useAuth } from "./AuthContext";
-import {
-  changeReportStatusRequest,
-  getDepartReportsRequest,
-} from "../services/DepartService";
+import { changeReportStatusRequest } from "../services/DepartService";
 
 const DepartContext = createContext(null);
 
@@ -13,9 +10,16 @@ export function DepartProvider({ children }) {
 
   const fetchDepartReports = useCallback(async () => {
     if (!user) throw new Error("No user is logged in");
-    const { reports: data } = await getDepartReportsRequest(user.department);
-    setDepartReports(data);
-    return data;
+    const req = await fetch(`/departments/${user.department_id}/incidents/`, {
+      credentials: "include",
+    });
+    const res = await req.json();
+    console.log(res);
+    if (res.success) {
+      setDepartReports(res.incidents);
+      return res.incidents;
+    }
+    console.error(res.error);
   }, [user]);
 
   const changeStatus = useCallback(

@@ -85,6 +85,19 @@ function AdminUsers() {
     }
   };
 
+  const updateUserDept = async (id, department_id) => {
+    try {
+      await fetch(`/auth/users/${id}/department/`, {
+        method: "PATCH",
+        body: JSON.stringify({ department_id }),
+        credentials: "include",
+      });
+      loadUsers();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   const createUser = async () => {
     if (!newUser.email || !newUser.password) {
       setError("Email and password are required");
@@ -121,6 +134,15 @@ function AdminUsers() {
       {depart.name}
     </option>
   ));
+
+  function findIndices(targetValue) {
+    for (let i = 0; i < allDeparts.length; i++) {
+      if (allDeparts[i].id === targetValue) {
+        return allDeparts[i].name;
+      }
+      return; // Return if not found
+    }
+  }
 
   return (
     <div className="table-container">
@@ -202,7 +224,15 @@ function AdminUsers() {
                   <option>admin</option>
                 </select>
               </td>
-              <td>{user.department_id}</td>
+              <td>
+                <select
+                  value={user.department_id}
+                  onChange={(e) => updateUserDept(user.id, e.target.value)}
+                >
+                  <option>{findIndices(user.department_id)}</option>
+                  {Departments}
+                </select>
+              </td>
               <td>
                 <button
                   className="delete-btn"

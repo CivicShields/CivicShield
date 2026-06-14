@@ -55,6 +55,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'department_service.urls'
 
 DEVELOPMENT_PORT = "8002"
+# urls to connect
+MEDIA_URL = 'http://127.0.0.1:8004/'
+INCIDENT_URL = 'http://127.0.0.1:8001/'
+NOTIFICATION_URL = 'http://127.0.0.1:8003/'
+AUTH_URL = 'http://127.0.0.1:8000/'
 
 TEMPLATES = [
     {

@@ -21,8 +21,8 @@ class Department(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
 class Assignment(models.Model):
-    incident_id = models.IntegerField()
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    incident_id = models.UUIDField()
+    department = models.UUIDField()
     assigned_by = models.IntegerField()
     assigned_at = models.DateTimeField(auto_now_add=True)
 

@@ -16,13 +16,14 @@ def list_dept_incidents(request, *args, **kwargs):
     if request.method != "GET":
         return JsonResponse({"error":"Only GET requests are allowed"}, status=400)
     #getting id from query params
-    dept_id = kwargs.get("id")
+    dept_id = kwargs.get("department_id")
     if not dept_id:
         return JsonResponse({"error": "Department ID is required"}, status=400)
     
     try:
         incidents = Incident.objects.filter(department_id=dept_id)
-        data = list(incidents.values("id", "reporter_id", "category","severity", "status", "description", "location"))
+        
+        data = list(incidents.values("id", "reporter_id", "category","severity", "status", "description", "named_location"))
         return JsonResponse({"success":True, "data":data}, status=200)
     except Exception:
         logger.exception("Error occurred while fetching incidents")

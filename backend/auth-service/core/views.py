@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from .models import User
 from .token_utils import create_token, verify_token
+import uuid
 
 def user_to_dict(user):
     return {
@@ -180,3 +181,33 @@ def delete_user(request, user_id):
         return JsonResponse({'error': 'forbidden'}, status=403)
     User.objects.filter(id=user_id).delete()
     return JsonResponse({'message': 'deleted'})
+
+
+@csrf_exempt
+def update_user_department(request, user_id):
+    if request.method != 'PATCH':
+        return JsonResponse({'error': 'PATCH required'}, status=405)
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
+        return JsonResponse({'error': 'forbidden'}, status=403)
+    try:
+        user = User.objects.filter(id=user_id).first()
+        if not user:
+            return JsonResponse({'error': 'user not found'}, status=404)
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'invalid JSON'}, status=400)
+
+    department_id = data.get('department_id')
+    if not department_id:
+        return JsonResponse({"error": "Give valid departmen_id"})
+    user.department_id = department_id
+    user.role = "department_user"
+    user.save()
+    return JsonResponse({
+        'success': True,
+        'user': user_to_dict(user) 
+    })

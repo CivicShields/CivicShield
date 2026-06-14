@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Department, Assignment
 from .auth_decorator import login_required, verify_token
+from .data import get_incidents
 
 def department_to_dict(dept):
     return {
@@ -19,8 +20,8 @@ def department_to_dict(dept):
 def assignment_to_dict(assgn):
     return {
         'id': assgn.id,
-        'incident_id': assgn.incident_id,
-        'department_id': assgn.department_id,
+        'incident_id': str(assgn.incident_id),
+        'department_id': str(assgn.department_id),
         'assigned_by': assgn.assigned_by,
         'assigned_at': assgn.assigned_at.isoformat(),
     }
@@ -152,12 +153,16 @@ def delete_department(request, id):
 # GET /departments/<id>/incidents/
 @csrf_exempt
 @login_required
-def department_incidents(request, id):
-    dept = Department.objects.filter(id=id).first()
+def department_incidents(request, department_id):
+    dept = Department.objects.filter(id=department_id).first()
     if not dept:
         return JsonResponse({'success': False, 'error': 'department not found'}, status=404)
-    assignments = Assignment.objects.filter(department_id=id).order_by('-assigned_at')
-    return JsonResponse({'success': True, 'incidents': [assignment_to_dict(a) for a in assignments]}, safe=False)
+    incidents = get_incidents(request, department_id)
+    if not incidents['success']:
+        return JsonResponse({"success": False, "error": "Failed to load department data " })
+      
+    assignments = Assignment.objects.filter(department=department_id).order_by('-assigned_at')
+    return JsonResponse({'success': True, "message": incidents['status'], 'incidents': incidents['data']}, safe=False)
 
 
 @csrf_exempt

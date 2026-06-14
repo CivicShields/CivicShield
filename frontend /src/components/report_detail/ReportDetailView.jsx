@@ -15,7 +15,6 @@ function ReportDetailView({ report, onBack, viewingAs }) {
     const fetchMedia = async () => {
       try {
         const req = await fetch(`/media/${mediaId}/`);
-        if (!req.ok) throw new Error(`HTTP ${req.status}`);
         const res = await req.json();
         setImageUrl(res.media.url);
       } catch (err) {

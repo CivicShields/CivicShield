@@ -9,6 +9,7 @@ import {
   LogOut,
   Menu,
   X,
+  CheckCheck,
 } from "lucide-react";
 import Modal from "../modal/Modal";
 import styles from "./DepartmentHeader.module.css";
@@ -59,6 +60,17 @@ function DepartmentHeader() {
           onClick={closeSidebar}
         >
           <History size={18} /> All Incidents
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dept/resolve"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navItem
+          }
+          onClick={closeSidebar}
+        >
+          <CheckCheck size={18} /> Resolve incidents
         </NavLink>
       </li>
       <li>

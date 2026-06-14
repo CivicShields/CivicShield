@@ -4,6 +4,7 @@ import IncidentQueue from "./depart_incident_queue/IncidentQueue";
 import DepartDashboard from "./depart_dashboard/DepartDashboard";
 import AllIncidents from "./depart_incidents/AllIncidents";
 import DepartSettings from "./depart_settings/DepartSettings";
+import DepartResolve from "./departResolve/DepartResolve";
 
 function Department() {
   return (
@@ -15,6 +16,7 @@ function Department() {
           <Route path="queue" element={<IncidentQueue />} />
           <Route path="allIncidents" element={<AllIncidents />} />
           <Route path="settings" element={<DepartSettings />} />
+          <Route path="resolve" element={<DepartResolve />} />
         </Route>
         <Route path="*" element={<Navigate to="/dept/dashboard" replace />} />
       </Routes>

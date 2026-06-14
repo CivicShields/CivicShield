@@ -1,10 +1,10 @@
-import styles from "./IncidentQueue.module.css";
+import styles from "./DepartResolve.module.css";
 import { MapPin, Clock, ArrowRight, X, Users } from "lucide-react";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
 import { useState, useEffect } from "react";
 import { useDepart } from "../../../contexts/DepartContext";
 
-function IncidentQueue() {
+function DepartResolve() {
   const { fetchDepartReports, changeStatus, departReports } = useDepart();
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedIncident, setSelectedIncident] = useState(null);
@@ -19,7 +19,7 @@ function IncidentQueue() {
 
   //const handleAssign = teamName;
   const handleAssign = () => {
-    changeStatus(selectedIncident?.id, "in_progress");
+    changeStatus(selectedIncident?.id, "resolved");
     (setShowAssignModal(false), setSelectedIncident(null));
     fetchDepartReports();
   };
@@ -33,13 +33,13 @@ function IncidentQueue() {
     <div className={styles.contentFade}>
       <h2 className={styles.pageTitle}>Active Queue</h2>
       <div className={styles.incidentList}>
-        {incidents?.filter((i) => i.status === "pending").length > 0 ? (
+        {incidents?.filter((i) => i.status === "in_progress").length > 0 ? (
           incidents
             ?.toSorted(
               (a, b) =>
                 new Date(b.created_at) - new Date(a.created_at).getTime(),
             )
-            ?.filter((i) => i.status === "pending")
+            ?.filter((i) => i.status === "in_progress")
             ?.map((incident) => {
               const priorityVal = incident.severity;
               return (
@@ -86,14 +86,14 @@ function IncidentQueue() {
                     onClick={() => openAssignModal(incident)}
                     className={[styles.btnPrimary, styles.mt10].join(" ")}
                   >
-                    Assign Team <ArrowRight size={14} />
+                    Resolve incident <ArrowRight size={14} />
                   </button>
                 </div>
               );
             })
         ) : (
           <div className={styles.emptyState}>
-            No pending incidents in queue.
+            No in_progress incidents in queue.
           </div>
         )}
       </div>
@@ -106,38 +106,25 @@ function IncidentQueue() {
             >
               <X size={20} />
             </button>
-            <h3 className={styles.modalTitle}>Assign Response Team</h3>
+            <h3 className={styles.modalTitle}>Resolve Incident</h3>
             <p
               className={[styles.textMuted, styles.small, styles.mb20].join(
                 " ",
               )}
             >
-              Select a unit to handle <strong>{selectedIncident.id}</strong>:{" "}
-              {selectedIncident.title}
+              Resolve incident confirmation{" "}
+              <strong>{selectedIncident.id}</strong>: {selectedIncident.title}
             </p>
 
             <div className={[styles.teamOptions, styles.mt20].join(" ")}>
               <div className={styles.teamOption} onClick={() => handleAssign()}>
                 <Users size={20} className={styles.textPrimary} />
                 <div>
-                  <h5>Emergency Unit Alpha</h5>
-                  <p>Rapid response for high-priority utility issues.</p>
-                </div>
-              </div>
-
-              <div className={styles.teamOption} onClick={() => handleAssign()}>
-                <Users size={20} className={styles.textPrimary} />
-                <div>
-                  <h5>Field Maintenance B</h5>
-                  <p>Standard unit for routine inspections and repairs.</p>
-                </div>
-              </div>
-
-              <div className={styles.teamOption} onClick={() => handleAssign()}>
-                <Users size={20} className={styles.textPrimary} />
-                <div>
-                  <h5>Night Shift Support</h5>
-                  <p>Available for off-peak monitoring and cleanup.</p>
+                  <h5>
+                    Incident will be reolved when clicked, you sure its
+                    resolved?
+                  </h5>
+                  <p>Resolve</p>
                 </div>
               </div>
             </div>
@@ -156,4 +143,4 @@ function IncidentQueue() {
   );
 }
 
-export default IncidentQueue;
+export default DepartResolve;

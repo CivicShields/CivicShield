@@ -11,7 +11,7 @@ urlpatterns = [
 
     # urls for departments
     path("department/<uuid:department_id>/", list_dept_incidents, name="dept-incidents"),
-    path("department/<uuid:department_id>/status/", update_status, name="update-status"),
+    path("department/<uuid:incident_id>/status/", update_status, name="update-status"),
 
     #urls for admin
     path("admin/list/", admin_list_incidents, name="admin-list-incidents"),

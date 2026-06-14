@@ -41,12 +41,12 @@ function AllIncidents() {
             {departIncidents?.map((i) => {
               const sta = i.status.replaceAll(" ", "").toLowerCase();
               return (
-                <tr key={i.report_id}>
+                <tr key={i.id}>
                   <td className={styles.fontMono} data-label="ID">
-                    {i.report_id}
+                    {i.id}
                   </td>
                   <td data-label="Incident">{i.title}</td>
-                  <td data-label="Location">{i.location}</td>
+                  <td data-label="Location">{i.named_location}</td>
                   <td data-label="Status">
                     <span
                       className={[styles.statusPill, styles[sta]].join(" ")}

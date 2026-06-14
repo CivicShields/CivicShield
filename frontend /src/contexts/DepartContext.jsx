@@ -1,12 +1,32 @@
-import { createContext, useContext, useCallback, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useCallback,
+  useState,
+  useEffect,
+} from "react";
 import { useAuth } from "./AuthContext";
-import { changeReportStatusRequest } from "../services/DepartService";
 
 const DepartContext = createContext(null);
 
 export function DepartProvider({ children }) {
   const [departReports, setDepartReports] = useState([]);
+  const [name, setName] = useState(null);
   const { user } = useAuth();
+
+  useEffect(() => {
+    async function loadName() {
+      if (!user) throw new Error("No user is logged in");
+      const req = await fetch(`/departments/${user.department_id}/`, {
+        credentials: "include",
+      });
+      const res = await req.json();
+      if (res.success) {
+        return setName(res.department.name);
+      }
+    }
+    loadName();
+  }, [user]);
 
   const fetchDepartReports = useCallback(async () => {
     if (!user) throw new Error("No user is logged in");
@@ -14,32 +34,36 @@ export function DepartProvider({ children }) {
       credentials: "include",
     });
     const res = await req.json();
-    console.log(res);
     if (res.success) {
       setDepartReports(res.incidents);
       return res.incidents;
     }
-    console.error(res.error);
   }, [user]);
 
   const changeStatus = useCallback(
-    async (reportID, newStatus = "In Progress") => {
-      if (!user) throw new Error("No user logged in");
-      await changeReportStatusRequest(reportID, newStatus);
-      setDepartReports((prev) =>
-        prev.map((departReports) =>
-          departReports.report_id === reportID
-            ? { ...departReports, status: newStatus }
-            : departReports,
-        ),
-      );
+    async (incident_id, newStatus = "in_progress") => {
+      if (!user) throw new Error("No user is logged in");
+      const req = await fetch(`/incident/department/${incident_id}/status/`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: newStatus }),
+        credentials: "include",
+      });
+      const res = await req.json();
+      if (res.success) {
+        return res;
+      }
     },
     [user],
   );
 
   return (
     <DepartContext.Provider
-      value={{ departReports, changeStatus, fetchDepartReports }}
+      value={{
+        departReports,
+        name,
+        changeStatus,
+        fetchDepartReports,
+      }}
     >
       {children}
     </DepartContext.Provider>

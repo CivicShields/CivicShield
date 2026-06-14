@@ -17,15 +17,10 @@ export async function reverseGeocode(lat, lon) {
 
     const url = `${NOMINATIM_URL}?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Nominatim request failed');
-        const data = await response.json();
-        const address = data.display_name || 'Unknown location';
-        geocodeCache.set(cacheKey, address);
-        return address;
-    } catch (error) {
-        console.error('Reverse geocode error:', error);
-        return 'Location not available';
-    }
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Nominatim request failed');
+    const data = await response.json();
+    const address = data.display_name || 'Unknown location';
+    geocodeCache.set(cacheKey, address);
+    return address;
 }

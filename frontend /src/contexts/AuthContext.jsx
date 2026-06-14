@@ -24,8 +24,6 @@ export function AuthProvider({ children }) {
         });
         const res = await req.json();
         setUser(res.user);
-      } catch (error) {
-        console.error("Failed to restore session on reload:", error);
       } finally {
         setIsInitializing(false);
       }

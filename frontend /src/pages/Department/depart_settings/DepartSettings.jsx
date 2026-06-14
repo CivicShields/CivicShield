@@ -1,8 +1,10 @@
 import styles from "./DepartSettings.module.css";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useDepart } from "../../../contexts/DepartContext";
 
 function DepartSettings() {
   const { user } = useAuth();
+  const { name } = useDepart();
   return (
     <div className={styles.contentFade}>
       <h2 className={styles.pageTitle}>Department Settings</h2>
@@ -20,7 +22,7 @@ function DepartSettings() {
           <label>Department Name</label>
           <input
             type="text"
-            value={user.department + " Department"}
+            value={name}
             disabled
             className={[styles.rawInput, styles.disabled].join(" ")}
           />

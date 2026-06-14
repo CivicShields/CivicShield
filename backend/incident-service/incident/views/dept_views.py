@@ -22,9 +22,24 @@ def list_dept_incidents(request, *args, **kwargs):
     
     try:
         incidents = Incident.objects.filter(department_id=dept_id)
+        name_data = get_name(request, dept_id)["data"]
+        reports = []
+        for inc in incidents:
+            reports.append({
+                "id": inc.id,
+                "title": inc.title,
+                "department_id": inc.department_id, 
+                "category": inc.category,
+                "severity": inc.severity,
+                "status": inc.status,
+                "description": inc.description,
+                "named_location": inc.named_location,
+                "reporter_id": inc.reporter_id,
+                "created_at": inc.created_at.isoformat() if inc.created_at else None, # Clean date format
+                "media": inc.media,
+            })
         
-        data = list(incidents.values("id", "reporter_id", "category","severity", "status", "description", "named_location"))
-        return JsonResponse({"success":True, "data":data}, status=200)
+        return JsonResponse({"success":True, "data": reports}, status=200)
     except Exception:
         logger.exception("Error occurred while fetching incidents")
         return JsonResponse({"error": "An error occurred while fetching incidents"}, status=500)
@@ -40,18 +55,16 @@ def update_status(request, *args, **kwargs):
     #getting status data
     ALLOWED_STATUSES = ["pending", "in_progress", "resolved"]   
     try:
+        incident_id = kwargs.get("incident_id")
+        if not incident_id:
+            return JsonResponse({"error": "Incident ID is required"}, status=400)
         data = json.loads(request.body)
         status = data.get("status")
         if not status or status not in ALLOWED_STATUSES:
             return JsonResponse({"error": f"Status is required and must be one of {ALLOWED_STATUSES}"}, status=400)
-        
-        #getting incident id from query params
-        incident_id = kwargs.get("id")
-        if not incident_id:
-            return JsonResponse({"error": "Incident ID is required"}, status=400)
-        
+                
         #updating incident status
-        incident = Incident.objects.get(id=incident_id)
+        incident = Incident.objects.filter(id=incident_id).first()
         incident.status = status
         incident.save()
         return JsonResponse({"success":True, "message": f"Incident status updated to {status}"}, status=200)

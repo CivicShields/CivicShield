@@ -1,13 +1,11 @@
 import { BarChart3, Activity, ShieldCheck } from "lucide-react";
 import styles from "./DepartDashboard.module.css";
 import { getElapsedTime } from "../../../utilities/Date_utilities";
-import { useAuth } from "../../../contexts/AuthContext";
 import { useDepart } from "../../../contexts/DepartContext";
 import { useEffect } from "react";
 
 function DepartDashboard() {
-  const { fetchDepartReports, departReports } = useDepart();
-  const { user } = useAuth();
+  const { fetchDepartReports, departReports, name } = useDepart();
 
   useEffect(() => {
     fetchDepartReports();
@@ -31,20 +29,21 @@ function DepartDashboard() {
   ).length;
 
   const recentAdditions = departReports
-    ?.toSorted(
-      (a, b) =>
-        new Date(b.created_at.replace("-", ":")).getTime() -
-        new Date(a.created_at.replace("-", ":")).getTime(),
-    )
+    ?.toSorted((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .slice(0, 5);
+
+  function truncateByLetters(str, maxLetters = 60) {
+    if (str.length <= maxLetters) return str;
+    return str.slice(0, maxLetters) + "...";
+  }
 
   const recents = recentAdditions ? (
     recentAdditions?.map((r) => (
-      <div className={styles.activityItem} key={r.report_id}>
+      <div className={styles.activityItem} key={r.id}>
         <div className={styles.activityDot}></div>
         <div className={styles.activityInfo}>
           <p>
-            {r.title} <strong> {r.report_id} </strong>
+            {r.title} <strong> {truncateByLetters(r.description, 50)} </strong>
           </p>
           <span>{getElapsedTime(r.created_at)}</span>
         </div>
@@ -62,14 +61,14 @@ function DepartDashboard() {
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Pending Reports</span>
           <span className={styles.statValue}>
-            {departReports?.filter((item) => item.status === "Pending").length}
+            {departReports?.filter((item) => item.status === "pending").length}
           </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Currently Assigned</span>
           <span className={styles.statValue}>
             {
-              departReports?.filter((item) => item.status === "In Progress")
+              departReports?.filter((item) => item.status === "in_progress")
                 .length
             }
           </span>
@@ -77,7 +76,7 @@ function DepartDashboard() {
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Resolved Today</span>
           <span className={[styles.statValue, styles.green].join(" ")}>
-            {departReports?.filter((item) => item.status === "Resolved").length}
+            {departReports?.filter((item) => item.status === "resolved").length}
           </span>
         </div>
       </div>
@@ -145,7 +144,7 @@ function DepartDashboard() {
             <h4>Department Identity</h4>
             <div className={styles.infoRow}>
               <span>Department Name:</span>
-              <strong className={styles.fontMono}>{user.department}</strong>
+              <strong className={styles.fontMono}>{name}</strong>
             </div>
             <div className={styles.infoRow}>
               <span>Zone:</span>

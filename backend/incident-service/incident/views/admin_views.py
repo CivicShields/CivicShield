@@ -3,7 +3,7 @@ import logging
 from incident.models import Incident
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from core.authentication import login_required
+from core.authentication import login_required, verify_token
 from incident.data import save_media, get_name
 from .user_views import incident_to_dict
 
@@ -13,35 +13,22 @@ logger = logging.getLogger(__name__)
 @csrf_exempt
 @login_required
 def admin_list_incidents(request):
-    if request.method != "POST":
-        return JsonResponse({"error":"only POST request is allowed"}, status=400)
-    
-    #getting and validating request body
-    data = json.loads(request.body)
-    department = data.get("department")
-    severity = data.get("severity")
-    status = data.get("status")
-
-    ALLOWED_SEVERITY = ["low", "medium", "high", "urgent"]
-    ALLOWED_STATUS = ["pending", "in_progress", "resolved"]
-
-    if not severity or not status or not department:
-        return JsonResponse({"error":"department id, severity and status required"}, status=400)
-    
-    if severity not in ALLOWED_SEVERITY:
-        return JsonResponse({"error":"unknown severity provided"})
-    
-    if status not in ALLOWED_STATUS:
-        return JsonResponse({"error":"unknown status provided"})
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
+        return JsonResponse({'error': 'forbidden'}, status=403)
 
     #getting incidents
     try:
-        queryset = Incident.objects.filter(department_id = department, severity=severity, status=status)
-
+        queryset = Incident.objects.all()
         if not queryset.exists():
             return JsonResponse({"error":"no incidents found"}, status=404)
-    
-        return JsonResponse({"success":True, "reports": incident_to_dict(queryset)}, status=200)
+        incidents = []
+        for inc in queryset:
+            incidents.append(incident_to_dict(request, inc))
+        return JsonResponse({"success":True, "incidents": incidents}, status=200)
     
     except Exception as e:
         logger.exception("Error while fetching incidents")
@@ -49,13 +36,20 @@ def admin_list_incidents(request):
 
 
 
-
+@csrf_exempt
 @login_required
 def admin_remove_incidents(request, *args, **kwargs):
     
     #only DELETE method is allowed
     if request.method != "DELETE":
         return JsonResponse({"error":"only DELETE request is allowed"}, status=400)
+    
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
+        return JsonResponse({'error': 'forbidden'}, status=403)
     
     #getting incident id from query params
     incident_id = kwargs.get("id")
@@ -76,6 +70,7 @@ def admin_remove_incidents(request, *args, **kwargs):
         return JsonResponse({"error":"an error occurred while removing incident"}, status=500)
 
 
+@csrf_exempt
 @login_required   
 def admin_update_incident(request, *args, **kwargs):
 
@@ -84,7 +79,7 @@ def admin_update_incident(request, *args, **kwargs):
         return JsonResponse({"error":"only PATCH request is allowed"}, status=400)
     
     #getting incident id from query params
-    incident_id = kwargs.get("id")
+    incident_id = kwargs.get("incident_id")
     if not incident_id:
         return JsonResponse({"error":"incident id is required"}, status=400)
     

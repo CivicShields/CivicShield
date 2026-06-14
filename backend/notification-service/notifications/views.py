@@ -8,8 +8,8 @@ import json
 
 # GET /notifications/user/{userId}
 @login_required
-def user_notifications(request, user_id):
-    notifications = Notification.objects.filter(user_id=user_id)
+def user_notifications(request):
+    notifications = Notification.objects.filter(user_id=request.user_payload['user_id'])
     data = [model_to_dict(n) for n in notifications]
     return JsonResponse(data, safe=False)
 
@@ -33,7 +33,7 @@ def trigger_incident_notification(request, incident_id):
     if request.method == 'POST':
         body = json.loads(request.body)
         notification = Notification.objects.create(
-            user_id=body['user_id'],
+            user_id=request.user_payload['user_id'],
             incident_id=incident_id,
             type='incident_created',
             message=body['message']
@@ -49,7 +49,7 @@ def send_notification(request):
     if request.method == 'POST':
         body = json.loads(request.body)
         notification = Notification.objects.create(
-            user_id=body['user_id'],
+            user_id=request.user_payload['user_id'],
             incident_id=body.get('incident_id'),
             type=body['type'],
             message=body['message']
@@ -80,8 +80,19 @@ def all_notifications(request):
     if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
     notifications = Notification.objects.all()
-    data = [model_to_dict(n) for n in notifications]
-    return JsonResponse(data, safe=False)
+    notifs = []
+    for n in notifications:
+        print(n)
+        notifs.append(
+            {"id": str(n.id),
+             "incident_id": str(n.incident_id),
+             "user_id": str(n.user_id),
+             "is_read": n.is_read,
+             "type": n.type,
+             "message": n.message
+             }
+        )
+    return JsonResponse({"success": True, "notifications": notifs}, safe=False)
 
 
 # DELETE /notifications/{id}
@@ -89,6 +100,12 @@ def all_notifications(request):
 @login_required
 def delete_notification(request, id):
     if request.method == 'DELETE':
+        token = request.COOKIES.get('auth_token')
+        if not token:
+            return JsonResponse({'error': 'unauthorized'}, status=401)
+        payload = verify_token(token)
+        if not payload or payload['role'] != 'admin':
+            return JsonResponse({'error': 'forbidden'}, status=403)
         notification = Notification.objects.get(id=id)
         notification.delete()
         return JsonResponse({'message': 'Deleted successfully'})

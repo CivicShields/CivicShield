@@ -14,7 +14,7 @@ class User(AbstractUser):
     ]
     email = models.EmailField(unique=True) 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='normal_user')
-    department_id = models.IntegerField(null=True, blank=True)
+    department_id = models.UUIDField()
     phone = models.CharField(
         validators=[phone_regex], 
         max_length=17, 

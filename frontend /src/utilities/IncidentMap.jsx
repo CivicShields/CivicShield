@@ -11,7 +11,6 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import MarkerClusterGroup from "react-leaflet-cluster";
 
 // Fix Leaflet default marker icons
 delete L.Icon.Default.prototype._getIconUrl;

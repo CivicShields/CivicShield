@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Button from "../button/Button";
 import styles from "./Modal.module.css";
 
-function Modal({ isOpen, onClose, action, children }) {
+function Modal({ isOpen, onClose, action, children, name = "Log out" }) {
   const modalRef = useRef();
 
   // 1. Detect clicks outside the modal content box
@@ -42,7 +42,7 @@ function Modal({ isOpen, onClose, action, children }) {
     <div className={styles.overlay}>
       <div ref={modalRef} className={styles.modal}>
         {children}
-        <Button name="Log out" classStyle={styles.firstBut} onClick={action} />
+        <Button name={name} classStyle={styles.firstBut} onClick={action} />
         <Button name="Cancel" classStyle={styles.secondBut} onClick={onClose} />
       </div>
     </div>

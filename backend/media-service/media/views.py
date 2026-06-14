@@ -50,7 +50,7 @@ def get_media(request, media_id):        # media_id comes from the URL
 
     return JsonResponse({
         'success': True,
-        'media': {
+        'media': {  
             'id': str(media.id),
             'incident_id': str(media.incident_id),
             'file_name': media.file_name,
@@ -73,6 +73,7 @@ def all_media(request):
     for m in media:
         result.append({
             'id': str(m.id),
+            'incident_id': str(m.incident_id),
             'file_name': m.file_name,
             'file_type': m.file_type,
             'url': request.build_absolute_uri(m.file.url),
@@ -84,7 +85,13 @@ def all_media(request):
 @csrf_exempt                    
 @require_http_methods(["DELETE"])
 @login_required
-def delete_media( media_id):
+def delete_media(request, media_id):
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
+        return JsonResponse({'error': 'forbidden'}, status=403)
     media = get_object_or_404(Media, pk=media_id)
 
     # Delete the physical file from disk

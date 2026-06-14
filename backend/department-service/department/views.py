@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Department, Assignment
-from .auth_decorator import login_required
+from .auth_decorator import login_required, verify_token
 
 def department_to_dict(dept):
     return {
@@ -29,6 +29,12 @@ def assignment_to_dict(assgn):
 # GET /departments/
 @login_required
 def list_departments(request):
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
+        return JsonResponse({'error': 'forbidden'}, status=403)
     departments = Department.objects.all()
     return JsonResponse(
         {'success': True, 'departments': [department_to_dict(d) for d in departments]}, 
@@ -41,7 +47,11 @@ def create_department(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'POST required'}, status=405)
 
-    if request.user_payload['role'] != 'admin':
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
 
     try:
@@ -84,14 +94,18 @@ def get_department(request, department_id):
 
 @csrf_exempt
 @login_required
-def update_department(request, id):
+def update_department(request, department_id):
     if request.method != 'PATCH':
         return JsonResponse({'error': 'PATCH required'}, status=405)
 
-    if request.user_payload['role'] != 'admin':
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
-
-    dept = Department.objects.filter(id=id).first()
+    
+    dept = Department.objects.filter(id=department_id).first()
     if not dept:
         return JsonResponse({'success': False, '': 'department not found'}, status=404)
 
@@ -124,7 +138,11 @@ def delete_department(request, id):
     if request.method != 'DELETE':
         return JsonResponse({'error': 'DELETE required'}, status=405)
 
-    if request.user_payload['role'] != 'admin':
+    token = request.COOKIES.get('auth_token')
+    if not token:
+        return JsonResponse({'error': 'unauthorized'}, status=401)
+    payload = verify_token(token)
+    if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
 
     Department.objects.filter(id=id).delete()

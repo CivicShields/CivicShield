@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 import jwt
+from functools import wraps
 
 def verify_token(token):
     try:
@@ -10,6 +11,7 @@ def verify_token(token):
         return None
 
 def login_required(view_func):
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         token = request.COOKIES.get('auth_token')
         if not token:

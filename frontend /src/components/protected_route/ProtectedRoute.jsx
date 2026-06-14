@@ -11,7 +11,11 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     const redirectTo =
-      user.role === "department_user" ? "/dept/dashboard" : "/dashboard";
+      user.role === "department_user"
+        ? "/dept/dashboard"
+        : user.role === "admin"
+          ? "/admin"
+          : "/dashboard";
     return <Navigate to={redirectTo} replace />;
   }
 

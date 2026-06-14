@@ -11,7 +11,7 @@ def user_to_dict(user):
         'email': user.email,
         'name': user.first_name,
         'role': user.role,
-        'department_id': user.department_id,
+        'department_id': str(user.department_id),
         'phone': user.phone,
         'created_at': user.date_joined.isoformat(),
         'updated_at': user.last_login.isoformat() if user.last_login else None,
@@ -142,7 +142,7 @@ def list_users(request):
     if not payload or payload['role'] != 'admin':
         return JsonResponse({'error': 'forbidden'}, status=403)
     users = User.objects.all()
-    return JsonResponse([user_to_dict(u) for u in users], safe=False)
+    return JsonResponse({"success": True, "users": [user_to_dict(u) for u in users]}, safe=False)
 
 @csrf_exempt
 def update_role(request, user_id):

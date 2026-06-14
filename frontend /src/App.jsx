@@ -7,6 +7,7 @@ import SignUp from "./pages/sign_up/SignUp";
 import NotFound from "./pages/not_found/NotFound";
 import ProtectedRoute from "./components/protected_route/ProtectedRoute";
 import AboutContact from "./pages/help_about/AboutContact";
+import AdminDashboard from "./pages/admin/Admin";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["department_user"]}>
               <Department />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />

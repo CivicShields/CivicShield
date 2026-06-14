@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./Landing.module.css";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
@@ -61,6 +61,9 @@ function Landing() {
                 classStyle={styles.within2}
                 onClick={handleViewButton}
               />
+              <Link to="/admin" className={styles.within1}>
+                Admin Page
+              </Link>
             </div>
           </div>
         </section>

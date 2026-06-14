@@ -15,6 +15,6 @@ urlpatterns = [
 
     #urls for admin
     path("admin/list/", admin_list_incidents, name="admin-list-incidents"),
-    path("admin/<int:id>/remove/", admin_remove_incidents, name="admin-remove-incidents"),
-    path("admin/update/<int:id>/", admin_update_incident, name="admin-update-incident")
+    path("admin/<uuid:incident_id>/remove/", admin_remove_incidents, name="admin-remove-incidents"),
+    path("admin/update/<uuid:incident_id>/", admin_update_incident, name="admin-update-incident")
 ]

@@ -32,10 +32,10 @@ def assignment_to_dict(assgn):
 def list_departments(request):
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
     departments = Department.objects.all()
     return JsonResponse(
         {'success': True, 'departments': [department_to_dict(d) for d in departments]}, 
@@ -46,33 +46,24 @@ def list_departments(request):
 @login_required
 def create_department(request):
     if request.method != 'POST':
-        return JsonResponse({'error': 'POST required'}, status=405)
+        return JsonResponse({'error': 'POST required'})
 
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
 
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        data = request.POST
+    data = json.loads(request.body)
 
     name = data.get('name')
     email = data.get('contact_email')
     phone = data.get('contact_phone')
-    #removing phone due to testing purposes
-    if not name or not email:
-        return JsonResponse({'success': False, 
-                             'error': 'name and contact_email required'}, 
-                            status=400)
         
-    if Department.objects.filter(name=name).exists() or Department.objects.filter(name=email).exists():
-            return JsonResponse(
-                {'success': False, 'error': 'A department with that name or email is already registered.'}, 
-                status=400
+    if Department.objects.filter(contact_email=email).exists():
+        return JsonResponse(
+                {'error': 'A department with that email is already registered.'}
             )
 
     dept = Department.objects.create(
@@ -80,7 +71,7 @@ def create_department(request):
         contact_email=email,
         contact_phone=phone,
     )
-    return JsonResponse({'success': True, 'department': department_to_dict(dept)}, status=201)
+    return JsonResponse({'success': True, 'department': department_to_dict(dept),"message": "Department successfully created"})
 
 
 # GET /departments/<id>/
@@ -89,7 +80,7 @@ def create_department(request):
 def get_department(request, department_id):
     dept = Department.objects.filter(id=department_id).first()
     if not dept:
-        return JsonResponse({'error': 'department not found'}, status=404)
+        return JsonResponse({'error': 'department not found'})
     return JsonResponse({'success': True, 'department': department_to_dict(dept)})
 
 
@@ -97,32 +88,34 @@ def get_department(request, department_id):
 @login_required
 def update_department(request, department_id):
     if request.method != 'PATCH':
-        return JsonResponse({'error': 'PATCH required'}, status=405)
+        return JsonResponse({'error': 'PATCH required'})
 
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
     
     dept = Department.objects.filter(id=department_id).first()
     if not dept:
-        return JsonResponse({'success': False, '': 'department not found'}, status=404)
+        return JsonResponse({'success': False, '': 'department not found'})
 
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        data = request.POST
+    data = json.loads(request.body)
+  
+    name = data.get('name')
+    email = data.get('contact_email')
+    phone = data.get('contact_phone')
 
-    if 'name' in data:
-        dept.name = data['name']
+    if name:
+        dept.name = data.get('name')
+        dept.save()
     if 'contact_email' in data:
         dept.contact_email = data['contact_email']
     if 'contact_phone' in data:
         dept.contact_phone = data['contact_phone']
     dept.save()
-    return JsonResponse({'success': True, 'department': department_to_dict(dept)})
+    return JsonResponse({'success': True, 'department': department_to_dict(dept), "message": "Department has been successfully updated"})
 
 @csrf_exempt
 @login_required
@@ -135,19 +128,19 @@ def get_depart_names(request):
 # DELETE /departments/<id>/   (admin only)
 @csrf_exempt
 @login_required
-def delete_department(request, id):
+def delete_department(request, department_id):
     if request.method != 'DELETE':
-        return JsonResponse({'error': 'DELETE required'}, status=405)
+        return JsonResponse({'error': 'DELETE required'})
 
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
 
-    Department.objects.filter(id=id).delete()
-    return JsonResponse({'success': True, 'message': 'deleted'})
+    Department.objects.filter(id=department_id).delete()
+    return JsonResponse({'success': True, 'message': 'Department successfully deleted'})
 
 
 # GET /departments/<id>/incidents/
@@ -156,7 +149,7 @@ def delete_department(request, id):
 def department_incidents(request, department_id):
     dept = Department.objects.filter(id=department_id).first()
     if not dept:
-        return JsonResponse({'success': False, 'error': 'department not found'}, status=404)
+        return JsonResponse({'success': False, 'error': 'department not found'})
     incidents = get_incidents(request, department_id)
     if not incidents['success']:
         return JsonResponse({"success": False, "error": "Failed to load department data " })
@@ -169,18 +162,18 @@ def department_incidents(request, department_id):
 @login_required
 def assign_incident(request, id, incident_id):
     if request.method != 'POST':
-        return JsonResponse({'error': 'POST required'}, status=405)
+        return JsonResponse({'error': 'POST required'})
 
     dept = Department.objects.filter(id=id).first()
     if not dept:
-        return JsonResponse({'success': False, 'error': 'department not found'}, status=404)
+        return JsonResponse({'success': False, 'error': 'department not found'})
 
     if Assignment.objects.filter(department_id=id, incident_id=incident_id).exists():
-        return JsonResponse({'success': False, 'error': 'incident already assigned to this department'}, status=409)
+        return JsonResponse({'success': False, 'error': 'incident already assigned to this department'})
 
     assignment = Assignment.objects.create(
         incident_id=incident_id,
         department=dept,
         assigned_by=request.user_payload['user_id']
     )
-    return JsonResponse({'success': True, 'assignment': assignment_to_dict(assignment)}, status=201)
+    return JsonResponse({'success': True, 'assignment': assignment_to_dict(assignment), "message": "incident successfully assigned"})

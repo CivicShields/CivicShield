@@ -3,8 +3,8 @@
 # │            Django Multi-App Launcher                │
 # └─────────────────────────────────────────────────────┘
 # 1. Edit the APPS array below
-# 2. chmod +x launch_django.sh
-# 3. ./launch_django.sh
+# 2. chmod +x launch_service.sh
+# 3. ./launch_service.sh
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 # Format: "absolute_path|venv_folder_name"

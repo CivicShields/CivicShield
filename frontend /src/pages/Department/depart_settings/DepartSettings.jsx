@@ -36,9 +36,6 @@ function DepartSettings() {
             className={[styles.rawInput, styles.disabled].join(" ")}
           />
         </div>
-        <button className={styles.btnPrimary} disabled>
-          Save Changes
-        </button>
       </div>
     </div>
   );

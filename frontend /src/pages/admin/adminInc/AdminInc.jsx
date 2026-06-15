@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import Modal from "../../../components/modal/Modal";
+import Notify from "../../../components/notify/Notify";
 
 function AdminInc() {
   const [incidents, setIncidents] = useState([]);
@@ -7,6 +8,7 @@ function AdminInc() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [id, setId] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   // Load data based on active tab
   useEffect(() => {
@@ -38,29 +40,44 @@ function AdminInc() {
   }, []);
 
   // Incident actions
-  const deleteIncident = async (id) => {
-    if (!window.confirm("Delete this incident?")) return;
+  const deleteIncident = async (incident_id) => {
+    setSuccess(null);
     try {
-      await fetch(`/incident/admin/${id}/remove/`, {
+      const req = await fetch(`/incident/admin/${incident_id}/remove/`, {
         method: "DELETE",
         credentials: "include",
       });
-      loadIncidents();
+      const res = await req.json();
+      if (res.error) return setError(res.error);
+      if (res.success) {
+        setSuccess(res.message);
+        loadIncidents();
+      }
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsModalOpen(false);
     }
   };
 
   const updateIncident = async (id, severity, status) => {
+    setSuccess(null);
     try {
-      await fetch(`/incident/admin/update/${id}/`, {
+      const req = await fetch(`/incident/admin/update/${id}/`, {
         method: "PATCH",
         body: JSON.stringify({ severity, status }),
         credentials: "include",
       });
-      loadIncidents();
+      const res = await req.json();
+      if (res.error) return setError(res.error);
+      if (res.success) {
+        setSuccess(res.message);
+        loadIncidents();
+      }
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsModalOpen(false);
     }
   };
 
@@ -69,6 +86,7 @@ function AdminInc() {
       <h2>Incidents</h2>
       {loading && <div className="loader">Loading...</div>}
       {error && <div className="error">{error}</div>}
+      {success && <Notify key={success} content={success} type="success" />}
       <table>
         <thead>
           <tr>
@@ -95,10 +113,10 @@ function AdminInc() {
                     updateIncident(inc.id, e.target.value, inc.severity)
                   }
                 >
-                  <option>Low</option>
-                  <option>Medium</option>
-                  <option>High</option>
-                  <option>Urgent</option>
+                  <option>low</option>
+                  <option>medium</option>
+                  <option>high</option>
+                  <option>urgent</option>
                 </select>
               </td>
               <td>
@@ -130,6 +148,7 @@ function AdminInc() {
       </table>
       <Modal
         isOpen={isModalOpen}
+        name="Delete"
         onClose={() => {
           setIsModalOpen(false);
         }}

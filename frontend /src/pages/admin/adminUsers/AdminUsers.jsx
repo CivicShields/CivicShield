@@ -1,22 +1,16 @@
 import { useState, useCallback, useEffect } from "react";
 import Modal from "../../../components/modal/Modal";
 import ShowPassInput from "../../../components/show_pass/ShowPasswordInput";
+import Notify from "../../../components/notify/Notify";
 
 function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUser, setNewUser] = useState({
-    email: "",
-    password: "",
-    name: "",
-    role: "",
-    department_id: "",
-    phone: "",
-  });
   const [allDeparts, setAllDeparts] = useState([]);
   const [id, setId] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -59,11 +53,14 @@ function AdminUsers() {
 
   // User actions
   const deleteUser = async (id) => {
+    setSuccess(null);
     try {
-      await fetch(`/auth/users/${id}/delete/`, {
+      const req = await fetch(`/auth/users/${id}/delete/`, {
         method: "DELETE",
         credentials: "include",
       });
+      const res = await req.json();
+      if (res.message) setSuccess(res.message);
       loadUsers();
     } catch (err) {
       setError(err.message);
@@ -73,12 +70,15 @@ function AdminUsers() {
   };
 
   const updateUserRole = async (id, role) => {
+    setSuccess(null);
     try {
-      await fetch(`/auth/users/${id}/role/`, {
+      const req = await fetch(`/auth/users/${id}/role/`, {
         method: "PATCH",
         body: JSON.stringify({ role }),
         credentials: "include",
       });
+      const res = await req.json();
+      if (res.message) setSuccess(res.message);
       loadUsers();
     } catch (err) {
       setError(err.message);
@@ -86,49 +86,21 @@ function AdminUsers() {
   };
 
   const updateUserDept = async (id, department_id) => {
+    setSuccess(null);
     try {
-      await fetch(`/auth/users/${id}/department/`, {
+      const req = await fetch(`/auth/users/${id}/department/`, {
         method: "PATCH",
-        body: JSON.stringify({ department_id }),
+        body: JSON.stringify({ department_id: department_id }),
         credentials: "include",
       });
+      const res = await req.json();
+      if (res.message) setSuccess(res.message);
       loadUsers();
     } catch (err) {
       setError(err.message);
     }
   };
 
-  const createUser = async () => {
-    if (!newUser.email || !newUser.password) {
-      setError("Email and password are required");
-      return;
-    }
-    try {
-      await fetch("/auth/register/", {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify({
-          email: newUser.email,
-          password: newUser.password,
-          name: newUser.name,
-          role: newUser.role,
-          department_id: newUser.department_id,
-          phone: "",
-        }),
-      });
-      loadUsers();
-      setNewUser({
-        email: "",
-        password: "",
-        name: "",
-        role: "",
-        department_id: "",
-        phone: "",
-      }); // reset form
-    } catch (err) {
-      setError(err.message);
-    }
-  };
   const Departments = allDeparts?.map((depart) => (
     <option value={depart.id} key={depart.id}>
       {depart.name}
@@ -149,54 +121,7 @@ function AdminUsers() {
       <h2>Users</h2>
       {loading && <div className="loader">Loading...</div>}
       {error && <div className="error">{error}</div>}
-      <h3>Add New User</h3>
-      <div className="form-card">
-        <input
-          type="email"
-          placeholder="Email *"
-          value={newUser.email}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-        />
-        <div className="pass">
-          <ShowPassInput
-            value={newUser.password}
-            onChange={(e) =>
-              setNewUser({ ...newUser, password: e.target.value })
-            }
-            placeholder="Password *"
-          />
-        </div>
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={newUser.name}
-          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-        />
-        <select
-          value={newUser.role}
-          onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-        >
-          <option value="" disabled>
-            User type...
-          </option>
-          <option value="normal_user">Normal User</option>
-          <option value="department_user">Department User</option>
-          <option value="admin">Admin</option>
-        </select>
-        <select
-          value={newUser.department_id}
-          onChange={(e) =>
-            setNewUser({ ...newUser, department_id: e.target.value })
-          }
-        >
-          <option value="" disabled>
-            Department name..
-          </option>
-          {Departments}
-        </select>
-        <button onClick={createUser}>Create User</button>
-      </div>
+      {success && <Notify key={success} content={success} type="success" />}
       <table>
         <thead>
           <tr>
@@ -230,6 +155,7 @@ function AdminUsers() {
                   onChange={(e) => updateUserDept(user.id, e.target.value)}
                 >
                   <option>{findIndices(user.department_id)}</option>
+                  <option value="none">No Department</option>
                   {Departments}
                 </select>
               </td>

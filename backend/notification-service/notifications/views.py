@@ -75,10 +75,10 @@ def trigger_escalation(request, incident_id):
 def all_notifications(request):
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
     notifications = Notification.objects.all()
     notifs = []
     for n in notifications:
@@ -102,10 +102,10 @@ def delete_notification(request, id):
     if request.method == 'DELETE':
         token = request.COOKIES.get('auth_token')
         if not token:
-            return JsonResponse({'error': 'unauthorized'}, status=401)
+            return JsonResponse({'error': 'unauthorized'})
         payload = verify_token(token)
         if not payload or payload['role'] != 'admin':
-            return JsonResponse({'error': 'forbidden'}, status=403)
+            return JsonResponse({'error': 'forbidden'})
         notification = Notification.objects.get(id=id)
         notification.delete()
         return JsonResponse({'message': 'Deleted successfully'})

@@ -61,9 +61,6 @@ function Landing() {
                 classStyle={styles.within2}
                 onClick={handleViewButton}
               />
-              <Link to="/admin" className={styles.within1}>
-                Admin Page
-              </Link>
             </div>
           </div>
         </section>

@@ -92,6 +92,7 @@ function AdminNotif() {
         onClose={() => {
           setIsModalOpen(false);
         }}
+        name="Delete"
         action={() => deleteNotification(id)}
       >
         <h2>

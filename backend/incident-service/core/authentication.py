@@ -15,10 +15,10 @@ def login_required(view_func):
     def wrapper(request, *args, **kwargs):
         token = request.COOKIES.get('auth_token')
         if not token:
-            return JsonResponse({'error': 'unauthorized'}, status=401)
+            return JsonResponse({'error': 'unauthorized'})
         payload = verify_token(token)
         if not payload:
-            return JsonResponse({'error': 'invalid token'}, status=401)
+            return JsonResponse({'error': 'invalid token'})
         request.user_payload = payload
         return view_func(request, *args, **kwargs)
     return wrapper

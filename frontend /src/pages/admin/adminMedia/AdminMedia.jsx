@@ -88,6 +88,7 @@ function AdminMedia() {
       </table>
       <Modal
         isOpen={isModalOpen}
+        name="Delete"
         onClose={() => {
           setIsModalOpen(false);
         }}

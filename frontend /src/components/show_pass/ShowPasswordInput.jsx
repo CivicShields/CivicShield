@@ -46,7 +46,6 @@ function ShowPassInput({ autoFocus = false, ...props }) {
           position: "absolute",
           right: "12px",
           top: "50%",
-          left: "40%",
           transform: "translateY(-50%)",
           border: "none",
           background: "none",

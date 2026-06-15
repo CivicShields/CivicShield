@@ -7,7 +7,6 @@ from .utils import validate_uploaded_file
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404
 from .auth_decorator import login_required, verify_token
-from django.forms.models import model_to_dict
 
 
 @csrf_exempt           
@@ -19,12 +18,12 @@ def upload_media(request):
     uploaded_file = request.FILES.get('file')
 
     if not incident_id or not uploaded_file:
-        return JsonResponse({'error': 'incident_id and file are required'}, status=400)
+        return JsonResponse({'error': 'incident_id and file are required'})
 
     try:
         mime_type = validate_uploaded_file(uploaded_file)
     except ValidationError:
-        return JsonResponse({'error': "Invalid file upload"}, status=400)
+        return JsonResponse({'error': "Invalid file upload"})
 
     media = Media.objects.create(
         incident_id=incident_id,
@@ -38,7 +37,7 @@ def upload_media(request):
     return JsonResponse({
         'media_id': str(media.id),
         'url': public_url
-    }, status=201)
+    })
 
 @require_GET  # only accept GET requests
 @login_required
@@ -64,10 +63,10 @@ def get_media(request, media_id):        # media_id comes from the URL
 def all_media(request):
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
     media = Media.objects.all()
     result = []
     for m in media:
@@ -88,10 +87,10 @@ def all_media(request):
 def delete_media(request, media_id):
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
     media = get_object_or_404(Media, pk=media_id)
 
     # Delete the physical file from disk
@@ -99,4 +98,4 @@ def delete_media(request, media_id):
     # Delete the database record
     media.delete()
 
-    return JsonResponse({'success': True, 'message': 'Media deleted successfully'}, status=200)
+    return JsonResponse({'success': True, 'message': 'Media deleted successfully'})

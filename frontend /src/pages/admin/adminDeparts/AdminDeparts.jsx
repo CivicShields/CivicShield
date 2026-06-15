@@ -1,14 +1,20 @@
 import { useState, useCallback, useEffect } from "react";
 import Modal from "../../../components/modal/Modal";
+import Notify from "../../../components/notify/Notify";
 
 function AdminDeparts() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    contact_email: "",
+    contact_phone: "",
+  });
   const [editingId, setEditingId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [id, setId] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -38,11 +44,14 @@ function AdminDeparts() {
 
   // Department actions
   const deleteDepartment = async (id) => {
+    setSuccess(null);
     try {
-      await fetch(`/departments/${id}/delete/`, {
+      const req = await fetch(`/departments/${id}/delete/`, {
         method: "DELETE",
         credentials: "include",
       });
+      const res = await req.json();
+      if (res.message) setSuccess(res.message);
       loadDepartments();
     } catch (err) {
       setError(err.message);
@@ -51,28 +60,45 @@ function AdminDeparts() {
     }
   };
 
-  const createDepartment = async (deptData, e) => {
+  const createDepartment = async (e) => {
     e.preventDefault();
+    setSuccess(null);
+    setError(null);
+    if (!formData.contact_email || !formData.contact_phone || !formData.name) {
+      return setError("Enter all values");
+    }
     try {
-      await fetch("/departments/create/", {
+      const req = await fetch("/departments/create/", {
         method: "POST",
-        body: JSON.stringify(deptData),
+        body: JSON.stringify(formData),
         credentials: "include",
       });
+      const res = await req.json();
+      if (res.message) setSuccess(res.message);
+      if (res.error) setError(res.error);
       loadDepartments();
-      setFormData({});
     } catch (err) {
       setError(err.message);
+    } finally {
+      setFormData({
+        ...formData,
+        name: "",
+        contact_email: "",
+        contact_phone: "",
+      });
     }
   };
 
-  const updateDepartment = async (id, deptData) => {
+  const updateDepartment = async (id, deptdata) => {
+    setSuccess(null);
     try {
-      await fetch(`/departments/${id}/update/`, {
+      const req = await fetch(`/departments/${id}/update/`, {
         method: "PATCH",
-        body: JSON.stringify(deptData),
+        body: JSON.stringify(deptdata),
         credentials: "include",
       });
+      const res = await req.json();
+      if (res.message) setSuccess(res.message);
       loadDepartments();
       setEditingId(null);
     } catch (err) {
@@ -85,17 +111,20 @@ function AdminDeparts() {
       <h2>Departments</h2>
       {loading && <div className="loader">Loading...</div>}
       {error && <div className="error">{error}</div>}
+      {success && <Notify key={success} content={success} type="success" />}
+      <h3>Create New Department</h3>
       <form className="form-card">
-        <h3>Create New Department</h3>
         <input
           type="text"
           placeholder="Name"
+          value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
         />
         <input
           type="email"
           placeholder="Email"
+          value={formData.contact_email}
           onChange={(e) =>
             setFormData({ ...formData, contact_email: e.target.value })
           }
@@ -104,12 +133,15 @@ function AdminDeparts() {
         <input
           type="text"
           placeholder="Phone"
+          value={formData.contact_phone}
           onChange={(e) =>
             setFormData({ ...formData, contact_phone: e.target.value })
           }
           required
         />
-        <button onClick={(e) => createDepartment(formData, e)}>Create</button>
+        <button className="create-btn" onClick={(e) => createDepartment(e)}>
+          Create
+        </button>
       </form>
       <table>
         <thead>
@@ -144,6 +176,7 @@ function AdminDeparts() {
                   </td>
                   <td>
                     <button
+                      className="create-btn"
                       onClick={() => {
                         const newName = document.getElementById(
                           `name-${dept.id}`,
@@ -154,6 +187,11 @@ function AdminDeparts() {
                         const newPhone = document.getElementById(
                           `phone-${dept.id}`,
                         ).value;
+                        console.log({
+                          name: newName,
+                          email: newEmail,
+                          phone: newPhone,
+                        });
                         updateDepartment(dept.id, {
                           name: newName,
                           contact_email: newEmail,
@@ -163,7 +201,12 @@ function AdminDeparts() {
                     >
                       Save
                     </button>
-                    <button onClick={() => setEditingId(null)}>Cancel</button>
+                    <button
+                      className="create-btn"
+                      onClick={() => setEditingId(null)}
+                    >
+                      Cancel
+                    </button>
                   </td>
                 </>
               ) : (
@@ -173,7 +216,12 @@ function AdminDeparts() {
                   <td>{dept.contact_email}</td>
                   <td>{dept.contact_phone}</td>
                   <td>
-                    <button onClick={() => setEditingId(dept.id)}>Edit</button>
+                    <button
+                      className="create-btn"
+                      onClick={() => setEditingId(dept.id)}
+                    >
+                      Edit
+                    </button>
                     <button
                       className="delete-btn"
                       onClick={() => {
@@ -192,6 +240,7 @@ function AdminDeparts() {
       </table>
       <Modal
         isOpen={isModalOpen}
+        name="Delete"
         onClose={() => {
           setIsModalOpen(false);
         }}

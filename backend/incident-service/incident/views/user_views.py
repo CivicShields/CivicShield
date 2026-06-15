@@ -32,7 +32,7 @@ def incident_to_dict(request, inc):
 @login_required
 def create_incident(request):
     if request.method != "POST":
-        return JsonResponse({"success": False, "error": "Only POST method is allowed"}, status=405)
+        return JsonResponse({"success": False, "error": "Only POST method is allowed"})
     data = (request.POST)["metadata"]
     metadata_dict = json.loads(data)
     incident_coordinates = Point(metadata_dict['coordinates']['longitude'], metadata_dict['coordinates']['latitude'], srid=4326)
@@ -53,13 +53,13 @@ def create_incident(request):
         return JsonResponse({"success": False, "error": "Error occurred while saving media"})
     inc.media = med["media_data"]["media_id"]
     inc.save()
-    return JsonResponse({"success":True, "report": incident_to_dict(request, inc), "message": "Successfully reported"}, status=201)
+    return JsonResponse({"success":True, "report": incident_to_dict(request, inc), "message": "Successfully reported"})
 
 @csrf_exempt
 @login_required
 def list_user_incidents(request):
     if request.method != "GET":
-        return JsonResponse({"error": "Only GET method is allowed"}, status=405)
+        return JsonResponse({"error": "Only GET method is allowed"})
     #getting user id from request
     user_id = request.user_payload['user_id']
     # Query the database for incidents reported by the user    
@@ -89,10 +89,10 @@ def list_user_incidents(request):
                 }
             })
 
-        return JsonResponse({"success": True, "reports": reports}, status=200)
+        return JsonResponse({"success": True, "reports": reports})
     except Exception as e:
         logger.exception("Error while fetching incidents for user_id=%s", user_id)
-        return JsonResponse({"error": "An error occurred while fetching incidents"}, status=500)
+        return JsonResponse({"error": "An error occurred while fetching incidents"})
 
 
 @login_required

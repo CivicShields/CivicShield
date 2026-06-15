@@ -6,6 +6,7 @@ import {
   useEffect,
 } from "react";
 import { useAuth } from "./AuthContext";
+import { useLocation } from "react-router-dom";
 
 const DepartContext = createContext(null);
 
@@ -13,10 +14,13 @@ export function DepartProvider({ children }) {
   const [departReports, setDepartReports] = useState([]);
   const [name, setName] = useState(null);
   const { user } = useAuth();
+  const location = useLocation();
+
+  // Check if the current URL path starts with /dept/
+  const isDeptRoute = location.pathname.startsWith("/dept/");
 
   useEffect(() => {
     async function loadName() {
-      if (!user) throw new Error("No user is logged in");
       const req = await fetch(`/departments/${user.department_id}/`, {
         credentials: "include",
       });
@@ -25,11 +29,10 @@ export function DepartProvider({ children }) {
         return setName(res.department.name);
       }
     }
-    loadName();
-  }, [user]);
+    if (isDeptRoute) loadName();
+  }, [user, isDeptRoute]);
 
   const fetchDepartReports = useCallback(async () => {
-    if (!user) throw new Error("No user is logged in");
     const req = await fetch(`/departments/${user.department_id}/incidents/`, {
       credentials: "include",
     });
@@ -42,7 +45,6 @@ export function DepartProvider({ children }) {
 
   const changeStatus = useCallback(
     async (incident_id, newStatus = "in_progress") => {
-      if (!user) throw new Error("No user is logged in");
       const req = await fetch(`/incident/department/${incident_id}/status/`, {
         method: "PATCH",
         body: JSON.stringify({ status: newStatus }),
@@ -53,7 +55,7 @@ export function DepartProvider({ children }) {
         return res;
       }
     },
-    [user],
+    [],
   );
 
   return (
@@ -61,6 +63,7 @@ export function DepartProvider({ children }) {
       value={{
         departReports,
         name,
+        isDeptRoute,
         changeStatus,
         fetchDepartReports,
       }}
@@ -73,8 +76,5 @@ export function DepartProvider({ children }) {
 // eslint-disable-next-line react-refresh/only-export-components
 export function useDepart() {
   const context = useContext(DepartContext);
-  if (!context) {
-    throw new Error("useDepart must be used inside a DepartProvider");
-  }
   return context;
 }

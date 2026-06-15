@@ -50,9 +50,11 @@ function LogIn() {
       const res = await req.json();
       if (res.error) {
         setLoading(false);
+        setForm({ email: "", password: "" });
         return setError(res.error);
       }
       setUser(res.user);
+      setForm({ email: "", password: "" });
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");

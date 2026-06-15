@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { CheckCircle2Icon } from "lucide-react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import logo from "/imagelogo.png";
 import Button from "../../components/button/Button";
@@ -11,7 +11,6 @@ import Notify from "../../components/notify/Notify";
 function SignUp() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -30,20 +29,6 @@ function SignUp() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-  const previousPage = location.state?.from?.pathname || "/dashboard";
-
-  // Check if the previous page is one we shouldn't go back to
-  const blacklistedPaths = [
-    "/settings",
-    "/settings/notifications",
-    "/settings/security",
-    "/settings/myreports",
-    "/settings/profile",
-  ];
-  const from = blacklistedPaths.includes(previousPage)
-    ? "/dashboard"
-    : previousPage;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +50,9 @@ function SignUp() {
         "Password doesnt meet should be contain at least one number",
       );
     }
+    if (!form.phone) {
+      return setError("Please enter your phone number");
+    }
     setLoading(true);
     try {
       const req = await fetch("/auth/register/", {
@@ -81,10 +69,24 @@ function SignUp() {
 
       if (res.error) {
         setLoading(false);
+        setForm({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          phone: "",
+        });
         return setError(res.error);
       }
       setUser(res.user);
-      navigate(from, { replace: true });
+      setForm({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phone: "",
+      });
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Registration failed");
     } finally {
@@ -177,9 +179,7 @@ function SignUp() {
             &nbsp; Include a Special character
           </div>
         </div>
-        <p>
-          Phone Number <span>(optional)</span>
-        </p>
+        <p>Phone Number</p>
         <input
           type="text"
           className={styles.phone}
@@ -190,6 +190,7 @@ function SignUp() {
             const val = e.target.value;
             setForm({ ...form, phone: val });
           }}
+          required
         />
         <p>Terms & Conditions</p>
         <div className={styles.terms}>

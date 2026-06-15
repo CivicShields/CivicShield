@@ -8,7 +8,7 @@ def save_media(request, incident_id):
     uploaded_file = request.FILES.get('file')
     
     if not uploaded_file:
-        return JsonResponse({'error': 'No file was provided in the request'}, status=400)
+        return JsonResponse({'error': 'No file was provided in the request'})
     data_payload = {
         'incident_id': incident_id
     }
@@ -30,10 +30,10 @@ def save_media(request, incident_id):
             media_data = response.json()
             return {'success': True, 'status': 'Media uploaded successfully', 'media_data': media_data}
         else:
-            return JsonResponse({'error': 'Media service rejected the upload', 'details': response.json()}, status=response.status_code)
+            return JsonResponse({'error': 'Media service rejected the upload', 'details': response.json()})
             
     except requests.exceptions.RequestException as e:
-        return JsonResponse({'error': f'Failed to connect to Media Service: {str(e)}'}, status=503)
+        return JsonResponse({'error': f'Failed to connect to Media Service: {str(e)}'})
 
 
 def get_media(request, media_id):

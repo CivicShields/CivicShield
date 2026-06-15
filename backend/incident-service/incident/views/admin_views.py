@@ -15,24 +15,24 @@ logger = logging.getLogger(__name__)
 def admin_list_incidents(request):
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
 
     #getting incidents
     try:
         queryset = Incident.objects.all()
         if not queryset.exists():
-            return JsonResponse({"error":"no incidents found"}, status=404)
+            return JsonResponse({"error":"no incidents found"})
         incidents = []
         for inc in queryset:
             incidents.append(incident_to_dict(request, inc))
-        return JsonResponse({"success":True, "incidents": incidents}, status=200)
+        return JsonResponse({"success":True, "incidents": incidents})
     
     except Exception as e:
         logger.exception("Error while fetching incidents")
-        return JsonResponse({"error":"an error occurred while fetching incidents"}, status=500)
+        return JsonResponse({"error":"an error occurred while fetching incidents"})
 
 
 
@@ -42,32 +42,32 @@ def admin_remove_incidents(request, *args, **kwargs):
     
     #only DELETE method is allowed
     if request.method != "DELETE":
-        return JsonResponse({"error":"only DELETE request is allowed"}, status=400)
+        return JsonResponse({"error":"only DELETE request is allowed"})
     
     token = request.COOKIES.get('auth_token')
     if not token:
-        return JsonResponse({'error': 'unauthorized'}, status=401)
+        return JsonResponse({'error': 'unauthorized'})
     payload = verify_token(token)
     if not payload or payload['role'] != 'admin':
-        return JsonResponse({'error': 'forbidden'}, status=403)
+        return JsonResponse({'error': 'forbidden'})
     
     #getting incident id from query params
-    incident_id = kwargs.get("id")
+    incident_id = kwargs.get("incident_id")
     if not incident_id:
-        return JsonResponse({"error":"incident id is required"}, status=400)
+        return JsonResponse({"error":"incident id is required"})
     
     #deleting incident
     try:
         incident = Incident.objects.get(id=incident_id)
         incident.delete()
-        return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been removed"}, status=200)
+        return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been removed"})
     
     except Incident.DoesNotExist:
-        return JsonResponse({"error":"incident not found"}, status=404)
+        return JsonResponse({"error":"incident not found"})
     
     except Exception as e:
         logger.exception("Error while removing incident")
-        return JsonResponse({"error":"an error occurred while removing incident"}, status=500)
+        return JsonResponse({"error":"an error occurred while removing incident"})
 
 
 @csrf_exempt
@@ -76,40 +76,32 @@ def admin_update_incident(request, *args, **kwargs):
 
     #only PATCH method is allowed
     if request.method != "PATCH":
-        return JsonResponse({"error":"only PATCH request is allowed"}, status=400)
+        return JsonResponse({"error":"only PATCH request is allowed"})
     
     #getting incident id from query params
     incident_id = kwargs.get("incident_id")
     if not incident_id:
-        return JsonResponse({"error":"incident id is required"}, status=400)
+        return JsonResponse({"error":"incident id is required"})
     
     #getting and validating request body
-    severity = request.POST.get("severity")
-    status = request.POST.get("status")
-
-    ALLOWED_SEVERITY = ["Low", "Medium", "High", "Urgent"]
-    ALLOWED_STATUS = ["pending", "in_progress", "resolved"]
-
-    if severity and severity not in ALLOWED_SEVERITY:
-        return JsonResponse({"error":"unknown severity provided"})
-    
-    if status and status not in ALLOWED_STATUS:
-        return JsonResponse({"error":"unknown status provided"})
-
+    data = json.loads(request.body)
+    severity = data.get("severity")
+    status = data.get("status")
     #updating incident
     try:
-        incident = Incident.objects.get(id=incident_id)
+        incident = Incident.objects.filter(id=incident_id).first()
         if severity:
-            incident.severity = severity 
+            incident.severity = severity
+            incident.save()
         if status:
             incident.status = status
-        incident.save()
-        return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been updated"}, status=200)
+            incident.save()
+        return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been updated"})
     
     except Incident.DoesNotExist:
-        return JsonResponse({"error":"incident not found"}, status=404)
+        return JsonResponse({"error":"incident not found"})
     
     except Exception as e:
         logger.exception("Error while updating incident")
-        return JsonResponse({"error":"an error occurred while updating incident"}, status=500)
+        return JsonResponse({"error":"an error occurred while updating incident"})
 

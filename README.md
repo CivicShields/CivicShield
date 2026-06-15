@@ -63,16 +63,151 @@ npm install
 npm run dev
 ```
 
-5. Run backend simultaneously (optional)
+### Backend setup (Django)
 
-## Running the Services
+---
+
+## Manual Setup
+
+1. Install PostgreSQL (linux, if windows download postgresql and install it)
+
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+```
+
+Start and enable it:
+
+```bash
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
+
+---
+
+2. Install PostGIS _(required for incident service)_
+
+```bash
+sudo apt install postgis postgresql-14-postgis-3
+```
+
+> If you're on a different PostgreSQL version, replace `14` with yours. Check with `psql --version`.
+
+---
+
+3. Create the Databases
+
+Switch to the postgres user:
+
+```bash
+sudo -i -u postgres psql
+```
+
+create new user using the following command
+
+```sql
+CREATE USER kwanganje WITH PASSWORD 'your_secure_password';
+```
+
+Then run:
+
+```sql
+CREATE DATABASE auth_db;
+CREATE DATABASE incident_db;
+CREATE DATABASE department_db;
+CREATE DATABASE media_db;
+CREATE DATABASE notification_db;
+```
+
+Exit psql:
+
+```sql
+\q
+```
+
+## go to each services settings.py and replace the password with the password you set when creating the user
+
+4. Enable PostGIS on `incident_db`
+
+```bash
+sudo -u postgres psql -d incident_db
+```
+
+Then run:
+
+```sql
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+```
+
+Exit:
+
+```sql
+\q
+```
+
+---
+
+5. Set Up Each Service (manual way)
+
+Repeat the following steps for each service. Navigate into each folder, create its virtual environment, install dependencies, and start the server.
+
+#### Auth Service
+
+```bash
+cd backend/auth-service
+python3 -m venv .authvenv
+source .authvenv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+#### Incident Service
+
+```bash
+cd backend/incident-service
+python3 -m venv .incidvenv
+source .incidvenv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+#### Department Service
+
+```bash
+cd backend/department-service
+python3 -m venv .depvenv
+source .depvenv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+#### Media Service
+
+```bash
+cd backend/media-service
+python3 -m venv .mediavenv
+source .mediavenv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+#### Notification Service
+
+```bash
+cd backend/notification-service
+python3 -m venv .novenv
+source .novenv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+> Each service needs to be running in its own terminal. Open a new terminal tab or window for each one before running `python manage.py runserver`.
+
+6. Running the services all at once (optional)
 
 ### Prerequisites
 
-Ensure you have the following installed:
-
-- Python 3.x
-- Virtual environments set up for each service
 - `tmux` _(optional but recommended — gives you proper tabs in one terminal)_
 
 Install tmux:
@@ -82,7 +217,7 @@ sudo apt install tmux        # Ubuntu/Debian
 brew install tmux            # macOS
 ```
 
-6. navigate to the backend root directory
+\*\*1. navigate to the backend root directory
 
 **2. Open it and update the `APPS` array with your local paths:**
 

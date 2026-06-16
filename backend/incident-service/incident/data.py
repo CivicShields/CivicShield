@@ -35,8 +35,9 @@ def save_media(request, incident_id):
         else:
             return {'error': 'Media service rejected the upload', 'details': response.json()}
             
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({'error': f'Failed to connect to Media Service: {str(e)}'})
+    except requests.exceptions.RequestException:
+        logger.exception("Failed to connect to Media Service during media upload")
+        return JsonResponse({'error': 'Failed to connect to Media Service'})
 
 
 def get_media(request, media_id):

@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgis/postgis:15-3.4 # PostGIS-enabled PostgreSQL
+    image: postgis/postgis:15-3.4
     environment:
       POSTGRES_USER: kwanganji
       POSTGRES_PASSWORD: kwanganjiPass1@
@@ -16,9 +16,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # ---------- Django Services ----------
+  # ---------- Django Services (Now pulling from Docker Hub) ----------
   auth-service:
-    build: ./backend/auth-service
+    image: kirito23/auth-service:latest
     environment:
       - DB_NAME=auth_db
       - DB_USER=kwanganji
@@ -33,7 +33,7 @@ services:
         condition: service_healthy
 
   incident-service:
-    build: ./backend/incident-service
+    image: kirito23/incident-service:latest
     environment:
       - DB_NAME=incident_db
       - DB_USER=kwanganji
@@ -47,7 +47,7 @@ services:
         condition: service_healthy
 
   department-service:
-    build: ./backend/department-service
+    image: kirito23/department-service:latest
     environment:
       - DB_NAME=dept_db
       - DB_USER=kwanganji
@@ -61,7 +61,7 @@ services:
         condition: service_healthy
 
   notification-service:
-    build: ./backend/notification-service
+    image: kirito23/notification-service:latest
     environment:
       - DB_NAME=notification_db
       - DB_USER=kwanganji
@@ -75,7 +75,7 @@ services:
         condition: service_healthy
 
   media-service:
-    build: ./backend/media-service
+    image: kirito23/media-service:latest
     environment:
       - DB_NAME=media_db
       - DB_USER=kwanganji
@@ -89,7 +89,7 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ./frontend
+    image: kirito23/frontend:latest
     ports:
       - "3000:80"
     depends_on:

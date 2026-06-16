@@ -4,7 +4,7 @@ import ReportDetailView from "../../../components/report_detail/ReportDetailView
 import { useDepart } from "../../../contexts/DepartContext";
 
 function AllIncidents() {
-  const { fetchDepartReports, departReports } = useDepart();
+  const { fetchDepartReports, departReports, name } = useDepart();
   const [selectedReport, setSelectedReport] = useState(null);
 
   useEffect(() => {
@@ -15,9 +15,11 @@ function AllIncidents() {
 
   const departIncidents = departReports;
   if (selectedReport) {
+    const mutatedReport = { ...selectedReport };
+    mutatedReport.department_id = name;
     return (
       <ReportDetailView
-        report={selectedReport}
+        report={mutatedReport}
         onBack={() => setSelectedReport(null)}
         viewingAs="department"
       />

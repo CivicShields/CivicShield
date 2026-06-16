@@ -71,3 +71,58 @@ def get_name(request, department_id):
         
     except requests.exceptions.RequestException:
         raise Exception("Failed to connect to the Department service")
+    
+def send_incident_creation_notification(request, incident_id,  department_id, reporter_id):
+    url = f"{settings.NOTIFICATION_URL}/notifications/internal/incident-created/"
+    
+    data_payload = {
+        'incident_id': incident_id,
+        "department_id": department_id,
+        "reporter_id": reporter_id,
+    }
+  
+    client_cookies = request.COOKIES 
+    try:
+        # Execute the POST request using multipart form-data
+        response = requests.post(
+            url, 
+            data=data_payload,    # Becomes request.POST downstream
+            cookies=client_cookies, 
+            timeout=5
+        )
+        if response.json()['success']:
+            message_data = response.json()
+            return {'success': True, 'status': 'Notification sent successfully', 'notification': message_data}
+        else:
+            return JsonResponse({'error': 'Notification service failed to send notifications ', 'details': response.json()})
+            
+    except requests.exceptions.RequestException as e:
+        return JsonResponse({'error': f'Failed to connect to Notification Service: {str(e)}'})
+
+def send_incident_update_notification(request, incident_id,  department_id, reporter_id, status):
+    url = f"{settings.NOTIFICATION_URL}/notifications/internal/status-update/"
+    
+    data_payload = {
+        'incident_id': incident_id,
+        "department_id": department_id,
+        "reporter_id": reporter_id,
+        "status": status,
+    }
+  
+    client_cookies = request.COOKIES 
+    try:
+        # Execute the POST request using multipart form-data
+        response = requests.post(
+            url, 
+            data=data_payload,    # Becomes request.POST downstream
+            cookies=client_cookies, 
+            timeout=5
+        )
+        if response.json()['success']:
+            message_data = response.json()
+            return {'success': True, 'status': 'Notification sent successfully', 'notification': message_data}
+        else:
+            return JsonResponse({'error': 'Notification service failed to send notifications ', 'details': response.json()})
+            
+    except requests.exceptions.RequestException as e:
+        return JsonResponse({'error': f'Failed to connect to Notification Service: {str(e)}'})

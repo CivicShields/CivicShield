@@ -45,6 +45,7 @@ def create_incident(request):
         named_location=metadata_dict['address'],
         coordinates=incident_coordinates,
         title=metadata_dict['incidentTitle'],
+        severity=metadata_dict['severity'],
     )
     if not inc:
         return JsonResponse({"success": False, "error": "Incident not created and saved"})

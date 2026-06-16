@@ -187,11 +187,6 @@ function AdminDeparts() {
                         const newPhone = document.getElementById(
                           `phone-${dept.id}`,
                         ).value;
-                        console.log({
-                          name: newName,
-                          email: newEmail,
-                          phone: newPhone,
-                        });
                         updateDepartment(dept.id, {
                           name: newName,
                           contact_email: newEmail,

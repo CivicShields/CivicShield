@@ -4,8 +4,7 @@ from incident.models import Incident
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.authentication import login_required
-from incident.data import get_media, save_media, get_name
-from .user_views import incident_to_dict
+from incident.data import send_incident_update_notification
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +21,6 @@ def list_dept_incidents(request, *args, **kwargs):
     
     try:
         incidents = Incident.objects.filter(department_id=dept_id)
-        name_data = get_name(request, dept_id)["data"]
         reports = []
         for inc in incidents:
             reports.append({
@@ -58,7 +56,11 @@ def update_status(request, *args, **kwargs):
         incident_id = kwargs.get("incident_id")
         if not incident_id:
             return JsonResponse({"error": "Incident ID is required"})
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
+        except Exception:
+            data = request.POST
+            
         status = data.get("status")
         if not status or status not in ALLOWED_STATUSES:
             return JsonResponse({"error": f"Status is required and must be one of {ALLOWED_STATUSES}"})
@@ -67,6 +69,10 @@ def update_status(request, *args, **kwargs):
         incident = Incident.objects.filter(id=incident_id).first()
         incident.status = status
         incident.save()
+        notif = send_incident_update_notification(
+            request, incident_id, incident.department_id, incident.reporter_id, status)
+        if not notif['success']:
+            return JsonResponse({"error": "Failed to send to notification"})
         return JsonResponse({"success":True, "message": f"Incident status updated to {status}"})
     
     except Incident.DoesNotExist:

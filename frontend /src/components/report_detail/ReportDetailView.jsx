@@ -24,12 +24,12 @@ function ReportDetailView({ report, onBack, viewingAs }) {
 
     Talk.ready.then(() => {
       const isDept = viewingAs === "department";
-      const reporterId = report.reporter_id;
+      const reporterId = String(report.reporter_id);
 
       const me = new Talk.User(
         isDept
           ? {
-              id: report.department_id,
+              id: String(report.department_id),
               name: `${report.department_id}`,
               role: "default",
             }
@@ -40,7 +40,7 @@ function ReportDetailView({ report, onBack, viewingAs }) {
         isDept
           ? { id: reporterId, name: "Reporter", role: "default" }
           : {
-              id: report.department_id,
+              id: String(report.department_id),
               name: `${report.department_id}`,
               role: "default",
             },
@@ -68,7 +68,14 @@ function ReportDetailView({ report, onBack, viewingAs }) {
         session.destroy();
       }
     };
-  }, [report.department_id, report.id, report.reporter_id, viewingAs, mediaId]);
+  }, [
+    report,
+    report.department_id,
+    report.id,
+    report.reporter_id,
+    viewingAs,
+    mediaId,
+  ]);
 
   return (
     <div className={styles.reportsContainer}>
@@ -116,7 +123,8 @@ function ReportDetailView({ report, onBack, viewingAs }) {
                 <strong>Reported To:</strong> {report.department_id}
               </li>
               <li>
-                <strong>Created At:</strong> {report.created_at}
+                <strong>Created At:</strong>{" "}
+                {new Date(report.created_at).toDateString()}
               </li>
               <li>
                 <strong>Category:</strong> {report.category}

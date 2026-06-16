@@ -4,7 +4,7 @@ from incident.models import Incident
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.authentication import login_required, verify_token
-from incident.data import save_media, get_name
+from incident.data import send_incident_update_notification
 from .user_views import incident_to_dict
 
 logger = logging.getLogger(__name__)
@@ -84,20 +84,48 @@ def admin_update_incident(request, *args, **kwargs):
         return JsonResponse({"error":"incident id is required"})
     
     #getting and validating request body
-    data = json.loads(request.body)
-    severity = data.get("severity")
-    status = data.get("status")
-    #updating incident
     try:
+        data = json.loads(request.body)
+        # Use .get() to avoid KeyError if one of them is missing from the payload
+        severity = data.get("severity")
+        status = data.get("status")
+        print(data)
+        print(severity)
+        
+        # Fetch the incident
         incident = Incident.objects.filter(id=incident_id).first()
-        if severity:
+        
+        # Safety check: ensure the incident actually exists
+        if not incident:
+            return JsonResponse({"error": "Incident not found"})
+            
+        # Track if anything actually changed to optimize database saves
+        has_changes = False
+
+        # Check and assign fields independently (do NOT use elif)
+        if severity is not None:
             incident.severity = severity
-            incident.save()
-        if status:
+            has_changes = True
+            
+        if status is not None:
             incident.status = status
+            has_changes = True
+
+        # Only save if data was actually updated
+        if has_changes:
             incident.save()
-        return JsonResponse({"success":True, "message":f"incident with id {incident_id} has been updated"})
-    
+            
+        # Trigger notification
+        notif = send_incident_update_notification(
+            request, incident_id, incident.department_id, incident.reporter_id, incident.status
+        )
+        
+        if not notif.get('success'):
+            return JsonResponse({"error": "Failed to send notification"})
+            
+        print(incident_to_dict(request, incident))
+        return JsonResponse({"success": True, "message": f"Incident with id {incident_id} has been updated"})
+
     except Incident.DoesNotExist:
         return JsonResponse({"error":"incident not found"})
     

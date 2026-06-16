@@ -44,6 +44,8 @@ function AdminMedia() {
       loadMedia();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsModalOpen(false);
     }
   };
 

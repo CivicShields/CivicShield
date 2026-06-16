@@ -60,27 +60,6 @@ function AdminInc() {
     }
   };
 
-  const updateIncident = async (id, severity, status) => {
-    setSuccess(null);
-    try {
-      const req = await fetch(`/incident/admin/update/${id}/`, {
-        method: "PATCH",
-        body: JSON.stringify({ severity, status }),
-        credentials: "include",
-      });
-      const res = await req.json();
-      if (res.error) return setError(res.error);
-      if (res.success) {
-        setSuccess(res.message);
-        loadIncidents();
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsModalOpen(false);
-    }
-  };
-
   return (
     <div className="table-container">
       <h2>Incidents</h2>
@@ -106,31 +85,8 @@ function AdminInc() {
               <td>{inc.reporter_id}</td>
               <td>{inc.department_id}</td>
               <td>{inc.category}</td>
-              <td>
-                <select
-                  value={inc.severity}
-                  onChange={(e) =>
-                    updateIncident(inc.id, e.target.value, inc.severity)
-                  }
-                >
-                  <option>low</option>
-                  <option>medium</option>
-                  <option>high</option>
-                  <option>urgent</option>
-                </select>
-              </td>
-              <td>
-                <select
-                  defaultValue={inc.status}
-                  onChange={(e) =>
-                    updateIncident(inc.id, inc.status, e.target.value)
-                  }
-                >
-                  <option>pending</option>
-                  <option>in_progress</option>
-                  <option>resolved</option>
-                </select>
-              </td>
+              <td>{inc.severity}</td>
+              <td>{inc.status}</td>
               <td>
                 <button
                   className="delete-btn"

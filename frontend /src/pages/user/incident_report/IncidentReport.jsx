@@ -22,6 +22,7 @@ function IncidentReport() {
     address: "",
     description: "",
     document: "",
+    severity: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);

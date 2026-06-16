@@ -43,6 +43,8 @@ function AdminNotif() {
       loadNotifications();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsModalOpen(false);
     }
   };
 

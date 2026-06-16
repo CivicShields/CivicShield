@@ -21,7 +21,7 @@ function DepartDashboard() {
   };
 
   const criticalCount = departReports.filter(
-    (i) => i.severity === "critical",
+    (i) => i.severity === "urgent",
   ).length;
   const highCount = departReports?.filter((i) => i.severity === "high").length;
   const lowMedCount = departReports?.filter(
@@ -90,7 +90,7 @@ function DepartDashboard() {
             <div className={styles.priorityBars}>
               <div className={styles.barItem}>
                 <div className={styles.barLabel}>
-                  <span>Critical</span>
+                  <span>Urgent</span>
                   <span>{criticalCount}</span>
                 </div>
                 <div className={styles.barBg}>

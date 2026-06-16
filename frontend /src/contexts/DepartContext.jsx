@@ -19,6 +19,20 @@ export function DepartProvider({ children }) {
   // Check if the current URL path starts with /dept/
   const isDeptRoute = location.pathname.startsWith("/dept/");
 
+  // Example: poll every 30 seconds
+  // useEffect(() => {
+  //   const fetchNotifications = async () => {
+  //     const res = await fetch(`/notifications/user/${userId}`, {
+  //       credentials: "include",
+  //     });
+  //     const data = await res.json();
+  //     setNotifications(data);
+  //   };
+  //   fetchNotifications();
+  //   const interval = setInterval(fetchNotifications, 30000);
+  //   return () => clearInterval(interval);
+  // }, [userId]);
+
   useEffect(() => {
     async function loadName() {
       const req = await fetch(`/departments/${user.department_id}/`, {

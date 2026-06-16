@@ -89,8 +89,6 @@ def admin_update_incident(request, *args, **kwargs):
         # Use .get() to avoid KeyError if one of them is missing from the payload
         severity = data.get("severity")
         status = data.get("status")
-        print(data)
-        print(severity)
         
         # Fetch the incident
         incident = Incident.objects.filter(id=incident_id).first()
@@ -123,7 +121,6 @@ def admin_update_incident(request, *args, **kwargs):
         if not notif.get('success'):
             return JsonResponse({"error": "Failed to send notification"})
             
-        print(incident_to_dict(request, incident))
         return JsonResponse({"success": True, "message": f"Incident with id {incident_id} has been updated"})
 
     except Incident.DoesNotExist:

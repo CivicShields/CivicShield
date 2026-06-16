@@ -4,7 +4,7 @@ from incident.models import Incident
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.authentication import login_required
-from incident.data import save_media, get_name
+from incident.data import save_media, get_name, send_incident_creation_notification
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 
@@ -54,6 +54,10 @@ def create_incident(request):
         return JsonResponse({"success": False, "error": "Error occurred while saving media"})
     inc.media = med["media_data"]["media_id"]
     inc.save()
+    notif = send_incident_creation_notification(
+            request, inc.id, inc.department_id, inc.reporter_id)
+    if not notif['success']:
+        return JsonResponse({"error": "Failed to send to notification"})
     return JsonResponse({"success":True, "report": incident_to_dict(request, inc), "message": "Successfully reported"})
 
 @csrf_exempt

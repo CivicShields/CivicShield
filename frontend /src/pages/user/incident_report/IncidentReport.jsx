@@ -27,6 +27,7 @@ function IncidentReport() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [departNames, setDepartNames] = useState([]);
+  const severityTags = ["low", "medium", "high", "urgent"];
 
   useEffect(() => {
     async function fetchDeparts() {
@@ -110,6 +111,7 @@ function IncidentReport() {
   };
 
   if (!departNames) return <div>... isloading</div>;
+
   const Departments = [
     <option value="" key="default" disabled>
       Select a Department
@@ -117,6 +119,17 @@ function IncidentReport() {
     ...departNames.map((depart, index) => (
       <option value={depart.id} key={index}>
         {depart.name}
+      </option>
+    )),
+  ];
+
+  const Severity = [
+    <option value="" key="default" disabled>
+      Select severity
+    </option>,
+    ...severityTags.map((severity, index) => (
+      <option value={severity} key={index}>
+        {severity}
       </option>
     )),
   ];
@@ -222,6 +235,20 @@ function IncidentReport() {
                 key={form.incidentTitle === "" ? "reset" : "active"}
                 onFileSelect={handleFileSelect}
               />
+            </div>
+          </div>
+          <div className={styles.iDetailsContainer}>
+            <div className={styles.userDetails}>
+              <p>Severity</p>
+              <select
+                value={form.severity}
+                onChange={handleChange}
+                name="severity"
+                required
+                style={{ maxWidth: "200px" }}
+              >
+                {Severity}
+              </select>
             </div>
           </div>
           <div className={styles.srButtonDiv}>

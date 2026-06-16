@@ -1,0 +1,218 @@
+/* Notifications page specific styles */
+:root {
+  --read: rgba(54, 58, 118, 0.9);
+  --delete: rgba(205, 57, 66, 0.9);
+  --refresh: rgba(84, 175, 136, 0.9);
+  --not-read: #fff3e0;
+}
+
+.notifications-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.notifications-header h2 {
+  margin: 0;
+  color: #2c3e50;
+  border-left: 4px solid #1abc9c;
+  padding-left: 1rem;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.notification-actions .all-read,
+.notification-actions .refresh-all {
+  padding: 0.7rem 1rem;
+}
+
+.all-read {
+  border: 1px solid var(--read);
+  background: var(--read);
+  color: white;
+  width: auto;
+  border: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.refresh-all {
+  border: 1px solid var(--refresh);
+  background: var(--refresh);
+  color: white;
+  width: auto;
+  border: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0.8rem;
+}
+
+.notif-delete {
+  width: auto;
+  border: 20px;
+  display: flex;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--delete);
+  background: var(--delete);
+  color: white;
+}
+
+.notification-card {
+  background: #f8f9fa;
+  border-left: 10px solid #6c757d;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
+  margin-bottom: 0.75rem;
+}
+
+.notification-card.unread {
+  background: var(--not-read);
+  border-left-color: #edbb6c;
+}
+
+.notif-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.notification-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.notification-message {
+  flex: 1;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.notification-type {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.notification-badge {
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  background: #dd9f3d;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  padding-top: 0.29rem;
+}
+
+.notification-text {
+  margin-bottom: 0.5rem;
+  word-break: break-word;
+}
+
+.notification-date {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.empty-notifications {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.empty-notifications svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.notification-style {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Spinner animation for refresh button */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments for notifications */
+@media (max-width: 768px) {
+  .notifications-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .notification-actions {
+    justify-content: flex-end;
+  }
+
+  .notification-content {
+    flex-direction: column;
+  }
+
+  .notification-card {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .notif-buttons {
+    align-self: center;
+    margin-top: 0.3rem;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .notif-buttons .all-read,
+  .notif-delete {
+    width: 100%;
+    min-width: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notif-buttons button {
+    width: 100%;
+  }
+
+  .notification-actions .all-read,
+  .notification-actions .refresh-all {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .notification-style {
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-evenly;
+    gap: 0.3rem;
+  }
+}

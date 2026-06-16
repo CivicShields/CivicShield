@@ -10,8 +10,8 @@ class Notification(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.IntegerField(null=True, blank=True)  # individual user
-    department_id = models.UUIDField() 
+    user_id = models.IntegerField(null=True)  # individual user
+    department_id = models.UUIDField(null=True) 
     incident_id = models.UUIDField()
     type = models.CharField(max_length=50, choices=NOTIFICATION_TYPES)
     message = models.TextField()

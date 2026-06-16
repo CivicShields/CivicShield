@@ -10,10 +10,12 @@ import {
   Menu,
   X,
   CheckCheck,
+  BellDotIcon,
 } from "lucide-react";
 import Modal from "../modal/Modal";
 import styles from "./DepartmentHeader.module.css";
 import { useAuth } from "../../contexts/AuthContext";
+import NotificationBell from "../notification_bell/NotificationBell";
 
 function DepartmentHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +77,17 @@ function DepartmentHeader() {
       </li>
       <li>
         <NavLink
+          to="/dept/notifications"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navItem
+          }
+          onClick={closeSidebar}
+        >
+          <BellDotIcon size={18} /> Department Notifications
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
           to="/dept/settings"
           className={({ isActive }) =>
             isActive ? styles.active : styles.navItem
@@ -114,6 +127,7 @@ function DepartmentHeader() {
         <aside
           className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ""}`}
         >
+          <NotificationBell />
           <div className={styles.logo}>
             <AlertCircle /> Kwanganji Incident Reporter
           </div>

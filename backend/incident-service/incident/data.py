@@ -26,11 +26,11 @@ def save_media(request, incident_id):
             cookies=client_cookies, 
             timeout=5
         )
-        if response.status_code == 201:
+        if response.status_code == 200:
             media_data = response.json()
             return {'success': True, 'status': 'Media uploaded successfully', 'media_data': media_data}
         else:
-            return JsonResponse({'error': 'Media service rejected the upload', 'details': response.json()})
+            return {'error': 'Media service rejected the upload', 'details': response.json()}
             
     except requests.exceptions.RequestException as e:
         return JsonResponse({'error': f'Failed to connect to Media Service: {str(e)}'})

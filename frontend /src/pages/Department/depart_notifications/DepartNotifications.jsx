@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../../../../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 import { Bell, CheckCheck, Trash2, Eye, RefreshCw } from "lucide-react";
-import "./NotificationPage.css";
 
-function NotificationPage() {
+function DepartNotificationsPage() {
   const { user } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,9 +11,12 @@ function NotificationPage() {
 
   useEffect(() => {
     async function fetchNotifications() {
-      const req = await fetch(`/notifications/user/${user.id}/`, {
-        credentials: "include",
-      });
+      const req = await fetch(
+        `/notifications/department/${user.department_id}/`,
+        {
+          credentials: "include",
+        },
+      );
       const res = await req.json();
       if (res.success) setNotifications(res.notifications);
       if (res.error) setError(res.error);
@@ -26,7 +28,7 @@ function NotificationPage() {
     //fetch notifications every 30 seconds
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
-  }, [user.id]);
+  }, [user.department_id]);
 
   const markAsRead = async (id, messageData) => {
     const req = await fetch(`/notifications/${id}/read/`, {
@@ -69,9 +71,12 @@ function NotificationPage() {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    const req = await fetch(`/notifications/user/${user.id}/`, {
-      credentials: "include",
-    });
+    const req = await fetch(
+      `/notifications/department/${user.department_id}/`,
+      {
+        credentials: "include",
+      },
+    );
     const res = await req.json();
     if (res.success) setNotifications(res.notifications);
     if (res.error) setError(res.error);
@@ -175,4 +180,4 @@ function NotificationPage() {
   );
 }
 
-export default NotificationPage;
+export default DepartNotificationsPage;

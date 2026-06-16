@@ -65,7 +65,7 @@ function Policy() {
             <p>
               Upon hitting submit, data payloads trigger our internal{" "}
               <strong>Notification Service</strong>. This instantly dispatches
-              security updates, administrative notices, and status tracking
+              security updates, administrative notices and status tracking
               flags to designated system administrators and associated
               management personnel via secure microservice endpoints.
             </p>

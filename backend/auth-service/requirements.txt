@@ -1,7 +1,7 @@
 asgiref==3.11.1
 cffi==2.0.0
 cryptography==48.0.0
-Django==6.0.5
+Django==5.0.6
 django-cors-headers==4.9.0
 django-jazzmin==3.0.4
 psycopg2-binary==2.9.12

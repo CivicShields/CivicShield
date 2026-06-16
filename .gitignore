@@ -1,0 +1,190 @@
+# ==========================
+# Python / Django
+# ==========================
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.egg-info/
+*.whl
+*.log
+*.pot
+*.pid
+*.mo
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+.coverage
+.tox
+.mypy_cache
+.pytest_cache
+*.sublime-workspace
+*.sublime-project
+/.venv
+/venv
+/env
+/ENV
+/env.bak
+/venv.bak
+.env
+.env.local
+.env.*.local
+.secrets
+.secrets.*
+local_settings.py
+/staticfiles/
+/mediafiles/
+/static/
+/media/
+coverage/
+htmlcov/
+.coveragerc
+*.pot
+*.mo
+*.log
+*.pid
+*.pid.lock
+*.session
+
+# ==========================
+# Node / React
+# ==========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+/.pnp
+.pnp.js
+.pnp/
+/build
+/dist
+*.tsbuildinfo
+.env.development.local
+.env.production.local
+.eslintcache
+.cache/
+.parcel-cache/
+.next/
+.vercel/
+
+# ==========================
+# Docker
+# ==========================
+.dockerignore
+docker-compose.override.yml
+*.dockerfile
+*.img
+*.tar
+*.tar.gz
+
+# ==========================
+# IDE / Editors
+# ==========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.iml
+.project
+.classpath
+.settings/
+*.code-workspace
+*.sublime-*
+
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.temp
+*.log
+
+/backend/*/local_settings.py
+/backend/*/migrations/*.pyc
+/backend/*/migrations/__pycache__/
+/backend/*/__pycache__/
+/backend/*/db.sqlite3
+/backend/*/static/
+/backend/*/media/
+/backend/*/.env
+/backend/*/.secrets
+
+# Frontend
+/frontend/build/
+/frontend/node_modules/
+/frontend/.env
+/frontend/.env.development
+/frontend/.env.production
+/frontend/.env.local
+/frontend/.eslintcache
+
+# Docker volumes (local)
+/data/postgres/
+/data/pgadmin/
+
+# Uploaded media from services (if not using S3)
+/media/
+/uploads/
+/static/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+
+# Logs
+logs/
+*.log
+*.error
+*.warn
+
+# Coverage reports
+coverage/
+htmlcov/
+.tox/
+.coverage
+
+# pytest
+.pytest_cache/
+__pycache__/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+*.so
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Profiling
+*.prof
+
+# Database dumps
+*.dump
+*.sql
+
+# Misc
+*.pem
+*.key
+*.crt
+*.csr

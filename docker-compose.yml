@@ -1,0 +1,105 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.4 # PostGIS-enabled PostgreSQL
+    environment:
+      POSTGRES_USER: kwanganji
+      POSTGRES_PASSWORD: kwanganjiPass1@
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kwanganji"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------- Django Services ----------
+  auth-service:
+    build: ./backend/auth-service
+    environment:
+      - DB_NAME=auth_db
+      - DB_USER=kwanganji
+      - DB_PASSWORD=kwanganjiPass1@
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - SECRET_KEY='d5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe'
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  incident-service:
+    build: ./backend/incident-service
+    environment:
+      - DB_NAME=incident_db
+      - DB_USER=kwanganji
+      - DB_PASSWORD=kwanganjiPass1@
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    ports:
+      - "8002:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  department-service:
+    build: ./backend/department-service
+    environment:
+      - DB_NAME=dept_db
+      - DB_USER=kwanganji
+      - DB_PASSWORD=kwanganjiPass1@
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    ports:
+      - "8003:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  notification-service:
+    build: ./backend/notification-service
+    environment:
+      - DB_NAME=notification_db
+      - DB_USER=kwanganji
+      - DB_PASSWORD=kwanganjiPass1@
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    ports:
+      - "8004:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  media-service:
+    build: ./backend/media-service
+    environment:
+      - DB_NAME=media_db
+      - DB_USER=kwanganji
+      - DB_PASSWORD=kwanganjiPass1@
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    ports:
+      - "8005:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - auth-service
+      - incident-service
+      - department-service
+      - notification-service
+      - media-service
+
+volumes:
+  postgres_data:

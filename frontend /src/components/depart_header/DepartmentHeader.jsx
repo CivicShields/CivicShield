@@ -11,6 +11,7 @@ import {
   X,
   CheckCheck,
   BellDotIcon,
+  Bell,
 } from "lucide-react";
 import Modal from "../modal/Modal";
 import styles from "./DepartmentHeader.module.css";
@@ -83,7 +84,7 @@ function DepartmentHeader() {
           }
           onClick={closeSidebar}
         >
-          <BellDotIcon size={18} /> Department Notifications
+          <Bell size={18} /> Depart Notifications
         </NavLink>
       </li>
       <li>
@@ -127,9 +128,12 @@ function DepartmentHeader() {
         <aside
           className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ""}`}
         >
-          <NotificationBell />
-          <div className={styles.logo}>
-            <AlertCircle /> Kwanganji Incident Reporter
+          {/* Bell at the top, next to logo */}
+          <div className={styles.sidebarHeader}>
+            <div className={styles.logo}>
+              <AlertCircle size={24} /> Kwanganji Incident Reporter
+            </div>
+            <NotificationBell />
           </div>
           {navLinks}
         </aside>
@@ -151,9 +155,9 @@ function DepartmentHeader() {
         action={handleLogout}
       >
         <h2>
-          Are you sure you want <br /> to log out
+          Are you sure you want <br /> to log out?
         </h2>
-        <p>Log out of Kwanganje Incident Reporter as {user.email}</p>
+        <p>Log out of Kwanganje Incident Reporter as {user?.email}</p>
       </Modal>
     </>
   );

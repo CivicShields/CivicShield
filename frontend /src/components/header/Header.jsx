@@ -5,6 +5,7 @@ import Button from "../button/Button";
 import styles from "./Header.module.css";
 import { LogOut } from "lucide-react";
 import Modal from "../modal/Modal";
+import NotificationBell from "../notification_bell/NotificationBell";
 
 function Header() {
   const { user, logout } = useAuth();
@@ -13,7 +14,6 @@ function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Header() {
     navigate("/report");
     closeMenu();
   }
-  // Buttons / elements that depend on auth state
+
   const loginButton = (
     <Button name="Log in" classStyle="not-covered" onClick={handleLogin} />
   );
@@ -76,6 +76,8 @@ function Header() {
             classStyle="covered"
             onClick={handleReport}
           />
+          {/* Notification Bell - only for logged in users */}
+          {user && <NotificationBell />}
           {user &&
             userIconElement(
               styles.userIcon,
@@ -114,10 +116,15 @@ function Header() {
             />
             {user && userIconElement(styles.navLinks, "Settings")}
           </div>
+          {/* Notification Bell in mobile menu */}
+          {user && (
+            <div className={styles.mobileNotification}>
+              <NotificationBell />
+              <span>Notifications</span>
+            </div>
+          )}
           <div className={styles.logoutItem}>
-            {!user ? (
-              ""
-            ) : (
+            {user && (
               <button
                 onClick={() => {
                   setIsModalOpen(true);
@@ -131,16 +138,17 @@ function Header() {
           </div>
         </div>
       </div>
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         action={handleLogout}
       >
         <h2>
-          Are you sure you want <br /> to log out
+          Are you sure you want <br /> to log out?
         </h2>
         <p>
-          Log out of Kwanganje Incident Reporter as {!user ? "" : user.email}
+          Log out of Kwanganje Incident Reporter as {user ? user.email : ""}
         </p>
       </Modal>
     </>

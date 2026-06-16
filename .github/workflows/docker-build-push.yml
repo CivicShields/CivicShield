@@ -4,6 +4,9 @@ on:
   push:
     branches: ["main"] # Triggers whenever you push code to the main branch
 
+permissions:
+  contents: read
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest

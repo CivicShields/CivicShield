@@ -1,6 +1,9 @@
+import logging
 import requests
 from django.conf import settings
 from django.http import JsonResponse
+
+logger = logging.getLogger(__name__)
 
 
 def save_media(request, incident_id):
@@ -124,5 +127,6 @@ def send_incident_update_notification(request, incident_id,  department_id, repo
         else:
             return JsonResponse({'error': 'Notification service failed to send notifications ', 'details': response.json()})
             
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({'error': f'Failed to connect to Notification Service: {str(e)}'})
+    except requests.exceptions.RequestException:
+        logger.exception("Failed to connect to Notification Service")
+        return JsonResponse({'error': 'Failed to connect to Notification Service'})

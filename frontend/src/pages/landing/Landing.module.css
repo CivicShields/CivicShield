@@ -4,7 +4,7 @@
 }
 
 .upperSection {
-  background-image: url("imageback.jpeg");
+  background-image: url("/imageback.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

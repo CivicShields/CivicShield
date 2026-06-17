@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,14 +92,25 @@ AUTH_URL = 'http://127.0.0.1:8000/'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'incident_db',
+#         'USER': 'kwanganji',
+#         'PASSWORD': 'kwanganjiPass1@',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-       'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'incident_db',
-        'USER': 'kwanganji',
-        'PASSWORD': 'kwanganjiPass1@',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'incident_db'),
+        'USER': os.getenv('DB_USER', 'kwanganji'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'kwanganjiPass1@'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),   
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 

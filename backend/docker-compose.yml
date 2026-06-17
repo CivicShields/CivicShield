@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # ---------- Django Services (Now pulling from Docker Hub) ----------
+  # ---------- Django Services
   auth-service:
     image: kirito23/auth-service:latest
     environment:
@@ -87,17 +87,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
-  frontend:
-    image: kirito23/frontend:latest
-    ports:
-      - "3000:80"
-    depends_on:
-      - auth-service
-      - incident-service
-      - department-service
-      - notification-service
-      - media-service
 
 volumes:
   postgres_data:

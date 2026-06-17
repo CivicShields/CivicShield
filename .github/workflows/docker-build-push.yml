@@ -24,8 +24,6 @@ jobs:
             context: ./backend/notification-service
           - service_name: media-service
             context: ./backend/media-service
-          - service_name: frontend
-            context: ./frontend
 
     steps:
       # 1. Pull the codebase into the runner

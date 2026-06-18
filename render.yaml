@@ -3,7 +3,8 @@ services:
   - type: web
     name: auth-service
     env: docker
-    image: docker.io/kirito23/auth-service:latest
+    image:
+      url: docker.io/kirito23/auth-service:latest
     plan: free
     envVars:
       - key: DB_HOST
@@ -32,7 +33,8 @@ services:
   - type: web
     name: incident-service
     env: docker
-    image: docker.io/kirito23/incident-service:latest
+    image:
+      url: docker.io/kirito23/incident-service:latest
     plan: free
     envVars:
       - key: DB_HOST
@@ -59,7 +61,8 @@ services:
   - type: web
     name: department-service
     env: docker
-    image: docker.io/kirito23/department-service:latest
+    image:
+      url: docker.io/kirito23/department-service:latest
     plan: free
     envVars:
       - key: DB_HOST
@@ -73,7 +76,7 @@ services:
       - key: DB_USER
         fromDatabase:
           name: civicshield-db
-          property: password
+          property: user
       - key: DB_PASSWORD
         fromDatabase:
           name: civicshield-db
@@ -86,7 +89,8 @@ services:
   - type: web
     name: notification-service
     env: docker
-    image: docker.io/kirito23/notification-service:latest
+    image:
+      url: docker.io/kirito23/notification-service:latest
     plan: free
     envVars:
       - key: DB_HOST
@@ -113,7 +117,8 @@ services:
   - type: web
     name: media-service
     env: docker
-    image: docker.io/kirito23/media-service:latest
+    image:
+      url: docker.io/kirito23/media-service:latest
     plan: free
     envVars:
       - key: DB_HOST

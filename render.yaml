@@ -1,0 +1,145 @@
+services:
+  # ---------- Django Microservices ----------
+  - type: web
+    name: auth-service
+    env: docker
+    image: docker.io/kirito23/auth-service:latest
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: civicshield-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: civicshield-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: civicshield-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: civicshield-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: civicshield-db
+          property: database
+      - key: SECRET_KEY
+        value: "d5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe"
+
+  - type: web
+    name: incident-service
+    env: docker
+    image: docker.io/kirito23/incident-service:latest
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: civicshield-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: civicshield-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: civicshield-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: civicshield-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: civicshield-db
+          property: database
+
+  - type: web
+    name: department-service
+    env: docker
+    image: docker.io/kirito23/department-service:latest
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: civicshield-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: civicshield-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: civicshield-db
+          property: password
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: civicshield-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: civicshield-db
+          property: database
+
+  - type: web
+    name: notification-service
+    env: docker
+    image: docker.io/kirito23/notification-service:latest
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: civicshield-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: civicshield-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: civicshield-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: civicshield-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: civicshield-db
+          property: database
+
+  - type: web
+    name: media-service
+    env: docker
+    image: docker.io/kirito23/media-service:latest
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: civicshield-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: civicshield-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: civicshield-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: civicshield-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: civicshield-db
+          property: database
+
+# ---------- Free Managed PostgreSQL Database ----------
+databases:
+  - name: civicshield-db
+    plan: free
+    databaseName: postgres
+    user: kwanganji

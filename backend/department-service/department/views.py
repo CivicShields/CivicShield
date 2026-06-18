@@ -153,8 +153,6 @@ def department_incidents(request, department_id):
     incidents = get_incidents(request, department_id)
     if not incidents['success']:
         return JsonResponse({"success": False, "error": "Failed to load department data " })
-      
-    assignments = Assignment.objects.filter(department=department_id).order_by('-assigned_at')
     return JsonResponse({'success': True, "message": incidents['status'], 'incidents': incidents['data']}, safe=False)
 
 

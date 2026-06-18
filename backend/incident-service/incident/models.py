@@ -30,7 +30,7 @@ class Incident(models.Model):
 
 class TimelineEvents(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    incident_id = models.IntegerField(blank=False, null=False)
+    incident_id = models.UUIDField()
     actor_id = models.IntegerField(blank=False, null=False)
     event_type = models.CharField(max_length=50, blank=False, null=False)
     note = models.CharField(max_length=500, blank=False, null=False)

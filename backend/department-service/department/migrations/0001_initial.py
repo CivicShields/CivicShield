@@ -26,13 +26,12 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Assignment',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('incident_id', models.IntegerField()),
-                ('assigned_by', models.IntegerField()),
-                ('assigned_at', models.DateTimeField(auto_now_add=True)),
-                ('department', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='department.department')),
-            ],
-        ),
+    name='Assignment',
+    fields=[
+        ('incident_id', models.UUIDField()), 
+        ('assigned_by', models.IntegerField()),
+        ('assigned_at', models.DateTimeField(auto_now_add=True)),
+        ('department', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='department.department')),
+    ],
+),
     ]

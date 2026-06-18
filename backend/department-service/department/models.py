@@ -22,7 +22,7 @@ class Department(models.Model):
 
 class Assignment(models.Model):
     incident_id = models.UUIDField()
-    department = models.UUIDField()
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
     assigned_by = models.IntegerField()
     assigned_at = models.DateTimeField(auto_now_add=True)
 

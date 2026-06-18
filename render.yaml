@@ -1,150 +1,154 @@
-services:
-  # ---------- Django Microservices ----------
-  - type: web
-    name: auth-service
-    env: docker
-    image:
-      url: docker.io/kirito23/auth-service:latest
-    plan: free
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: civicshield-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: civicshield-db
-          property: port
-      - key: DB_USER
-        fromDatabase:
-          name: civicshield-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: civicshield-db
-          property: password
-      - key: DB_NAME
-        fromDatabase:
-          name: civicshield-db
-          property: database
-      - key: SECRET_KEY
-        value: "d5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe"
+version: "1"
+projects:
+  - name: CivicShield Network
+    environments:
+      - name: Production
+        # ---------- All Databases and App Services Cluster ----------
+        databases:
+          - name: civicshield-db
+            plan: free
+            databaseName: postgres
+            user: kwanganji
 
-  - type: web
-    name: incident-service
-    env: docker
-    image:
-      url: docker.io/kirito23/incident-service:latest
-    plan: free
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: civicshield-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: civicshield-db
-          property: port
-      - key: DB_USER
-        fromDatabase:
-          name: civicshield-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: civicshield-db
-          property: password
-      - key: DB_NAME
-        fromDatabase:
-          name: civicshield-db
-          property: database
+        services:
+          # ---------- Django Microservice 1: Auth ----------
+          - type: web
+            name: auth-service
+            runtime: docker
+            repo: https://github.com/CivicShields/CivicShield
+            image:
+              url: docker.io/kirito23/auth-service:latest
+            plan: free
+            envVars:
+              - key: DB_NAME
+                value: auth_db
+              - key: DB_USER
+                fromDatabase:
+                  name: civicshield-db
+                  property: user
+              - key: DB_PASSWORD
+                fromDatabase:
+                  name: civicshield-db
+                  property: password
+              - key: DB_HOST
+                fromDatabase:
+                  name: civicshield-db
+                  property: host
+              - key: DB_PORT
+                fromDatabase:
+                  name: civicshield-db
+                  property: port
+              - key: SECRET_KEY
+                value: "d5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe"
 
-  - type: web
-    name: department-service
-    env: docker
-    image:
-      url: docker.io/kirito23/department-service:latest
-    plan: free
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: civicshield-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: civicshield-db
-          property: port
-      - key: DB_USER
-        fromDatabase:
-          name: civicshield-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: civicshield-db
-          property: password
-      - key: DB_NAME
-        fromDatabase:
-          name: civicshield-db
-          property: database
+          # ---------- Django Microservice 2: Incident ----------
+          - type: web
+            name: incident-service
+            runtime: docker
+            repo: https://github.com/CivicShields/CivicShield
+            image:
+              url: docker.io/kirito23/incident-service:latest
+            plan: free
+            envVars:
+              - key: DB_NAME
+                value: incident_db
+              - key: DB_USER
+                fromDatabase:
+                  name: civicshield-db
+                  property: user
+              - key: DB_PASSWORD
+                fromDatabase:
+                  name: civicshield-db
+                  property: password
+              - key: DB_HOST
+                fromDatabase:
+                  name: civicshield-db
+                  property: host
+              - key: DB_PORT
+                fromDatabase:
+                  name: civicshield-db
+                  property: port
 
-  - type: web
-    name: notification-service
-    env: docker
-    image:
-      url: docker.io/kirito23/notification-service:latest
-    plan: free
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: civicshield-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: civicshield-db
-          property: port
-      - key: DB_USER
-        fromDatabase:
-          name: civicshield-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: civicshield-db
-          property: password
-      - key: DB_NAME
-        fromDatabase:
-          name: civicshield-db
-          property: database
+          # ---------- Django Microservice 3: Department ----------
+          - type: web
+            name: department-service
+            runtime: docker
+            repo: https://github.com/CivicShields/CivicShield
+            image:
+              url: docker.io/kirito23/department-service:latest
+            plan: free
+            envVars:
+              - key: DB_NAME
+                value: dept_db
+              - key: DB_USER
+                fromDatabase:
+                  name: civicshield-db
+                  property: user
+              - key: DB_PASSWORD
+                fromDatabase:
+                  name: civicshield-db
+                  property: password
+              - key: DB_HOST
+                fromDatabase:
+                  name: civicshield-db
+                  property: host
+              - key: DB_PORT
+                fromDatabase:
+                  name: civicshield-db
+                  property: port
 
-  - type: web
-    name: media-service
-    env: docker
-    image:
-      url: docker.io/kirito23/media-service:latest
-    plan: free
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: civicshield-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: civicshield-db
-          property: port
-      - key: DB_USER
-        fromDatabase:
-          name: civicshield-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: civicshield-db
-          property: password
-      - key: DB_NAME
-        fromDatabase:
-          name: civicshield-db
-          property: database
+          # ---------- Django Microservice 4: Notification ----------
+          - type: web
+            name: notification-service
+            runtime: docker
+            repo: https://github.com/CivicShields/CivicShield
+            image:
+              url: docker.io/kirito23/notification-service:latest
+            plan: free
+            envVars:
+              - key: DB_NAME
+                value: notification_db
+              - key: DB_USER
+                fromDatabase:
+                  name: civicshield-db
+                  property: user
+              - key: DB_PASSWORD
+                fromDatabase:
+                  name: civicshield-db
+                  property: password
+              - key: DB_HOST
+                fromDatabase:
+                  name: civicshield-db
+                  property: host
+              - key: DB_PORT
+                fromDatabase:
+                  name: civicshield-db
+                  property: port
 
-# ---------- Free Managed PostgreSQL Database ----------
-databases:
-  - name: civicshield-db
-    plan: free
-    databaseName: civicshield
-    user: kwanganji
+          # ---------- Django Microservice 5: Media ----------
+          - type: web
+            name: media-service
+            runtime: docker
+            repo: https://github.com/CivicShields/CivicShield
+            image:
+              url: docker.io/kirito23/media-service:latest
+            plan: free
+            envVars:
+              - key: DB_NAME
+                value: media_db
+              - key: DB_USER
+                fromDatabase:
+                  name: civicshield-db
+                  property: user
+              - key: DB_PASSWORD
+                fromDatabase:
+                  name: civicshield-db
+                  property: password
+              - key: DB_HOST
+                fromDatabase:
+                  name: civicshield-db
+                  property: host
+              - key: DB_PORT
+                fromDatabase:
+                  name: civicshield-db
+                  property: port

@@ -11,31 +11,31 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/auth': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-        secure: false,
-        cookieDomainRewrite: 'localhost'
-      },
-      '/incident': {
         target: 'http://127.0.0.1:8001',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: 'localhost'
       },
-      '/departments': {
+      '/incident': {
         target: 'http://127.0.0.1:8002',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: 'localhost'
       },
-      '/notifications': {
+      '/departments': {
         target: 'http://127.0.0.1:8003',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: 'localhost'
       },
-      '/media': {
+      '/notifications': {
         target: 'http://127.0.0.1:8004',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: 'localhost'
+      },
+      '/media': {
+        target: 'http://127.0.0.1:8005',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: 'localhost'

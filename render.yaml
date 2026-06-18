@@ -7,7 +7,7 @@ projects:
         databases:
           - name: civicshield-db
             plan: free
-            databaseName: postgres
+            databaseName: civicshield
             user: kwanganji
 
         services:

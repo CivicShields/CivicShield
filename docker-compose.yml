@@ -1,3 +1,106 @@
+# services:
+#   postgres:
+#     image: postgis/postgis:15-3.4
+#     environment:
+#       POSTGRES_USER: kwanganji
+#       POSTGRES_PASSWORD: kwanganjiPass1@
+#       POSTGRES_DB: postgres
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+#     ports:
+#       - "5432:5432"
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U kwanganji -d postgres"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+#   # ---------- Django Services
+#   auth-service:
+#     image: kirito23/auth-service:latest
+#     environment:
+#       - DB_NAME=auth_db
+#       - DB_USER=kwanganji
+#       - DB_PASSWORD=kwanganjiPass1@
+#       - DB_HOST=postgres
+#       - DB_PORT=5432
+#     ports:
+#       - "8001:8000"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+
+#   incident-service:
+#     image: kirito23/incident-service:latest
+#     environment:
+#       - DB_NAME=incident_db
+#       - DB_USER=kwanganji
+#       - DB_PASSWORD=kwanganjiPass1@
+#       - DB_HOST=postgres
+#       - DB_PORT=5432
+#     ports:
+#       - "8002:8000"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+
+#   department-service:
+#     image: kirito23/department-service:latest
+#     environment:
+#       - DB_NAME=dept_db
+#       - DB_USER=kwanganji
+#       - DB_PASSWORD=kwanganjiPass1@
+#       - DB_HOST=postgres
+#       - DB_PORT=5432
+#     ports:
+#       - "8003:8000"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+
+#   notification-service:
+#     image: kirito23/notification-service:latest
+#     environment:
+#       - DB_NAME=notification_db
+#       - DB_USER=kwanganji
+#       - DB_PASSWORD=kwanganjiPass1@
+#       - DB_HOST=postgres
+#       - DB_PORT=5432
+#     ports:
+#       - "8004:8000"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+
+#   media-service:
+#     image: kirito23/media-service:latest
+#     environment:
+#       - DB_NAME=media_db
+#       - DB_USER=kwanganji
+#       - DB_PASSWORD=kwanganjiPass1@
+#       - DB_HOST=postgres
+#       - DB_PORT=5432
+#     ports:
+#       - "8005:8000"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+
+#   frontend:
+#     image: kirito23/frontend:latest
+#     ports:
+#       - "3000:80"
+#     depends_on:
+#       - auth-service
+#       - incident-service
+#       - department-service
+#       - notification-service
+#       - media-service
+
+# volumes:
+#   postgres_data:
+
 services:
   postgres:
     image: postgis/postgis:15-3.4
@@ -15,16 +118,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
-  # ---------- Django Services
+  # ---------- Django Services ----------
   auth-service:
-    image: kirito23/auth-service:latest
+    build: ./backend/auth-service
+    # image: kirito23/auth-service:latest   # uncomment when using Docker Hub
+    restart: on-failure
     environment:
       - DB_NAME=auth_db
       - DB_USER=kwanganji
       - DB_PASSWORD=kwanganjiPass1@
       - DB_HOST=postgres
       - DB_PORT=5432
+      - SECRET_KEY=d5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe
     ports:
       - "8001:8000"
     depends_on:
@@ -32,7 +139,9 @@ services:
         condition: service_healthy
 
   incident-service:
-    image: kirito23/incident-service:latest
+    build: ./backend/incident-service
+    # image: kirito23/incident-service:latest
+    restart: on-failure
     environment:
       - DB_NAME=incident_db
       - DB_USER=kwanganji
@@ -46,7 +155,9 @@ services:
         condition: service_healthy
 
   department-service:
-    image: kirito23/department-service:latest
+    build: ./backend/department-service
+    # image: kirito23/department-service:latest
+    restart: on-failure
     environment:
       - DB_NAME=dept_db
       - DB_USER=kwanganji
@@ -60,7 +171,8 @@ services:
         condition: service_healthy
 
   notification-service:
-    image: kirito23/notification-service:latest
+    build: ./backend/notification-service
+    restart: on-failure
     environment:
       - DB_NAME=notification_db
       - DB_USER=kwanganji
@@ -74,7 +186,9 @@ services:
         condition: service_healthy
 
   media-service:
-    image: kirito23/media-service:latest
+    build: ./backend/media-service
+    # image: kirito23/media-service:latest
+    restart: on-failure
     environment:
       - DB_NAME=media_db
       - DB_USER=kwanganji
@@ -88,7 +202,8 @@ services:
         condition: service_healthy
 
   frontend:
-    image: kirito23/frontend:latest
+    build: ./frontend
+    restart: on-failure
     ports:
       - "3000:80"
     depends_on:

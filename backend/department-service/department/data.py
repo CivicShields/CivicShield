@@ -1,6 +1,5 @@
 import requests
 from django.conf import settings
-from django.http import JsonResponse
 
 def get_incidents(request, department_id):
     url = f"{settings.INCIDENT_URL}incident/department/{department_id}/"

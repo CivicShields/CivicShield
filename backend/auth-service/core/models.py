@@ -14,13 +14,10 @@ class User(AbstractUser):
     ]
     email = models.EmailField(unique=True) 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='normal_user')
-    department_id = models.UUIDField()
+    department_id = models.UUIDField(null=True, blank=True, default=None)
     phone = models.CharField(
         validators=[phone_regex], 
-        max_length=17, 
-        blank=True, 
-        null=True
-    )
+        max_length=17, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

@@ -32,7 +32,7 @@ def upload_media(request):
         file_type=mime_type,
     )
 
-    public_url = request.build_absolute_uri(media.file.url)
+    public_url = media.file.url 
 
     return JsonResponse({
         'media_id': str(media.id),
@@ -45,7 +45,7 @@ def get_media(request, media_id):        # media_id comes from the URL
     media = get_object_or_404(Media, pk=media_id)
 
     # Build the full public URL for local storage
-    public_url = request.build_absolute_uri(media.file.url)
+    public_url = media.file.url 
 
     return JsonResponse({
         'success': True,
@@ -75,7 +75,7 @@ def all_media(request):
             'incident_id': str(m.incident_id),
             'file_name': m.file_name,
             'file_type': m.file_type,
-            'url': request.build_absolute_uri(m.file.url),
+            'url': m.file.url,
             'created_at': m.created_at.isoformat(),
         })
     return JsonResponse({'success': True, 'medias': result}, safe=False)

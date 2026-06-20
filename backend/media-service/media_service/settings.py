@@ -14,7 +14,7 @@ SECRET_KEY = 'd5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-  
+  '*'
 ]
 
 
@@ -45,7 +45,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'media_service.urls'
 
-DEVELOPMENT_PORT = "8004"
+DEVELOPMENT_PORT = "8005"
 
 TEMPLATES = [
     {
@@ -127,6 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'
+
+# During development, serve media files (DEBUG=True)
 
 # Local file storage
 MEDIA_URL = '/media/'                  # URL prefix to serve user-uploaded files

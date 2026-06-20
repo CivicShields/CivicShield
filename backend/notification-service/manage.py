@@ -14,7 +14,7 @@ def main():
     if 'runserver' in sys.argv and len(sys.argv) == 2:
         from django.conf import settings
         # Read the port from settings.py, fallback to 8000 if not defined
-        custom_port = getattr(settings, 'DEVELOPMENT_PORT', '8003')
+        custom_port = getattr(settings, 'DEVELOPMENT_PORT', '8004')
         sys.argv.append(custom_port)
     # ----------------------------------------
 

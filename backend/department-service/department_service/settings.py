@@ -25,7 +25,7 @@ SECRET_KEY = 'd5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,12 +55,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'department_service.urls'
 
-DEVELOPMENT_PORT = "8002"
+DEVELOPMENT_PORT = "8003"
 # urls to connect
-MEDIA_URL = 'http://127.0.0.1:8004/'
-INCIDENT_URL = 'http://127.0.0.1:8001/'
-NOTIFICATION_URL = 'http://127.0.0.1:8003/'
-AUTH_URL = 'http://127.0.0.1:8000/'
+MEDIA_URL = 'http://media-service:8000/'
+INCIDENT_URL = 'http://incident-service:8000/'
+NOTIFICATION_URL = 'http://notification-service:8000/'
+AUTH_URL = 'http://auth-service:8000/'
 
 TEMPLATES = [
     {

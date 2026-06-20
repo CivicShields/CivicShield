@@ -25,7 +25,7 @@ SECRET_KEY = 'd5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -72,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DEVELOPMENT_PORT = "8003"
+DEVELOPMENT_PORT = "8004"
 
 
 # Database

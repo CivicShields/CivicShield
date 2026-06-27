@@ -47,7 +47,7 @@ function ReportDetailView({ report, onBack, viewingAs }) {
       );
 
       session = new Talk.Session({
-        appId: import.meta.env.VITE_APPID,
+        appId: "t5Nw4r4f",
         me,
       });
 

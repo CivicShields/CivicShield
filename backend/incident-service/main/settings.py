@@ -27,8 +27,9 @@ SECRET_KEY = 'd5d85a558f88bfb192676f53ba4b609e47ac8175750acd55ccc05c9d3ea25abe'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Application definition
 
 INSTALLED_APPS = [

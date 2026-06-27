@@ -1,269 +1,329 @@
 # Kwanganje Incident Reporter
 
-**Kwanganje Incident Reporter** is a community-driven reporting platform where citizens can report incidents and law enforcement authorities can respond. It bridges communities and authorities to improve safety, accountability and transparency.
+**Kwanganje Incident Reporter** is a community-driven reporting platform where citizens can report incidents and law enforcement authorities can respond. It bridges communities and authorities to improve safety, accountability, and transparency.
 
 ## Features
 
-- **User Accounts:** Citizens and authorities have accounts. Authorities have special roles to respond to reports.
-- **Community Reporting:** Users can submit reports with descriptions, locations and media attachments.
-- **Authority Responses:** Verified authorities can update reports, provide guidance and mark cases as resolved.
-- **Categorized Incidents:** Reports are organized by type (theft, assault, vandalism, etc.) for easy tracking.
-- **Real-Time Updates:** Users can follow incidents and receive updates.
+* **User Accounts:** Citizens and authorities have accounts. Authorities have special roles to respond to reports.
+* **Community Reporting:** Users can submit reports with descriptions, locations, and media attachments.
+* **Authority Responses:** Verified authorities can update reports, provide guidance, and mark cases as resolved.
+* **Categorized Incidents:** Reports are organized by type (theft, assault, vandalism, fire, etc.) for easy tracking.
+* **Real-Time Updates:** Users can follow incidents and receive notifications as their reports progress.
 
 ## Tech Stack
 
-- **Backend:** Django
-- **Frontend:** React
-- **Database:** PostgreSQL
-- **Authentication:** JWT or Django auth system with role-based access
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.11+
-- Node.js 18+
-- Git
-- PostgreSQL
+* **Backend:** Django
+* **Frontend:** React
+* **Database:** PostgreSQL + PostGIS
+* **Authentication:** JWT / Django Authentication
+* **Containerization:** Docker & Docker Compose
 
 ---
 
-### Backend Setup (Django)
+# Getting Started
 
-1. Clone the repository:
+## Prerequisites
+
+* Docker
+* Docker Compose
+* Git
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/civicshield.git
 cd CivicShield
 ```
 
-### Frontend Setup (React)
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/civicshield.git
-```
-
-2. Naviagate to the frontend folder:
-
-```bash
-cd CivicShield/frontend
-```
-
-3. Install required dependicies :
-
-```bash
-npm install
-```
-
-4. Run project:
-
-```bash
-npm run dev
-```
-
-### Backend setup (Django)
-
 ---
 
-## Manual Setup
+# System Deployment
 
-1. Install PostgreSQL (linux, if windows download postgresql and install it)
+Once the project has been cloned, you can deploy the entire platform using Docker.
 
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-```
-
-Start and enable it:
+## Option A – Pull Pre-built Images (Recommended)
 
 ```bash
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
+docker compose pull
+docker compose up -d
 ```
 
 ---
 
-2. Install PostGIS _(required for incident service)_
+## Option B – Build Locally
+
+If you are developing locally or Docker Hub images are unavailable:
+
+1. Ensure the `image:` lines inside `docker-compose.yml` are commented out and the `build:` entries are enabled.
+
+2. Build the containers:
 
 ```bash
-sudo apt install postgis postgresql-14-postgis-3
+docker compose build
 ```
 
-> If you're on a different PostgreSQL version, replace `14` with yours. Check with `psql --version`.
-
----
-
-3. Create the Databases
-
-Switch to the postgres user:
+3. Start the platform:
 
 ```bash
-sudo -i -u postgres psql
-```
-
-create new user using the following command
-
-```sql
-CREATE USER kwanganje WITH PASSWORD 'your_secure_password';
-```
-
-Then run:
-
-```sql
-CREATE DATABASE auth_db;
-CREATE DATABASE incident_db;
-CREATE DATABASE department_db;
-CREATE DATABASE media_db;
-CREATE DATABASE notification_db;
-```
-
-Exit psql:
-
-```sql
-\q
-```
-
-## go to each services settings.py and replace the password with the password you set when creating the user
-
-4. Enable PostGIS on `incident_db`
-
-```bash
-sudo -u postgres psql -d incident_db
-```
-
-Then run:
-
-```sql
-CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;
-```
-
-Exit:
-
-```sql
-\q
+docker compose up -d
 ```
 
 ---
 
-5. Set Up Each Service (manual way)
+## Verify the Deployment
 
-Repeat the following steps for each service. Navigate into each folder, create its virtual environment, install dependencies, and start the server.
+Wait approximately **30 seconds** for all services to initialize.
 
-#### Auth Service
+Then check the container status:
 
 ```bash
-cd backend/auth-service
-python3 -m venv .authvenv
-source .authvenv/bin/activate
-pip install -r requirements.txt
-python manage.py runserver
+docker compose ps
 ```
 
-#### Incident Service
+All services should display a status of **Up**.
+
+---
+
+# Database Initialization
+
+> **Only required the first time the system starts, or after a full database reset.**
+
+Populate the database with the default users and departments:
 
 ```bash
-cd backend/incident-service
-python3 -m venv .incidvenv
-source .incidvenv/bin/activate
-pip install -r requirements.txt
-python manage.py runserver
+docker compose exec auth-service python manage.py seed_users
+
+docker compose exec department-service python manage.py seed_departments
 ```
 
-#### Department Service
+If the output reports that records already exist, the database has already been initialized.
 
-```bash
-cd backend/department-service
-python3 -m venv .depvenv
-source .depvenv/bin/activate
-pip install -r requirements.txt
-python manage.py runserver
+---
+
+# Testing the Platform
+
+Open your browser and navigate to:
+
+```
+http://localhost:3000
 ```
 
-#### Media Service
+Follow the workflow below to verify the complete system.
 
-```bash
-cd backend/media-service
-python3 -m venv .mediavenv
-source .mediavenv/bin/activate
-pip install -r requirements.txt
-python manage.py runserver
+---
+
+## Phase 1 – Administrator Setup
+
+### Login
+
+**Email**
+
+```
+admin@example.com
 ```
 
-#### Notification Service
+**Password**
 
-```bash
-cd backend/notification-service
-python3 -m venv .novenv
-source .novenv/bin/activate
-pip install -r requirements.txt
-python manage.py runserver
+```
+AdminPass123!
 ```
 
-> Each service needs to be running in its own terminal. Open a new terminal tab or window for each one before running `python manage.py runserver`.
+### Tasks
 
-6. Running the services all at once (optional)
+1. Open **Manage Users**.
+2. Find:
 
-### Prerequisites
-
-- `tmux` _(optional but recommended — gives you proper tabs in one terminal)_
-
-Install tmux:
-
-```bash
-sudo apt install tmux        # Ubuntu/Debian
-brew install tmux            # macOS
+```
+dept@example.com
 ```
 
-\*\*1. navigate to the backend root directory
+3. Assign the user to the **Fire Department**.
+4. Open **Departments** and verify:
 
-**2. Open it and update the `APPS` array with your local paths:**
+* Fire Department
+* Water Department
+* Police Department
+5. Logout.
 
-```bash
-nano launch_django.sh
+---
+
+## Phase 2 – Citizen Reporting
+
+### Login
+
+**Email**
+
+```
+user1@example.com
 ```
 
-Each entry follows the format `"absolute_path|venv_folder_name"`:
+**Password**
 
-```bash
-APPS=(
-  "/home/<you>/path/to/auth-service|.authvenv"
-  "/home/<you>/path/to/incident-service|.incidvenv"
-  ...
-)
+```
+User1Pass123!
 ```
 
-**3. Make it executable (only needed once):**
+### Create Three Incidents
+Make sure to include all details including uploading images
+
+#### Incident 1
+
+| Field      | Value           |
+| ---------- | --------------- |
+| Title      | Kitchen Fire    |
+| Location   | Apt 4B          |
+| Department | Fire Department |
+
+#### Incident 2
+
+| Field      | Value            |
+| ---------- | ---------------- |
+| Title      | Burst Water Pipe |
+| Department | Water Department |
+
+#### Incident 3
+
+| Field      | Value             |
+| ---------- | ----------------- |
+| Title      | House on fire |
+| Department | Fire Department |
+
+Open **Kitchen Fire** and send the following message in the chat:
+
+> Please send help quickly!
+
+Logout.
+
+---
+
+## Phase 3 – Department Officer
+
+### Login
+
+**Email**
+
+```
+dept@example.com
+```
+
+**Password**
+
+```
+DeptPass123!
+```
+
+### Verify Role Isolation
+
+Only **Kitchen Fire** should be visible.
+
+The Water and Police incidents should **not** appear.
+
+### Process the Incident
+
+1. Open Kitchen Fire.
+2. Assign:
+
+```
+Team Alpha
+```
+Which will change it's status to:
+
+```
+In Progress
+```
+3. Go to the resolve tab and resolve it which will change it's status again to:
+
+```
+Resolved
+```
+
+Reply to the user's message with:
+
+> "Help is on the way." If status is in progress else "Incident has been rsolved."
+
+Logout.
+
+---
+
+## Phase 4 – Citizen Verification
+
+Login again as:
+
+```
+user1@example.com
+```
+
+Verify that:
+
+* Kitchen Fire status changed correctly.
+* Department reply appears in the chat.
+* Burst Water Pipe remains unchanged.
+* House on fire remains unchanged.
+
+---
+
+# Troubleshooting
+
+## 502 Bad Gateway
+
+Check that every container is running:
 
 ```bash
-chmod +x launch_django.sh
+docker compose ps
 ```
 
 ---
 
-### Running
+## Service Errors
+
+View logs for the affected service.
+
+Example:
 
 ```bash
-./launch_django.sh
+docker compose logs incident-service
+
+docker compose logs auth-service
 ```
 
-The script will validate each service before launching. A `✓ READY` means the path, venv, and `manage.py` were all found. A `⚠ SKIP` means something is missing — the message will tell you what.
+---
 
-**With tmux**, all 5 services open as tabs in one terminal. Switch between them with:
+## Invalid Credentials
 
-| Action         | Shortcut              |
-| -------------- | --------------------- |
-| Next tab       | `Ctrl+B` then `n`     |
-| Previous tab   | `Ctrl+B` then `p`     |
-| Jump to tab    | `Ctrl+B` then `0`–`4` |
-| Detach session | `Ctrl+B` then `d`     |
+Passwords are case-sensitive.
 
-Re-attach to a detached session with:
+Use the credentials exactly as listed above.
+
+---
+
+## Docker Pull Fails
+
+If Docker Hub images are unavailable, use:
 
 ```bash
-tmux attach -t kwanganje
+docker compose build
+
+docker compose up -d
 ```
 
-**Without tmux**, each service opens in its own terminal window.
+instead.
+
+---
+
+# Full System Reset
+
+To completely erase all databases and uploaded files:
+
+```bash
+docker compose down -v
+
+docker compose up -d
+```
+
+After resetting, run the seed commands again:
+
+```bash
+docker compose exec auth-service python manage.py seed_users
+
+docker compose exec department-service python manage.py seed_departments
+```

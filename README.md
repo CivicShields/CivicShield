@@ -31,7 +31,7 @@
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/civicshield.git
+git clone https://github.com/CivicShields/CivicShield.git
 cd CivicShield
 ```
 
